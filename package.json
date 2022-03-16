@@ -1,0 +1,35 @@
+{
+  "name": "ui1",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.11.2",
+    "@material-ui/icons": "^4.11.2",
+    "@reactchartjs/react-chart.js": "^1.0.0-rc.3",
+    "@web3-react/core": "^6.1.9",
+    "@web3-react/injected-connector": "^6.0.7",
+    "aos": "^2.3.4",
+    "autoprefixer": "^10.2.1",
+    "axios": "^0.26.0",
+    "chart.js": "^2.9.4",
+    "cheerio": "^1.0.0-rc.10",
+    "fs": "^0.0.1-security",
+    "i18next": "^21.6.10",
+    "next": "10.0.5",
+    "postcss": "^8.2.3",
+    "react": "17.0.1",
+    "react-chartjs-2": "^2.11.1",
+    "react-dom": "17.0.1",
+    "react-i18next": "^11.15.3",
+    "react-toastify": "^8.1.1",
+    "request-promise": "^4.2.6",
+    "steem": "^0.7.11",
+    "tailwindcss": "^2.0.2",
+    "web3": "^1.7.0"
+  }
+}
