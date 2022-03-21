@@ -52,10 +52,10 @@ export default async function handler(req, res) {
       console.log("oy kullanma alanı");
       var wif = steem.auth.toWif("robinia", "5JfQe4BQLcqZiKnNFd2RmFLWUp6QHoYg8pN2rbQV59FXhkEEEqE", "posting");
 
-      // steem.broadcast.vote('5JfQe4BQLcqZiKnNFd2RmFLWUp6QHoYg8pN2rbQV59FXhkEEEqE', 'robinia', 'webtozu', '365scores-live-scores-news', 4800, function(err, result) {
-      //   console.log(err, result);
+      steem.broadcast.vote('5JfQe4BQLcqZiKnNFd2RmFLWUp6QHoYg8pN2rbQV59FXhkEEEqE', 'robinia', perml, auth, w2, function(err, result) {
+        console.log(err, result);
 
-      // });
+      });
       let operation = [
         [
           "vote",
