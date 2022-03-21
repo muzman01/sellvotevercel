@@ -8,7 +8,7 @@ import { useWeb3React } from "@web3-react/core";
 
 import { tokens } from "../../../../public/token";
 import { injected } from "@components/connector";
-
+import axios from "axios";
 import abi from "../../../../public/abi.json";
 const Header = ({ address }) => {
   const [blc, setBlc] = useState(0);
@@ -16,9 +16,19 @@ const Header = ({ address }) => {
   const { active, account, library, connector, chainId, activate, deactivate } =
     useWeb3React();
   const web3 = new Web3(library);
-
-  async function connect() {
+  async function postLink(){
     try {
+      await axios.post("http://localhost:3000/api/transications",{
+        account
+      }).then(data =>{ console.log(data.data);})
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function connect() {
+    
+    try {
+    
       await activate(injected);
     } catch (ex) {}
   }
@@ -32,12 +42,15 @@ const Header = ({ address }) => {
   }
 
   async function getBalance() {
-    let accounts = await web3.eth.getAccounts();
+  
+    if(active) {
+      let accounts = await web3.eth.getAccounts();
 
-    for (let tokenAddress of tokens) {
-      const contract = new web3.eth.Contract(abi, tokenAddress);
-      const tokenBalance = await contract.methods.balanceOf(accounts[0]).call();
-      setBlc(tokenBalance / 10 ** 18);
+      for (let tokenAddress of tokens) {
+        const contract = new web3.eth.Contract(abi, tokenAddress);
+        const tokenBalance = await contract.methods.balanceOf(accounts[0]).call();
+        setBlc(tokenBalance / 10 ** 18);
+      }
     }
   }
 

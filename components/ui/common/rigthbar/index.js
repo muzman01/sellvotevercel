@@ -1,5 +1,5 @@
-import React from 'react'
-
+import React,{useEffect,useState} from 'react'
+import axios from 'axios';
 import dolar from '../../../../dolar.json'
 const data = {
     labels: [
@@ -22,8 +22,48 @@ const data = {
 
 
 const RightBar = () => {
-    let oyGucu = dolar.sonuc;
-    let yeniGuc = parseFloat(oyGucu).toFixed(2)
+    const [coins, setCoins] = useState([]);
+    const [coins1, setCoins1] = useState([]);
+    const [coins2, setCoins2] = useState([]);
+    const [yeniGuc, setYeniGuc] = useState([]);
+    useEffect(() => {
+        axios
+          .get(
+            "https://api.coingecko.com/api/v3/coins/steem?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false"
+          )
+          .then((res) => {
+            setCoins(res.data.market_data.current_price.usd);
+          })
+          .catch((error) => console.log(error));
+    
+        axios
+          .get(
+            "https://api.coingecko.com/api/v3/coins/steem-dollars?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false"
+          )
+          .then((res) => {
+            setCoins1(res.data.market_data.current_price.usd);
+          })
+          .catch((error) => console.log(error));
+    
+        axios
+          .get(
+            "https://api.coingecko.com/api/v3/coins/binance-usd?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false"
+          )
+          .then((res) => {
+            setCoins2(res.data.market_data.current_price.usd);
+          })
+          .catch((error) => console.log(error));
+      }, []);
+    useEffect(() => {
+        async function getCalculation() {
+          axios.get("http://localhost:3000/api/calculation").then((data) => {
+            
+            setYeniGuc(data.data);
+            setTimeout(getCalculation, 5000);
+          });
+        }
+        getCalculation();
+      }, [coins, coins1, coins2]);
     return (
         <div className="bg-white  w-2/6 rounded-xl border border-gray-100">
             <div className="border-b p-3 border-gray-100">
