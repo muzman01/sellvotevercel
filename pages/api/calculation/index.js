@@ -16,7 +16,7 @@ export default async function handler(req, res) {
     async function getSpAmount() {
 
         return new Promise((resolve)=>{
-            var url = "https://steemd.com/@robiniaswap";
+            var url = "https://steemd.com/@robinia";
 
             rp(url).then((html) => {
       
@@ -68,7 +68,7 @@ export default async function handler(req, res) {
             const recent_claims = t.recent_claims;
             const reward_per_rshare = reward_balance / recent_claims;
             const steem_price_sbd = 0.3; // feed_price.base / feed_price.quote
-            steem.api.getAccounts(["robiniaswap"], function (err, response) {
+            steem.api.getAccounts(["robinia"], function (err, response) {
               var secondsago =
                 (new Date() - new Date(response[0].last_vote_time + "Z")) /
                 1000;
