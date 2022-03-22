@@ -62,7 +62,7 @@ const Middle = () => {
 
   useEffect(() => {
     async function getCalculation() {
-      axios.get("http://localhost:3000/api/calculation").then((data) => {
+      axios.get("https://sellvotevercel.vercel.app/api/calculation").then((data) => {
       
         setYeniGuc(data.data);
         var sonhali = (parseFloat(data.data) * range) / 100;
@@ -176,7 +176,7 @@ const Middle = () => {
               console.log("suan burda");
               try {
                 await axios
-                  .post("http://localhost:3000/api/transications", {
+                  .post("https://sellvotevercel.vercel.app/api/transications", {
                     walletAdress,
                     perMLink,
                     transicaitonHash,
@@ -226,7 +226,7 @@ const Middle = () => {
   async function postLink() {
     try {
       await axios
-        .post("http://localhost:3000/api/transications", {
+        .post("https://sellvotevercel.vercel.app/api/transications", {
           permlink,
           kuladi,
           range,

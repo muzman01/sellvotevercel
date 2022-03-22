@@ -36,7 +36,7 @@ export const putData  = async (url,post,token) =>{
     return data
 }
 export const patchData  = async (url,post,token) =>{
-    const res = await fetch(`http://localhost:3000/api/${url}`,{
+    const res = await fetch(`https://sellvotevercel.vercel.app/api/${url}`,{
         method:'PATCH',
         headers:{
             'Content-Type':'application/json',
