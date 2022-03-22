@@ -39,10 +39,7 @@ export default async function handler(req, res) {
               console.log("sonsp", sonSp)
               jsonValue=sampleObject
             
-              fs.writeFileSync(
-                "./object.json",
-                JSON.stringify(sampleObject, null, 4)
-              );
+              
               resolve()
             });
         })
