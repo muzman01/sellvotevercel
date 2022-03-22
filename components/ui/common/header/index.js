@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import DashboardIcon from "@material-ui/icons/Dashboard";
-import CropLandscapeIcon from "@material-ui/icons/CropLandscape";
-import AppsIcon from "@material-ui/icons/Apps";
+
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import Web3 from "web3";
 import { useWeb3React } from "@web3-react/core";
@@ -16,19 +14,21 @@ const Header = ({ address }) => {
   const { active, account, library, connector, chainId, activate, deactivate } =
     useWeb3React();
   const web3 = new Web3(library);
-  async function postLink(){
+  async function postLink() {
     try {
-      await axios.post("http://localhost:3000/api/transications",{
-        account
-      }).then(data =>{ console.log(data.data);})
+      await axios
+        .post("http://localhost:3000/api/transications", {
+          account,
+        })
+        .then((data) => {
+          console.log(data.data);
+        });
     } catch (error) {
       console.log(error);
     }
   }
   async function connect() {
-    
     try {
-    
       await activate(injected);
     } catch (ex) {}
   }
@@ -42,13 +42,14 @@ const Header = ({ address }) => {
   }
 
   async function getBalance() {
-  
-    if(active) {
+    if (active) {
       let accounts = await web3.eth.getAccounts();
 
       for (let tokenAddress of tokens) {
         const contract = new web3.eth.Contract(abi, tokenAddress);
-        const tokenBalance = await contract.methods.balanceOf(accounts[0]).call();
+        const tokenBalance = await contract.methods
+          .balanceOf(accounts[0])
+          .call();
         setBlc(tokenBalance / 10 ** 18);
       }
     }

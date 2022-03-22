@@ -24,8 +24,8 @@ export default async function handler(req, res) {
         processTime: req.body.processTime,
       },
     });
-    const ACC_NAME = "robiniaswap";
-    const ACC_KEY = "";
+    const ACC_NAME = "robinia";
+    const ACC_KEY = process.env.ACC_KEY;
     const range = weight * 100;
     const w2 = Number(range);
     const auth = authot.split("@");
@@ -50,49 +50,16 @@ export default async function handler(req, res) {
       dbto === authot
     ) {
       console.log("oy kullanma alanı");
-      var wif = steem.auth.toWif("robinia", "5JfQe4BQLcqZiKnNFd2RmFLWUp6QHoYg8pN2rbQV59FXhkEEEqE", "posting");
+      var wif = steem.auth.toWif("robinia", ACC_KEY, "posting");
 
-      steem.broadcast.vote('5JfQe4BQLcqZiKnNFd2RmFLWUp6QHoYg8pN2rbQV59FXhkEEEqE', 'robinia', perml, auth, w2, function(err, result) {
+      steem.broadcast.vote(ACC_KEY, 'robinia', perml, auth, w2, function(err, result) {
         console.log(err, result);
 
       });
-      let operation = [
-        [
-          "vote",
-          {
-            voter: "robiniaswap",
-            author:"webtozu",
-            permlink: "bionluk",
-            weight: 8000,
-          },
-        ],
-      ];
-
-    //   steem.broadcast.send(
-    //     { operations: operation, extensions: [] },
-    //     [""],
-    //     function (err, result) {
-         
-    //      console.log(err,result)
-    //    }
-    //  );
+ 
     }
 
-    //   const key = steem.auth.toWif(ACC_NAME, ACC_KEY, "posting");
-    //   function streamVote(url, amount) {
-    //   const memo = url.split("/");
-    //   // const author = memo[4].split('@')[1];
-    //   // const weight = calculateVotingWeight(amount);
-
-    //   steem.broadcast.vote( ACC_NAME,key, auth, memo[5], weight, function (err, result) {
-    //     console.log(
-    //       "Voted Succesfully, permalink: " + memo[5] + ", author: " + auth + ", weight: " + weight + "%.",
-    //       err
-    //     );
-    // });
-    // }
-
-    //  streamVote(`https://steemit.com/aaa/${kuladi}/${permlink}`, ` 0.01 SBD`);
+ 
   } else {
     res.status(301).json({
       status: "denied",

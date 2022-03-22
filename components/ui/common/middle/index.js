@@ -13,11 +13,11 @@ import { tokens } from "../../../../public/token";
 import { injected } from "@components/connector";
 import { postData,putData } from "@utils/fetchData";
 import abi from "../../../../public/abi.json";
-import dolar from "../../../../dolar.json";
+
 import valid from "../../../../utils/valid";
 import validhash from "@utils/validhash";
 const Middle = () => {
-  let oyGucu = dolar.sonuc;
+
   const [blc, setBlc] = useState(0);
   const [yeniGuc, setYeniGuc] = useState(0);
 
