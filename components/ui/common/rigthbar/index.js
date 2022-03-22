@@ -1,6 +1,6 @@
 import React,{useEffect,useState} from 'react'
 import axios from 'axios';
-import dolar from '../../../../dolar.json'
+
 const data = {
     labels: [
 
