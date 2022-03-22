@@ -73,7 +73,7 @@ const Middle = () => {
 
 
         let ÖdenecekBusd = (steemSon + sbdSon) / coins2;
-        setDolarg(ÖdenecekBusd);
+        //setDolarg(ÖdenecekBusd);
         setTimeout(getCalculation, 3000);
       });
     }
