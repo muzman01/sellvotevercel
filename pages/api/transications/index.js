@@ -68,6 +68,7 @@ export default async function handler(req, res) {
 
       steem.broadcast.vote(ACC_KEY, 'robinia', perml, auth, w2, function(err, result) {
         console.log(err, result);
+       if(result){
         Users.findOneAndDelete({walletAdress:walletAdress}, function (err, docs) {
           if (err){
               console.log(err)
@@ -76,6 +77,9 @@ export default async function handler(req, res) {
               console.log("Deleted User : ", docs);
           }
           });
+       } else {
+         console.log("hata var ");
+       }
       });
  
     }
