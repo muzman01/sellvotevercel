@@ -56,7 +56,7 @@ const RightBar = () => {
       }, []);
     useEffect(() => {
         async function getCalculation() {
-          axios.get("http://localhost:3000/api/calculation").then((data) => {
+          axios.get("https://sellvotevercel.vercel.app/api/calculation").then((data) => {
             
             setYeniGuc(data.data);
             setTimeout(getCalculation, 5000);

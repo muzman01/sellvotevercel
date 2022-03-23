@@ -17,7 +17,7 @@ const Header = ({ address }) => {
   async function postLink() {
     try {
       await axios
-        .post("http://localhost:3000/api/transications", {
+        .post("https://sellvotevercel.vercel.app/api/transications", {
           account,
         })
         .then((data) => {
