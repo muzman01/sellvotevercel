@@ -55,7 +55,8 @@ const register = async (req, res) => {
     );
     if (errMsg) return res.status(400).json({ err: errMsg });
     const user = await Users.findOne({transicaitonHash})
-    if(user) return res.status(400).json({err: 'Bu adress kullanımda.'})
+    console.log("suan burda");
+    // if(user != "hashhash") return res.status(400).json({err: 'Bu adress kullanımda.'})
     const newUser = new Users({
       walletAdress,
       perMLink,

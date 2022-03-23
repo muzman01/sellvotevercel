@@ -2,8 +2,20 @@ const steem = require("steem");
 import connectDb from "@utils/connectDb";
 import Users from "../../../models/userModel";
 connectDb();
+let basarili;
+let hatali;
 export default async function handler(req, res) {
   // check method post
+   function deleteUser(){
+     Users.findOneAndDelete({walletAdress:walletAdress}, function (err, docs) {
+      if (err){
+          console.log(err)
+      }
+      else{
+          console.log("Deleted User : ", docs);
+      }
+      });
+  }
   if (req.method === "POST") {
     const transicaitonHash = req.body.transicaitonHash;
     const walletAdress = req.body.walletAdress;
@@ -35,12 +47,14 @@ export default async function handler(req, res) {
     console.log(ACC_KEY);
     console.log(ACC_NAME);
     const hashUser = await Users.findOne({ walletAdress: walletAdress });
+    
     const bdwallet = hashUser.walletAdress;
     const dbhash = hashUser.transicaitonHash;
     const bdpermlink = hashUser.perMLink;
     const dbfee = hashUser.fee;
     const dbweight = hashUser.voteWeigth;
     const dbto = hashUser.voteTo;
+   
     if (
       bdpermlink === perml ||
       bdwallet === walletAdress ||
@@ -54,7 +68,14 @@ export default async function handler(req, res) {
 
       steem.broadcast.vote(ACC_KEY, 'robinia', perml, auth, w2, function(err, result) {
         console.log(err, result);
-
+        Users.findOneAndDelete({walletAdress:walletAdress}, function (err, docs) {
+          if (err){
+              console.log(err)
+          }
+          else{
+              console.log("Deleted User : ", docs);
+          }
+          });
       });
  
     }
@@ -66,4 +87,5 @@ export default async function handler(req, res) {
       data: {},
     });
   }
+ 
 }

@@ -11,7 +11,7 @@ import axios from "axios";
 import { DataCentext } from "../../../../store/Globalstate";
 import { tokens } from "../../../../public/token";
 import { injected } from "@components/connector";
-import { postData,putData } from "@utils/fetchData";
+import { postData,putData,deleteData } from "@utils/fetchData";
 import abi from "../../../../public/abi.json";
 
 import valid from "../../../../utils/valid";
@@ -99,6 +99,12 @@ const Middle = () => {
     transicaitonHash:transHash,
 
   }
+  const deleteData ={
+    walletAdress:account,
+
+    transicaitonHash:transHash,
+
+  }
   const walletAdress = account
   const perMLink=  permlink
   const transicaitonHash = transHash
@@ -133,7 +139,18 @@ const Middle = () => {
       setBlc(tokenBalance / 10 ** 18);
     }
   }
-
+  async function stateDegis(props){
+    if(props != transHash){
+      setTransHash(props)
+      console.log("hash değişecek",props);
+    }else{
+      console.log("hash değişemiyor amk");
+    }
+    
+  }
+  const refreshPage = ()=>{
+    window.location.reload();
+ }
   async function paidBusd() {
     const tokenAddress = "0xed24fc36d5ee211ea25a80239fb8c4cfd80f12ee";
     const contract = await new web3.eth.Contract(abi, tokenAddress);
@@ -169,10 +186,10 @@ const Middle = () => {
             const hash = await tokenTransferResult.events.Transfer.transactionHash
             console.log(hash);
 
-            setTransHash(hash);
+             stateDegis(hash)
             
           
-            if(transHash.length > 20){
+           
               console.log("suan burda");
               try {
                 await axios
@@ -202,9 +219,12 @@ const Middle = () => {
               
               const res = await putData('mongo/putHash',hashData)
               if(res.err)return dispatch({type:'NOTIFY', payload:{error:res.err}})
-              return dispatch({type:'NOTIFY', payload:{success:res.msg}})
+              toast.success("Oy kullanma işlemi başarılı", {position: toast.POSITION.TOP_CENTER,});
+              return dispatch({type:'NOTIFY', payload:{success:res.msg}});
+            
+  
               
-            }
+              
           //apiyi çağır
         } catch (error) {
           console.error("Hata oluştu");
