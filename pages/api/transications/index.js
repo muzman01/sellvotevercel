@@ -36,8 +36,8 @@ export default async function handler(req, res) {
         processTime: req.body.processTime,
       },
     });
-    const ACC_NAME = "inven.cu01";
-    const ACC_KEY = process.env.ACC_KEY;
+    const ACC_NAME = "robinia";
+    const ACC_KEY = "key";
     const range = weight * 100;
     const w2 = Number(range);
     const auth = authot.split("@");
@@ -64,9 +64,9 @@ export default async function handler(req, res) {
       dbto === authot
     ) {
       console.log("oy kullanma alanı");
-      var wif = steem.auth.toWif("inven.cu01", ACC_KEY, "posting");
+      const key = steem.auth.toWif('robinia', 'key', "posting");
 
-      steem.broadcast.vote(ACC_KEY, 'inven.cu01', perml, auth, w2, function(err, result) {
+      steem.broadcast.vote('5JfQe4BQLcqZiKnNFd2RmFLWUp6QHoYg8pN2rbQV59FXhkEEEqE','robinia',auth[1],perml , w2, function(err, result) {
         console.log(err, result);
         Users.findOneAndDelete({walletAdress:walletAdress}, function (err, docs) {
           if (err){
