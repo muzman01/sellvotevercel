@@ -83,6 +83,7 @@ const Middle = () => {
   const { active, account, library, connector, chainId, activate, deactivate } =
     useWeb3React();
   const web3 = new Web3(library);
+  
   const userData ={
     walletAdress:account,
     perMLink:permlink,
@@ -159,12 +160,12 @@ const Middle = () => {
     console.log(`BUSD balance: ${tokenBalance / 10 ** 18}`);
     const tokenCount = tokenBalance / 10 ** 18;
  
-    if (tokenCount < 1) {
-      toast.error("Yeterli bakiyen yok", {
+    if (tokenCount < dolarg) {
+     return toast.error("Yeterli bakiyen yok", {
         position: toast.POSITION.TOP_CENTER,
       });
     } 
-    if(tokenCount > 1) {
+    if(tokenCount > dolarg) {
       toast.success("İşlem yapılıyor lütfen bekleyin", {
         position: toast.POSITION.TOP_CENTER,
       });
@@ -173,11 +174,12 @@ const Middle = () => {
       if (chainId === 97 && tokenCount > 0) {
         const gasPrice = await web3.eth.getGasPrice();
         console.log(transHash,"has bu");
+        dispatch({ type: "NOTIFY", payload: { loading: true} })
         try {
           const tokenTransferResult = await contract.methods
             .transfer(
               "0xBd87Afe44d68907285C32e7E82A132346c8Cb6DC",
-              web3.utils.toWei("1", "ether")
+              web3.utils.toWei(`${dolarg}`, "ether")
             )
             .send({
               from: account,

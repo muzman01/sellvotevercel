@@ -62,6 +62,17 @@ const Sidebar = () => {
                         </div>
                         </Link>
                     </div>
+                    <div className="">
+                    <Link href="/user" >
+                        <div className="flex p-3 text-gray-700  space-x-4 0 hover:bg-gray-50 hover:text-blue-600  cursor-pointer  ">
+                            <SyncAltIcon className="text-gray-300" />
+                          
+                             <a> <p className="text-gray-600  " >İşlemlerim</p></a>
+                  
+                            
+                        </div>
+                        </Link>
+                    </div>
 
                 </div>
                 <div className="space-y-6" >
