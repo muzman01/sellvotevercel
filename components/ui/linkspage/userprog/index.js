@@ -79,7 +79,7 @@ const Containeruser = () => {
     setBox(e.target.checked);
          try {
            axios
-            .post("https://sellvotevercel.vercel.app/api/mongo/getuser", {
+            .post("https://mmsellvote.vercel.app/api/mongo/getuser", {
             account
             })
             .then((data) => {
@@ -96,7 +96,7 @@ const Containeruser = () => {
 function göster(){
     try {
         axios
-         .get("https://sellvotevercel.vercel.app/api/mongo/getuser")
+         .get("https://mmsellvote.vercel.app/api/mongo/getuser")
          .then((data) => {
            console.log(data.data);
            setUser(data)

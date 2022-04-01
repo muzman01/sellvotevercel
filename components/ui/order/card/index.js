@@ -6,9 +6,10 @@ import LockIcon from '@material-ui/icons/Lock';
 import AOS from "aos";
 import "aos/dist/aos.css";
 import axios from "axios";
+import Image from 'next/image'
 const Style = "text-white text-xs"
 
-const arrayIcon = [<AllOutIcon fontSize="small" className={Style} />, <DoneIcon fontSize="small" className={Style} />, <EcoIcon fontSize="small" className={Style} />, <LockIcon fontSize="small" className={Style} />]
+const arrayIcon = [<Image src="/assets/busd.png" width={25} height={25} />, <Image src="/assets/steem.png" width={25} height={25} />,  <Image src="/assets/steem.png" width={25} height={25} />, <LockIcon fontSize="small" className={Style} />]
 const Color = ["from-indigo-500 to-blue-500", "from-blue-400 to-blue-300", "from-green-500 to-green-400", "from-yellow-600 to-yellow-500"]
 
 
@@ -32,9 +33,9 @@ const Card = (props) => {
                 {props.title}
             </p>
             <p className="text-gray-50 text-lg  font-semibold  ">
-                {props.balance} Token
+            1 {props.title} 
             </p>
-            <p className="text-gray-300  text-sm ">
+            <p className="text-gray-300  text-lg ">
                 ${props.token}
             </p>
 

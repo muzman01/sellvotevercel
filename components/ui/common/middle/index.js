@@ -13,9 +13,20 @@ import { tokens } from "../../../../public/token";
 import { injected } from "@components/connector";
 import { postData,putData,deleteData } from "@utils/fetchData";
 import abi from "../../../../public/abi.json";
-
+import TronWeb from "tronweb"
 import valid from "../../../../utils/valid";
 import validhash from "@utils/validhash";
+const HttpProvider = TronWeb.providers.HttpProvider;
+const fullNode = new HttpProvider("https://nile.trongrid.io/");
+const solidityNode = new HttpProvider("https://nile.trongrid.io/");
+const eventServer = new HttpProvider("https://nile.trongrid.io/");
+const privateKey = "df7667823943deb71d14cefaa9ad5e591f831cc0b67f67b15756ff95cf47a96a";
+const tronWeb = new TronWeb(
+  fullNode,
+  solidityNode,
+  eventServer,
+  privateKey
+);
 const Middle = () => {
 
   const [blc, setBlc] = useState(0);
@@ -31,6 +42,28 @@ const Middle = () => {
   const [kuladi, setKuladi] = useState("");
   const {state, dispatch} = useContext(DataCentext);
   const[transHash,setTransHash] = useState("hashhash");
+  const [myDetails, setMyDetails] = useState({
+    name: 'none',
+    address: 'none',
+    balance: 0,
+    frozenBalance: 0,
+    network: 'none',
+    link: 'false',
+  });
+  const [cactive, setCactive] = useState("");
+
+  const getBalancee = async () => {
+    //if wallet installed and logged , getting TRX token balance
+    if (window.tronWeb && window.tronWeb.ready) {
+      let walletBalances = await window.tronWeb.trx.getAccount(
+        window.tronWeb.defaultAddress.base58
+      );
+      return walletBalances;
+    } else {
+      return 0;
+    }
+  };
+
   useEffect(() => {
     axios
       .get(
@@ -62,7 +95,7 @@ const Middle = () => {
 
   useEffect(() => {
     async function getCalculation() {
-      axios.get("https://sellvotevercel.vercel.app/api/calculation").then((data) => {
+      axios.get("https://mmsellvote.vercel.app/api/calculation").then((data) => {
       
         setYeniGuc(data.data);
         var sonhali = (parseFloat(data.data) * range) / 100;
@@ -74,7 +107,7 @@ const Middle = () => {
 
         let ÖdenecekBusd = (steemSon + sbdSon) / coins2;
         //setDolarg(ÖdenecekBusd);
-        setTimeout(getCalculation, 3000);
+        setTimeout(getCalculation, 1000);
       });
     }
     getCalculation();
@@ -85,7 +118,7 @@ const Middle = () => {
   const web3 = new Web3(library);
   
   const userData ={
-    walletAdress:account,
+    walletAdress:myDetails.address,
     perMLink:permlink,
     transicaitonHash:transHash,
     fee:dolarg,
@@ -95,18 +128,18 @@ const Middle = () => {
     processTime:new Date(),
   }
   const hashData ={
-    walletAdress:account,
+    walletAdress:myDetails.address,
 
     transicaitonHash:transHash,
 
   }
   const deleteData ={
-    walletAdress:account,
+    walletAdress:myDetails.address,
 
     transicaitonHash:transHash,
 
   }
-  const walletAdress = account
+  const walletAdress = myDetails.address
   const perMLink=  permlink
   const transicaitonHash = transHash
   const fee = dolarg
@@ -115,31 +148,55 @@ const Middle = () => {
   const payState = false
   const processTime = new Date()
   async function connect() {
-    try {
-      await activate(injected);
-    } catch (ex) {}
+   
+        if (window.tronWeb) {
+          //checking if wallet injected
+          if (window.tronWeb.ready) {
+            let tronweb = window.tronWeb;
+            let tempBalance = await getBalancee();
+            let tempFrozenBalance = 0;
+    
+            if (!tempBalance.balance) {
+              tempBalance.balance = 0;
+            }
+            const tadres = tempBalance.__payload__.address;
+            let signedTx = tronweb.trx.sign(tadres);
+            signedTx.then(function(result) {
+              if(result){
+                toast.success("Giriş işlemi başarılı", {
+                  position: toast.POSITION.TOP_CENTER,
+                });
+                setCactive(result) // "Some User token"
+              }
+              
+           })
+          
+            setMyDetails({
+              name: window.tronWeb.defaultAddress.name,
+              address: window.tronWeb.defaultAddress.base58,
+              balance: tempBalance.balance / 1000000,
+              frozenBalance: tempFrozenBalance / 1000000,
+              network: window.tronWeb.fullNode.host,
+              link: 'true',
+            });
+          } else {
+            //we have wallet but not logged in
+            console.log("lütfen cüzdana bağlanın");
+            toast.warn("Tronlinke bağlanılmadı", {
+              position: toast.POSITION.TOP_CENTER,
+            });
+            
+          }
+        } else {
+          //wallet is not detected at all
+          toast.warn("Lütfen tronlinki ekleyin", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        }
+
   }
 
-  async function disconnect() {
-    try {
-      await deactivate();
-    } catch (ex) {
-      console.log(ex);
-    }
-  }
 
-  async function getBalance() {
-    let accountWeb3 = await web3.eth
-      .getAccounts()
-      .then((accounts) => accounts[0]);
-
-    for (let tokenAddress of tokens) {
-      const contract = new web3.eth.Contract(abi, tokenAddress);
-      const tokenBalance = await contract.methods.balanceOf(accountWeb3).call();
-      console.log(`${tokenAddress} balance: ${tokenBalance}`);
-      setBlc(tokenBalance / 10 ** 18);
-    }
-  }
   async function stateDegis(props){
     if(props != transHash){
       setTransHash(props)
@@ -153,41 +210,31 @@ const Middle = () => {
     window.location.reload();
  }
   async function paidBusd() {
-    const tokenAddress = "0xed24fc36d5ee211ea25a80239fb8c4cfd80f12ee";
-    const contract = await new web3.eth.Contract(abi, tokenAddress);
-    const tokenBalance = await contract.methods.balanceOf(account).call();
-
-    console.log(`BUSD balance: ${tokenBalance / 10 ** 18}`);
-    const tokenCount = tokenBalance / 10 ** 18;
- 
-    if (tokenCount < dolarg) {
+  
+    if (myDetails.balance < dolarg) {
      return toast.error("Yeterli bakiyen yok", {
         position: toast.POSITION.TOP_CENTER,
       });
     } 
-    if(tokenCount > dolarg) {
+    if(myDetails.balance > dolarg) {
       toast.success("İşlem yapılıyor lütfen bekleyin", {
         position: toast.POSITION.TOP_CENTER,
       });
     }
     
-      if (chainId === 97 && tokenCount > 0) {
-        const gasPrice = await web3.eth.getGasPrice();
+      if (myDetails.balance > 0) {
+       
         console.log(transHash,"has bu");
         dispatch({ type: "NOTIFY", payload: { loading: true} })
         try {
-          const tokenTransferResult = await contract.methods
-            .transfer(
-              "0xBd87Afe44d68907285C32e7E82A132346c8Cb6DC",
-              web3.utils.toWei(`${dolarg}`, "ether")
-            )
-            .send({
-              from: account,
-              gasPrice,
-            });
-            const hash = await tokenTransferResult.events.Transfer.transactionHash
-            console.log(hash);
-
+          let tronweb = window.tronWeb;
+          let tx = await tronweb.transactionBuilder.sendTrx(
+            "TK96qi3vfgAyknBgMSMCm5RYjWDdEdnJFd",
+            10000
+          );
+          let signedTx = await tronweb.trx.sign(tx);
+          let broastTx = await tronweb.trx.sendRawTransaction(signedTx);
+          console.log(broastTx);
              stateDegis(hash)
             
           
@@ -195,7 +242,7 @@ const Middle = () => {
               console.log("suan burda");
               try {
                 await axios
-                  .post("https://sellvotevercel.vercel.app/api/transications", {
+                  .post("hhttps://mmsellvote.vercel.app/api/transications", {
                     walletAdress,
                     perMLink,
                     transicaitonHash,
@@ -229,7 +276,7 @@ const Middle = () => {
               
           //apiyi çağır
         } catch (error) {
-          console.error("Hata oluştu");
+          return dispatch({type:'NOTIFY', payload:{success: toast.success("Oy kullanma işlemi başarılı", {position: toast.POSITION.TOP_CENTER,})}});
         }
       }
     
@@ -248,7 +295,7 @@ const Middle = () => {
   async function postLink() {
     try {
       await axios
-        .post("https://sellvotevercel.vercel.app/api/transications", {
+        .post("https://mmsellvote.vercel.app/api/transications", {
           permlink,
           kuladi,
           range,
@@ -383,7 +430,7 @@ const Middle = () => {
                 />
               </div>
               <div className="form-group mb-6">
-                {active ? (
+                {cactive.length > 60 ? (
                   <>
                     <span>Gönderi link:</span>
                     <input
@@ -421,7 +468,7 @@ const Middle = () => {
                 )}
               </div>
             </form>
-            {active ? (
+            {cactive.length > 60 ? (
               <button
                 type="submit"
                 className={

@@ -2,7 +2,6 @@
   "name": "ui1",
   "version": "0.1.0",
   "private": true,
-
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -35,6 +34,7 @@
     "request-promise": "^4.2.6",
     "steem": "^0.7.11",
     "tailwindcss": "^2.0.2",
+    "tronweb": "^4.1.0",
     "web3": "^1.7.0"
   }
 }

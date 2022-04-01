@@ -11,6 +11,8 @@ import Flag from '@material-ui/icons/Flag';
 import Link from 'next/link';
 import { withTranslation } from 'react-i18next';
 import i18n from '../../../../i18n';
+import Image from 'next/image'
+
 
 const Sidebar = () => {
     const onChangeLanguage =  language =>{
@@ -31,18 +33,18 @@ const Sidebar = () => {
                     <div className="">
                     <Link href="/" >
                         <div className="flex p-3 text-gray-700  space-x-4 0 hover:bg-gray-50 hover:text-blue-600  cursor-pointer  ">
-                            <DonutLargeIcon className=" text-gray-300" />
+                        <Image src="/assets/home.png" width={25} height={25} />
                      
                              <a> <p className=" "  >{i18n.t('Home')}</p></a>
                       
                                         
-                        </div>
+                         </div>
                         </Link>
                     </div>
                     <div className="">
                     <Link href='/about' >
                         <div className="flex p-3 text-gray-700  space-x-4 0 hover:bg-gray-50 hover:text-blue-600  cursor-pointer  ">
-                            <ClearAllIcon className="text-gray-300" />
+                            <Image src="/assets/ab.png" width={25} height={25} />
                             
                              <a>  <p className="text-gray-600  " >{i18n.t('About Us')}</p></a>
                        
@@ -54,7 +56,7 @@ const Sidebar = () => {
                     <div className="">
                     <Link href="/sellvote" >
                         <div className="flex p-3 text-gray-700  space-x-4 0 hover:bg-gray-50 hover:text-blue-600  cursor-pointer  ">
-                            <SyncAltIcon className="text-gray-300" />
+                        <Image src="/assets/aaa.png" width={30} height={30} />
                           
                              <a> <p className="text-gray-600  " >Oy satın al</p></a>
                   
@@ -65,7 +67,7 @@ const Sidebar = () => {
                     <div className="">
                     <Link href="/user" >
                         <div className="flex p-3 text-gray-700  space-x-4 0 hover:bg-gray-50 hover:text-blue-600  cursor-pointer  ">
-                            <SyncAltIcon className="text-gray-300" />
+                        <Image src="/assets/trans.png" width={25} height={25} />
                           
                              <a> <p className="text-gray-600  " >İşlemlerim</p></a>
                   
@@ -79,8 +81,12 @@ const Sidebar = () => {
                  
                     <div className="">
                         <div className="flex p-3 text-gray-700  space-x-4 0 hover:bg-gray-50 hover:text-blue-600  cursor-pointer  ">
-                            <Flag className="text-gray-300" />
-                            {i18n.language == 'en' ? (   <p className="text-gray-600  " onClick={() => onChangeLanguage('tr')} >Türkçe</p>) : (   <p className="text-gray-600  " onClick={() => onChangeLanguage('en')} >English</p>)}
+                           
+                            {i18n.language == 'en' ? (<><div className="byr" style={{
+
+}} onClick={() => onChangeLanguage('tr')}><Image src="/assets/trbr.jpg" width={25} height={25} />  </div><span>Türkçe</span></>) : (<><div className="byr" style={{
+
+}} onClick={() => onChangeLanguage('en')}> <Image src="/assets/en.png" width={25} height={25} />  </div><span>English</span> </>)}
                          
                          
                         </div>

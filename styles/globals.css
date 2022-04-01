@@ -211,3 +211,6 @@ position: absolute;
 @keyframes dash{
   to{stroke-dashoffset: 234;}
 }
+.byr{
+  border-radius: 50%;
+}
