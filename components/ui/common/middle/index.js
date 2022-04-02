@@ -107,7 +107,7 @@ const Middle = () => {
 
         let ÖdenecekBusd = (steemSon + sbdSon) / coins2;
         //setDolarg(ÖdenecekBusd);
-        setTimeout(getCalculation, 500);
+        setTimeout(getCalculation, 1000);
       });
     }
     getCalculation();

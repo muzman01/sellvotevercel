@@ -214,3 +214,7 @@ position: absolute;
 .byr{
   border-radius: 50%;
 }
+.tra{
+  color: blue;
+  cursor: pointer;
+}

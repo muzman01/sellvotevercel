@@ -1,8 +1,9 @@
 import { Header, Sidebar, RightBar } from "@components/ui/common";
 import { Containerhome } from "@components/ui/linkspage";
-
+import { React, useState, useEffect } from 'react';
 import { BaseLayout } from "@components/ui/layout";
 export default function Home() {
+
   return (
     <>
       <div>
