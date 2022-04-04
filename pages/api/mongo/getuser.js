@@ -18,11 +18,11 @@ export default async (req, res) => {
 
 const createCategory = async (req, res) => {
        
-        adress = req.body.account;
+        adress = req.body.wadres;
         res.status(200).json({
-          status:"başarılı",
+          status:"naber",
           data:{
-            account:req.body.account
+            wadres:req.body.wadres
           }
       })
      console.log(adress);
@@ -32,8 +32,14 @@ const createCategory = async (req, res) => {
 }
 
 const getCategories = async (req, res) => {
-    const hashUser = await Awaitdata.findOne({ walletAdress: adress });
-   res.status(200).send(hashUser)
+    const hashUser = await Awaitdata.find({walletAdress:adress});
+   res.status(200).json({
+     status:"iyi",
+     data:{
+       hashUser
+     }
+   })
+   console.log(hashUser,"adres");
 }
  
  

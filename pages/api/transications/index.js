@@ -2,6 +2,7 @@ const steem = require("steem");
 import connectDb from "@utils/connectDb";
 import Users from "../../../models/userModel";
 import Awaitdata from "../../../models/awaitModel";
+import allUser from "../../../models/allUser";
 connectDb();
 let basarili;
 let hatali;
@@ -18,6 +19,20 @@ export default async function handler(req, res) {
       processTime: new Date(),
     });
     await newUser.save();
+    
+  }
+  async function allsaveuser(walletAdress, perml, payfee, dbto, weight) {
+    const allUsers = new allUser({
+      walletAdress: walletAdress,
+      perMLink: perml,
+      fee: payfee,
+      voteTo: dbto,
+      voteWeigth: weight,
+      payState: true,
+      processTime: new Date(),
+    });
+    await allUsers.save();
+    
   }
   if (req.method === "POST") {
     const transicaitonHash = req.body.transicaitonHash;
@@ -78,6 +93,7 @@ export default async function handler(req, res) {
         function (err, result) {
           console.log(err, result);
           if (result) {
+            allsaveuser(walletAdress, perml, payfee, dbto, weight);
             Users.findOneAndDelete(
               { walletAdress: walletAdress },
               function (err, docs) {
@@ -90,6 +106,7 @@ export default async function handler(req, res) {
             );
           } else {
             console.log("suan oy başarısız oldu");
+            allsaveuser(walletAdress, perml, payfee, dbto, weight);
             saveuser(walletAdress, perml, payfee, dbto, weight);
           }
         }
