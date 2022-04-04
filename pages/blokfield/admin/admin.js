@@ -9,7 +9,7 @@ export default function admin(data) {
 
   const add = process.env.ADMİN;
   const adds = process.env.ADMİNKEY;
-  const [lactive, setLactive] = useState(false);
+  const [lactive, setLactive] = useState(true);
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
@@ -90,6 +90,12 @@ export default function admin(data) {
                           scope="col"
                           className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
+                          Oy gücü
+                        </th>
+                        <th
+                          scope="col"
+                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                        >
                           TRX 
                         </th>
                         <th
@@ -103,6 +109,18 @@ export default function admin(data) {
                           className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
                           Ödeme durumu:
+                        </th>
+                        <th
+                          scope="col"
+                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                        >
+                          Ödeme zamanı:
+                        </th>
+                        <th
+                          scope="col"
+                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                        >
+                          Oy durumu:
                         </th>
                       </tr>
                     </thead>
@@ -118,13 +136,26 @@ export default function admin(data) {
                         {walletAdress.perMLink}
                         </td>
                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        {walletAdress.voteWeigth}%
+                        </td>
+                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                         {walletAdress.fee}
                         </td>
                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                         {walletAdress.voteTo}
                         </td>
                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {walletAdress.payState}
+                        {walletAdress.payState ? (
+                          <p className="border-b bg-green-100 border-green-200">ödendi</p>
+                        ): (<p className="border-b bg-red-100 border-red-200">ödenmedi</p>)}
+                        </td>
+                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        {walletAdress.processTime}
+                        </td>
+                        <td className="text-sm text-gray-900 font-light px-6 py-4 text-center whitespace-nowrap">
+                        {walletAdress.voteState ? (
+                          <p className="border-b bg-green-100 border-green-200">Oy kullanıldı</p>
+                        ): (<p className="border-b bg-red-100 border-red-200">Hata oldu | </p>)}
                         </td>
                       </tr>
                    

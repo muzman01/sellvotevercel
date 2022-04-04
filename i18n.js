@@ -7,7 +7,9 @@ i18n.use(initReactI18next).init({
             translations:{
             'Home':'Home',
             'About Us':'About Us',
-           
+            'My transactions':'My transactions',
+            'Buy Vote':'Buy Vote',
+            'WALLET CONNECTED':'WALLET CONNECTED',
            
             }
         },
@@ -15,8 +17,9 @@ i18n.use(initReactI18next).init({
             translations:{
                 'Home':'Anasayfa',
                 'About Us':'Hakkımızda',
-
-            
+                'My transactions':'İşlemlerim',
+                'Buy Vote':'Oy Satın Al',
+                'WALLET CONNECTED':'CÜZDANA BAĞLANDI'
             }
         }
     },

@@ -17,13 +17,28 @@ const Containeruser = () => {
     AOS.init();
     AOS.refresh();
   }, []);
+
+  const [product,setProduct] = useState([{
+    createdAt: " ",
+  fee: " ",
+  payState: " ",
+  perMLink: " ",
+  processTime: " ",
+  transicaitonHash: " ",
+  updatedAt: " ",
+  voteTo: " ",
+  voteWeigth: " ",
+  walletAdress: " ",
+  __v: 0,
+  voteState: ' ',
+  _id: "62483d708586691f7242d7af"}])
   const [coins, setCoins] = useState([]);
   const [coins1, setCoins1] = useState([]);
   const [coins2, setCoins2] = useState([]);
 
   const [box, setBox] = useState([]);
   const [wadres, setWadres] = useState();
-  const [perm, setPerm] = useState();
+  const [userAdress, setUserAdress] = useState();
   const [voteto, setVoteto] = useState();
   const [time, setTime] = useState();
   const [pay, setPay] = useState();
@@ -81,7 +96,7 @@ const Containeruser = () => {
       <div
         className=" absolute w-96 h-96 text-center loading"
         style={{
-          background: "#0008",
+          background: "gray",
           color: "white",
           top: 0,
           width: "100%",
@@ -91,7 +106,7 @@ const Containeruser = () => {
           zIndex: 9,
         }}
       >
-        <svg width="400" height="400" viewBox="0 0 40 50">
+        <svg width="380" height="380" viewBox="0 0 40 50">
           <polygon
             strokeWidth="1"
             stroke="#fff"
@@ -137,7 +152,7 @@ const Containeruser = () => {
         }
 
         //we have wallet and we are logged in
-        setMyMessage(<h6>WALLET CONNECTED</h6>);
+        setMyMessage(<h6> </h6>);
         setMyDetails({
           name: window.tronWeb.defaultAddress.name,
           address: window.tronWeb.defaultAddress.base58,
@@ -174,20 +189,29 @@ const Containeruser = () => {
       );
     }
   };
+  // useEffect(() => {
+  //   axios
+  //     .post("https://mmsellvote.vercel.app/api/mongo/getuser", {
+  //       wadres,
+  //     })
+  //     .then((res) => {
+  //       console.log(res.data.data);
+  //     })
+  //     .catch((error) => console.log(error));
+  // }, []);
   useEffect(() => {
-    axios
+    const interval = setInterval(async () => {
+      getWalletDetails();
+      axios
       .post("https://mmsellvote.vercel.app/api/mongo/getuser", {
         wadres,
       })
       .then((res) => {
-        console.log(res.data);
+        console.log(res.data.data.wadres);
+        setUserAdress(res.data.data.wadres)
+        console.log(userAdress);
       })
       .catch((error) => console.log(error));
-  }, []);
-  useEffect(() => {
-    const interval = setInterval(async () => {
-      getWalletDetails();
-      //wallet checking interval 2sec
     }, 2000);
     return () => {
       clearInterval(interval);
@@ -197,18 +221,8 @@ const Containeruser = () => {
     axios
       .get("https://mmsellvote.vercel.app/api/mongo/getuser")
       .then((res) => {
-        console.log(res.data);
-
-        setUser([
-          {
-            walletad: res.data.data.hashUser.walletAdress,
-            permlink: res.data.data.hashUser.perMLink,
-            fee: res.data.data.hashUser.fee,
-            voteto: res.data.data.hashUser.voteTo,
-            voteWeigth: res.data.data.hashUser.voteWeigth,
-            
-          },
-        ]);
+        console.log(res.data.data.hashUser);
+        setProduct(res.data.data.hashUser)
       })
       .catch((error) => console.log(error));
   }
@@ -219,37 +233,112 @@ const Containeruser = () => {
       className=" bg-gradient-to-r from-gray-100 to-gray-50 h-full "
     >
       <div className="  px-8 py-1 ">
-        <p className="text-gray-500 text-lg">Robinia swap</p>
-        <p className="font-bold text-2xl transform -translate-y-2">
-          Cüzdana Bağlan
-        </p>
+        <p className="text-gray-500 text-lg">BlokField</p>
+      
       </div>
       <div data-aos="fade-left" className="flex   p-4 space-x-3">
-        <Card title="BUSD" balance={1} icon={0} token={coins2} />
+        <Card title="TRON" balance={1} icon={0} token={coins2} />
         <Card title="SBD" balance={1} icon={1} token={coins1} />
         <Card title="STEEM" balance={1} icon={2} token={coins} />
       </div>
       <div className="flex  ml-3 mt-6 space-x-6  mr-4">
         <BaseLayout>
           <div className="flex  ml-3 mt-6 space-x-6  mr-4">
-            {myMessage} <br></br>
+            {myMessage} 
             Welcome {wadres}
-            <button onClick={denemuser}>göster</button>
+            <button onClick={denemuser}>Yenile</button>
           </div>
           <div>
-            {user.length}
-            {user.map((data) => (
-              <div>
-                <ul key={data.walletad}>
-                  
-                  <li>{data.voteto}</li>
-                  <li>{data.permlink}</li>
-                  <li>{data.fee}</li>
-                  <li>{data.voteWeigth}</li>
+          { product.length ===1  ? (<>
+                    <h1 className="mt-11 text-green-700 text-5xl text-center">Geçmiş işlemin bululunmamaktadır</h1>
+                    </>):(<>
+          <div className="flex flex-col ">
+            <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+              <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                <div className="overflow-hidden">
+                  <table className="min-w-full">
+                    <thead className="border-b">
+                      <tr>
+                        <th
+                          scope="col"
+                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                        >
+                          Vote weight:
+                        </th>
+                        <th
+                          scope="col"
+                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                        >
+                          Permlink
+                        </th>
+                        <th
+                          scope="col"
+                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                        >
+                          TRX 
+                        </th>
+                        <th
+                          scope="col"
+                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                        >
+                          Oy kullanılan hesap
+                        </th>
+                        <th
+                          scope="col"
+                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                        >
+                          Ödeme durumu:
+                        </th>
+                        <th
+                          scope="col"
+                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                        >
+                          Oy durumu:
+                        </th>
+                      </tr>
+                      
+
+                    </thead>
                 
-                </ul>
+                      {product.map((walletAdress) => (
+                    <tbody>
+                      
+                        <tr className="border-b" key={walletAdress._id}>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" >
+                          {walletAdress.voteWeigth} %
+                        </td>
+                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        {walletAdress.perMLink}
+                        </td>
+                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        {walletAdress.fee}
+                        </td>
+                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        {walletAdress.voteTo}
+                        </td>
+                        <td className="text-sm text-gray-900 font-light px-6 py-4 text-center whitespace-nowrap">
+                        {walletAdress.payState ? (
+                          <p className="border-b bg-green-100 border-green-200">ödendi</p>
+                        ): (<p className="border-b bg-red-100 border-red-200">ödenmedi | <button className="text-green-600">Ödeme yap</button></p>)}
+                        </td>
+                        <td className="text-sm text-gray-900 font-light px-6 py-4 text-center whitespace-nowrap">
+                        {walletAdress.voteState ? (
+                          <p className="border-b bg-green-100 border-green-200">Oy kullanıldı</p>
+                        ): (<p className="border-b bg-red-100 border-red-200">Hata oldu | <button className="text-green-600">oy kullan</button></p>)}
+                        </td>
+                      </tr>
+                   
+                     
+                    </tbody>
+                    ))}
+                   
+                    
+                  </table>
+                </div>
               </div>
-            ))}
+            </div>
+          </div>
+          </>)}
           </div>
 
         </BaseLayout>

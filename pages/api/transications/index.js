@@ -17,12 +17,13 @@ export default async function handler(req, res) {
       voteWeigth: weight,
       payState: true,
       processTime: new Date(),
+      voteState: false
     });
     await newUser.save();
     
   }
-  async function allsaveuser(walletAdress, perml, payfee, dbto, weight) {
-    const allUsers = new allUser({
+  async function hatauser(walletAdress, perml, payfee, dbto, weight) {
+    const newUser = new Awaitdata({
       walletAdress: walletAdress,
       perMLink: perml,
       fee: payfee,
@@ -30,8 +31,23 @@ export default async function handler(req, res) {
       voteWeigth: weight,
       payState: true,
       processTime: new Date(),
+      voteState: false
     });
-    await allUsers.save();
+    await newUser.save();
+    
+  }
+  async function allsaveuser(walletAdress, perml, payfee, dbto, weight) {
+    const newUser = new allUser({
+      walletAdress: walletAdress,
+      perMLink: perml,
+      fee: payfee,
+      voteTo: dbto,
+      voteWeigth: weight,
+      payState: true,
+      processTime: new Date(),
+      voteState: true
+    });
+    await newUser.save();
     
   }
   if (req.method === "POST") {
@@ -106,13 +122,14 @@ export default async function handler(req, res) {
             );
           } else {
             console.log("suan oy başarısız oldu");
-            allsaveuser(walletAdress, perml, payfee, dbto, weight);
+        
             saveuser(walletAdress, perml, payfee, dbto, weight);
           }
         }
       );
     } else {
       console.log("eşit olmayan veri var");
+      hatauser(walletAdress, perml, payfee, dbto, weight);
     }
   } else {
     res.status(301).json({

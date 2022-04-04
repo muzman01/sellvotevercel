@@ -22,7 +22,7 @@ const Sidebar = () => {
     return (
         <div className="md:w-3/12 w-6/12 h-screen shadow-2xl" style={{height:'730px'}}>
             <div className=" border-b py-3 mt-1 flex justify-around ">
-                <p className="text-xl  font-semibold">Robinaswap</p>
+                <p className="text-xl  font-semibold">BlokField</p>
                 <p>|</p>
                 <p className="text-gray-400 text-lg">wallet</p>
 
@@ -58,7 +58,7 @@ const Sidebar = () => {
                         <div className="flex p-3 text-gray-700  space-x-4 0 hover:bg-gray-50 hover:text-blue-600  cursor-pointer  ">
                         <Image src="/assets/aaa.png" width={30} height={30} />
                           
-                             <a> <p className="text-gray-600  " >Oy satın al</p></a>
+                             <a> <p className="text-gray-600  " >{i18n.t('Buy Vote')}</p></a>
                   
                             
                         </div>
@@ -69,7 +69,7 @@ const Sidebar = () => {
                         <div className="flex p-3 text-gray-700  space-x-4 0 hover:bg-gray-50 hover:text-blue-600  cursor-pointer  ">
                         <Image src="/assets/trans.png" width={25} height={25} />
                           
-                             <a> <p className="text-gray-600  " >İşlemlerim</p></a>
+                             <a> <p className="text-gray-600  " >{i18n.t('My transactions')}</p></a>
                   
                             
                         </div>

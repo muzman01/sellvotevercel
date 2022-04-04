@@ -206,9 +206,7 @@ const Middle = () => {
     }
     
   }
-  const refreshPage = ()=>{
-    window.location.reload();
- }
+ 
   async function paidBusd() {
   
     if (myDetails.balance < dolarg) {
@@ -235,7 +233,7 @@ const Middle = () => {
           let signedTx = await tronweb.trx.sign(tx);
           let broastTx = await tronweb.trx.sendRawTransaction(signedTx);
           console.log(broastTx);
-             stateDegis(hash)
+    
             
           
            
@@ -276,40 +274,41 @@ const Middle = () => {
               
           //apiyi çağır
         } catch (error) {
-          try {
-            await axios
-              .post("https://mmsellvote.vercel.app/api/transications", {
-                walletAdress,
-                perMLink,
-                transicaitonHash,
-                fee,
-                voteTo,
-                voteWeigth,
-                payState,
-                processTime
-              })
-              .then((data) => {
-                console.log(data.data);
-              });
-          } catch (error) {
-            console.log(error);
-          }
+          console.log(error ,"error");
+          // try {
+          //   await axios
+          //     .post("https://mmsellvote.vercel.app/api/transications", {
+          //       walletAdress,
+          //       perMLink,
+          //       transicaitonHash,
+          //       fee,
+          //       voteTo,
+          //       voteWeigth,
+          //       payState,
+          //       processTime
+          //     })
+          //     .then((data) => {
+          //       console.log(data.data);
+          //     });
+          // } catch (error) {
+          //   console.log(error);
+          // }
           
-          const errMsgHash = validhash(  
-            walletAdress,
-            transicaitonHash
-          );
-          if (errMsgHash) return dispatch({ type: "NOTIFY", payload: { error: errMsgHash } });
-          dispatch({ type: "NOTIFY", payload: { loading: true} })
+          // const errMsgHash = validhash(  
+          //   walletAdress,
+          //   transicaitonHash
+          // );
+          // if (errMsgHash) return dispatch({ type: "NOTIFY", payload: { error: errMsgHash } });
+          // dispatch({ type: "NOTIFY", payload: { loading: true} })
           
-          const res = await putData('mongo/putHash',hashData)
-          if(res.err)return dispatch({type:'NOTIFY', payload:{error:res.err}})
-          toast.success("Oy kullanma işlemi başarılı", {position: toast.POSITION.TOP_CENTER,});
-          return dispatch({type:'NOTIFY', payload:{success:res.msg}});
+          // const res = await putData('mongo/putHash',hashData)
+          // if(res.err)return dispatch({type:'NOTIFY', payload:{error:res.err}})
+          // toast.success("Oy kullanma işlemi başarılı", {position: toast.POSITION.TOP_CENTER,});
+          // return dispatch({type:'NOTIFY', payload:{success:res.msg}});
         
 
           
-          return dispatch({type:'NOTIFY', payload:{success: toast.success("Oy kullanma işlemi başarılı", {position: toast.POSITION.TOP_CENTER,})}});
+          // return dispatch({type:'NOTIFY', payload:{success: toast.success("Oy kullanma işlemi başarılı", {position: toast.POSITION.TOP_CENTER,})}});
         }
       }
     

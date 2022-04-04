@@ -37,6 +37,10 @@ const awaitSchema = new mongoose.Schema(
       type: Date,
       required: false,
     },
+    voteState:{
+      type: Boolean,
+      default: false,
+    }
   },
   {
     timestamps: true,
