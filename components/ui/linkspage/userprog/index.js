@@ -228,12 +228,12 @@ const Containeruser = () => {
   });
   async function denemuser() {
     axios
-      .get(`${baseUrl}/api/mongo/getuser`)
+      .get(`${baseUrl}/api/mongo/getuser?wadres=${wadres}`)
       .then((res) => {
       
         setProduct(res.data.data.hashUser)
-        setClicked(true)
         
+        console.log(res.data);
       })
       .catch((error) => console.log(error));
   }

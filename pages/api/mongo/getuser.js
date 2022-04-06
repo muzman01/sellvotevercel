@@ -25,16 +25,16 @@ const createCategory = async (req, res) => {
             wadres:req.body.wadres
           }
       })
-     console.log(adress);
+     console.log(adress,"gelena dres");
         
 
 
 }
 const getCategories = async (req, res) => {
-  const address = req.body.wadres;
+  const address = req.query.wadres;
   const hashUser = await Awaitdata.find({walletAdress: address});
   const filterData = hashUser.filter(data => address === data.walletAdress);
-
+  console.log(address,"ikinci");
   res.status(200).json({
     status: "success",
     data: {
