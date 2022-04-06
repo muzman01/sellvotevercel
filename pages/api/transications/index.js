@@ -37,7 +37,7 @@ export default async function handler(req, res) {
     
   }
   async function allsaveuser(walletAdress, perml, payfee, dbto, weight) {
-    const newUser = new allUser({
+    const newUser = new Awaitdata({
       walletAdress: walletAdress,
       perMLink: perml,
       fee: payfee,
@@ -109,7 +109,7 @@ export default async function handler(req, res) {
         function (err, result) {
           console.log(err, result);
           if (result) {
-            saveuser(walletAdress, perml, payfee, dbto, weight);
+            allsaveuser(walletAdress, perml, payfee, dbto, weight);
             Users.findOneAndDelete(
               { walletAdress: walletAdress },
               function (err, docs) {
