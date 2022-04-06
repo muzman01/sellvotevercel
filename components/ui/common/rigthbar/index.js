@@ -1,6 +1,6 @@
 import React,{useEffect,useState} from 'react'
 import axios from 'axios';
-
+import i18n from '../../../../i18n';
 const data = {
     labels: [
 
@@ -67,11 +67,11 @@ const RightBar = () => {
     return (
         <div className="bg-white  w-2/6 rounded-xl border border-gray-100">
             <div className="border-b p-3 border-gray-100">
-                <p className="font-semibold  ">Robina swap </p>
+                <p className="font-semibold  ">BlokField Robinia </p>
             </div>
             <div className="flex flex-col items-center p-3">
-                <p className="font-semibold text-lg text-gray-800" > 51s önce</p>
-                <p className="text-gray-600 text-sm">Son güncelleme </p>
+                <p className="font-semibold text-lg text-gray-800" > 2s</p>
+                <p className="text-gray-600 text-sm"> {i18n.t('The last update')} </p>
             </div>
 
             <div className="p-4  flex items-center justify-center">
@@ -109,7 +109,7 @@ const RightBar = () => {
             </div>
 
             <div className="flex flex-col items-center p-3">
-                <p className="text-gray-600 text-sm text-center"> Upvote satın alabilirsin</p>
+                <p className="text-gray-600 text-sm text-center"> {i18n.t('You can buy Upvote!')}</p>
             </div>
         </div>
     )

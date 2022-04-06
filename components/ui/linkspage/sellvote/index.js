@@ -25,7 +25,7 @@ const SellvoteContainer = () => {
           )
           .then(res => {
             setCoins(res.data.market_data.current_price.usd);
-            console.log(res.data.market_data.current_price.usd);
+            
           })
           .catch(error => console.log(error));
       }, []);
@@ -36,14 +36,14 @@ const SellvoteContainer = () => {
           )
           .then(res => {
             setCoins1(res.data.market_data.current_price.usd);
-            console.log(res.data.market_data.current_price.usd);
+            
           })
           .catch(error => console.log(error));
       }, []);
       useEffect(() => {
         axios
           .get(
-            'https://api.coingecko.com/api/v3/coins/binance-usd?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false'
+            'https://api.coingecko.com/api/v3/coins/tron?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false'
           )
           .then(res => {
             setCoins2(res.data.market_data.current_price.usd);
@@ -54,7 +54,7 @@ const SellvoteContainer = () => {
 
     return (
        
-          <div  data-aos="fade-right"  className=" bg-gradient-to-r from-gray-100 to-gray-50 h-full " style={{maxHeight:'110%'}} >
+          <div  data-aos="fade-right"  className=" bg-gradient-to-r from-gray-100 to-gray-50  pb-4"  >
           <div className="  px-8 py-1 ">
               <p className="text-gray-500 text-lg">
               BlokField

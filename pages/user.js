@@ -1,4 +1,4 @@
-import { Header, Sidebar, RightBar } from "@components/ui/common";
+import { Header, Sidebar, RightBar, Footer } from "@components/ui/common";
 import { Containeruser } from "@components/ui/linkspage";
 
 import { BaseLayout } from "@components/ui/layout";
@@ -11,6 +11,7 @@ export default function User() {
           <div className="w-screen ">
             <Header />
             <Containeruser />
+            <Footer />
           </div>
         </div>
       </div>

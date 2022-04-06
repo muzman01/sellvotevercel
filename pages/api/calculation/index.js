@@ -2,9 +2,10 @@ var steem = require("steem");
 const cheerio = require("cheerio");
 const rp = require("request-promise");
 var fs = require("fs");
-
+import axios from "axios";
 var lastCalculationTime=new Date().getTime()
 var lastValue=0
+let steemdlr;
 export default async function handler(req, res) {
   // check method post
   if (req.method === "GET") {
@@ -14,7 +15,16 @@ export default async function handler(req, res) {
       }
       let jsonValue={}
     async function getSpAmount() {
-
+      axios
+      .get(
+        "https://api.coingecko.com/api/v3/coins/steem?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false"
+      )
+      .then((res) => {
+        
+       
+        steemdlr = res.data.market_data.current_price.usd
+      })
+      .catch((error) => console.log(error));
         return new Promise((resolve)=>{
             var url = "https://steemd.com/@robinia";
 
@@ -32,11 +42,9 @@ export default async function handler(req, res) {
       
               // var b = sp.substring(0,7);
               var sonSp = parseFloat(d);
-              console.log("====================================");
-              console.log(sonSp);
-              console.log("====================================");
+              
               var sampleObject = { sonSp };
-              console.log("sonsp", sonSp)
+              
               jsonValue=sampleObject
             
               
@@ -58,13 +66,14 @@ export default async function handler(req, res) {
           );
 
           steem.api.getRewardFund("post", function (e, t) {
-              console.log(jsonValue)
+            
             const json =jsonValue
-            const steem_per_vest = 530.282 / 1e6; // steem_per_mvests / 1E6
-            const reward_balance = 841148;
+            const steem_per_vest = 625.282 / 1e6; // steem_per_mvests / 1E6
+            const reward_balance = t.reward_balance.split(" ")[0];
             const recent_claims = t.recent_claims;
             const reward_per_rshare = reward_balance / recent_claims;
-            const steem_price_sbd = 0.3; // feed_price.base / feed_price.quote
+            const steem_price_sbd = steemdlr; // feed_price.base / feed_price.quote
+            
             steem.api.getAccounts(["robinia"], function (err, response) {
               var secondsago =
                 (new Date() - new Date(response[0].last_vote_time + "Z")) /
@@ -87,14 +96,14 @@ export default async function handler(req, res) {
                   parseInt(vests * multiplicator * 100) *
                   reward_per_rshare *
                   steem_price_sbd;
-                console.log(reward);
+             
                 let reward2 = reward / 2;
                 let sbdDolar = 4.81;
                 let steemDolar = 0.368;
                 let kodulsbd = (reward2 / 2) * sbdDolar;
                 let kodulsteem = (reward2 / 2) * steemDolar;
                 let sonuc = kodulsbd + kodulsteem;
-                console.log(reward);
+            
                 resolve(reward);
               }
 

@@ -25,7 +25,7 @@ const Containerhome = () => {
           )
           .then(res => {
             setCoins(res.data.market_data.current_price.usd);
-            console.log(res.data.market_data.current_price.usd);
+            
           })
           .catch(error => console.log(error));
       }, []);
@@ -36,24 +36,24 @@ const Containerhome = () => {
           )
           .then(res => {
             setCoins1(res.data.market_data.current_price.usd);
-            console.log(res.data.market_data.current_price.usd);
+         
           })
           .catch(error => console.log(error));
       }, []);
       useEffect(() => {
         axios
           .get(
-            'https://api.coingecko.com/api/v3/coins/binance-usd?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false'
+            'https://api.coingecko.com/api/v3/coins/tron?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false'
           )
           .then(res => {
             setCoins2(res.data.market_data.current_price.usd);
-            console.log(res.data.market_data.current_price.usd);
+           
           })
           .catch(error => console.log(error));
       }, []);
     return (
        
-          <div  data-aos="fade-right"  className=" bg-gradient-to-r from-gray-100 to-gray-50 h-full " >
+          <div  data-aos="fade-right"  className=" bg-gradient-to-r from-gray-100 to-gray-50  pb-4 " >
           <div className="  px-8 py-1 ">
               <p className="text-gray-500 text-lg">
               BlokField
@@ -77,6 +77,7 @@ const Containerhome = () => {
 
             </BaseLayout>
               <RightBar />
+
           </div>
       </div>
     )

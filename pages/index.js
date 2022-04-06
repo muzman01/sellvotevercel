@@ -1,4 +1,4 @@
-import { Header, Sidebar, RightBar } from "@components/ui/common";
+import { Header, Sidebar, RightBar, Footer } from "@components/ui/common";
 import { Containerhome } from "@components/ui/linkspage";
 import { React, useState, useEffect } from 'react';
 import { BaseLayout } from "@components/ui/layout";
@@ -12,6 +12,7 @@ export default function Home() {
           <div className="w-screen ">
             <Header />
             <Containerhome />
+            <Footer />
           </div>
         </div>
       </div>

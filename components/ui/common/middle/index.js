@@ -16,6 +16,7 @@ import abi from "../../../../public/abi.json";
 import TronWeb from "tronweb"
 import valid from "../../../../utils/valid";
 import validhash from "@utils/validhash";
+import i18n from "../../../../i18n";
 const HttpProvider = TronWeb.providers.HttpProvider;
 const fullNode = new HttpProvider("https://nile.trongrid.io/");
 const solidityNode = new HttpProvider("https://nile.trongrid.io/");
@@ -85,7 +86,7 @@ const Middle = () => {
 
     axios
       .get(
-        "https://api.coingecko.com/api/v3/coins/binance-usd?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false"
+        'https://api.coingecko.com/api/v3/coins/tron?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false'
       )
       .then((res) => {
         setCoins2(res.data.market_data.current_price.usd);
@@ -105,8 +106,9 @@ const Middle = () => {
         let sbdSon = sbdİlk * coins1;
 
 
-        let ÖdenecekBusd = (steemSon + sbdSon) / coins2;
-        //setDolarg(ÖdenecekBusd);
+        let ÖdenecekBusd = (steemSon + sbdSon) 
+        
+        // setDolarg(ÖdenecekBusd);
         setTimeout(getCalculation, 1000);
       });
     }
@@ -163,7 +165,7 @@ const Middle = () => {
             let signedTx = tronweb.trx.sign(tadres);
             signedTx.then(function(result) {
               if(result){
-                toast.success("Giriş işlemi başarılı", {
+                toast.success("Login successful!", {
                   position: toast.POSITION.TOP_CENTER,
                 });
                 setCactive(result) // "Some User token"
@@ -181,15 +183,15 @@ const Middle = () => {
             });
           } else {
             //we have wallet but not logged in
-            console.log("lütfen cüzdana bağlanın");
-            toast.warn("Tronlinke bağlanılmadı", {
+            
+            toast.warn("Can not connected to Tronlink!", {
               position: toast.POSITION.TOP_CENTER,
             });
             
           }
         } else {
           //wallet is not detected at all
-          toast.warn("Lütfen tronlinki ekleyin", {
+          toast.warn("Please add the tronlink!", {
             position: toast.POSITION.TOP_CENTER,
           });
         }
@@ -200,9 +202,9 @@ const Middle = () => {
   async function stateDegis(props){
     if(props != transHash){
       setTransHash(props)
-      console.log("hash değişecek",props);
+      
     }else{
-      console.log("hash değişemiyor amk");
+      
     }
     
   }
@@ -210,19 +212,19 @@ const Middle = () => {
   async function paidBusd() {
   
     if (myDetails.balance < dolarg) {
-     return toast.error("Yeterli bakiyen yok", {
+     return toast.error("Insufficient funds!", {
         position: toast.POSITION.TOP_CENTER,
       });
     } 
     if(myDetails.balance > dolarg) {
-      toast.success("İşlem yapılıyor lütfen bekleyin", {
+      toast.success("Processing, please wait!", {
         position: toast.POSITION.TOP_CENTER,
       });
     }
     
       if (myDetails.balance > 0) {
        
-        console.log(transHash,"has bu");
+      
         dispatch({ type: "NOTIFY", payload: { loading: true} })
         try {
           let tronweb = window.tronWeb;
@@ -232,12 +234,12 @@ const Middle = () => {
           );
           let signedTx = await tronweb.trx.sign(tx);
           let broastTx = await tronweb.trx.sendRawTransaction(signedTx);
-          console.log(broastTx);
+
     
             
           
            
-              console.log("suan burda");
+            
               try {
                 await axios
                   .post("https://mmsellvote.vercel.app/api/transications", {
@@ -251,10 +253,10 @@ const Middle = () => {
                     processTime
                   })
                   .then((data) => {
-                    console.log(data.data);
+                   
                   });
               } catch (error) {
-                console.log(error);
+                
               }
               
               const errMsgHash = validhash(  
@@ -266,7 +268,7 @@ const Middle = () => {
               
               const res = await putData('mongo/putHash',hashData)
               if(res.err)return dispatch({type:'NOTIFY', payload:{error:res.err}})
-              toast.success("Oy kullanma işlemi başarılı", {position: toast.POSITION.TOP_CENTER,});
+              toast.success("Voting successful!", {position: toast.POSITION.TOP_CENTER,});
               return dispatch({type:'NOTIFY', payload:{success:res.msg}});
             
   
@@ -274,10 +276,11 @@ const Middle = () => {
               
           //apiyi çağır
         } catch (error) {
-          console.log(error ,"error");
+          toast.warning("Voting successful!", {position: toast.POSITION.TOP_CENTER,});
+          return dispatch({type:'NOTIFY', payload:{ loading: true}});
           // try {
           //   await axios
-          //     .post("https://mmsellvote.vercel.app/api/transications", {
+          //     .post("http://localhost:3000/api/transications", {
           //       walletAdress,
           //       perMLink,
           //       transicaitonHash,
@@ -313,6 +316,8 @@ const Middle = () => {
       }
     
   }
+
+
   const hesaplama = (values) => {
     setRange(values.target.value);
     var sonhali = (yeniGuc * values.target.value) / 100;
@@ -333,10 +338,10 @@ const Middle = () => {
           range,
         })
         .then((data) => {
-          console.log(data.data);
+         
         });
     } catch (error) {
-      console.log(error);
+      
     }
   }
 
@@ -357,7 +362,7 @@ const Middle = () => {
   // }
   const checked = async (e) => {
     if (e.target.checked) {
-      console.log(e.target.checked);
+   
       setBox(e.target.checked);
       const errMsg = valid(  
         walletAdress,
@@ -377,12 +382,12 @@ const Middle = () => {
       return dispatch({type:'NOTIFY', payload:{success:res.msg}})
      
     } else {
-      console.log("selimedi");
+      
       setBox(e.target.checked);
     }
   };
   const inputValue = (e) => {
-    console.log(e.target.value);
+    
     let url = e.target.value;
     const array = url.split("/");
     setPermlink(array[5]);
@@ -392,12 +397,12 @@ const Middle = () => {
   return (
     <div data-aos="flip-down">
       <div className="backgorund">
-        <h2 className="h2">Upvote Post</h2>
+        <h2 className="h2">{i18n.t('Upvote Post')}</h2>
         <div className="pb-12">
           <div class="block p-6 rounded-lg shadow-lg bg-white max-w-sm pt-5">
             <form className="w-80">
               <div class="form-group mb-6">
-                <span>Mevcut oy gücü:</span>
+                <span>{i18n.t('Current voting power')}</span>
                 <input
                   type="text"
                   className="form-control block
@@ -438,7 +443,7 @@ const Middle = () => {
               </div>
 
               <div className="form-group mb-6">
-                <span>Ödenecek BUSD:</span>
+                <span>{i18n.t('Amount of TRX to pay')}</span>
 
                 <input
                   type="email"
@@ -457,14 +462,14 @@ const Middle = () => {
         m-0
         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   id="exampleInput91"
-                  placeholder={`${dolarg.toFixed(2)} BUSD`}
+                  placeholder={`${dolarg.toFixed(2)} TRX`}
                   disabled
                 />
               </div>
               <div className="form-group mb-6">
                 {cactive.length > 60 ? (
                   <>
-                    <span>Gönderi link:</span>
+                    <span>{i18n.t('Post Link')}</span>
                     <input
                       type="text"
                       className="form-control block
@@ -482,11 +487,11 @@ const Middle = () => {
         m-0
         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                       id="exampleInput91"
-                      placeholder="Gönderi Linki"
+                      placeholder="Post Link"
                       onChange={inputValue}
                     />
                     <span>
-                      $ {dolarg.toFixed(2)} oyu almak için lutfen onaylayın:{" "}
+                      trx {dolarg.toFixed(2)} {i18n.t('Please confirm to get  votes')}{" "}
                       <input
                         className="h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-2 align-top bg-no-repeat bg-center bg-contain float-right mr-2 cursor-pointer"
                         name="isGoing"
@@ -496,7 +501,7 @@ const Middle = () => {
                     </span>
                   </>
                 ) : (
-                  <p>Çüzdana bağlanmadan işlem yapamazsın</p>
+                  <p>{i18n.t('You cant make transaction without connecting to your wallet!')}</p>
                 )}
               </div>
             </form>
@@ -511,7 +516,7 @@ const Middle = () => {
                 onClick={paidBusd}
                 disabled={!box}
               >
-                Ödeme Yap{" "}
+                {i18n.t('Pay')}{" "}
               </button>
             ) : (
               <button
@@ -536,7 +541,7 @@ const Middle = () => {
     ease-in-out"
                 onClick={connect}
               >
-                Connet Wallet
+                {i18n.t('Connect wallet')}
               </button>
             )}
           </div>

@@ -1,15 +1,17 @@
 import React from "react";
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import { ToastContainer, toast } from "react-toastify";
 import Image from "next/image";
 import { getData } from "@utils/fetchData";
+import axios from "axios";
 export default function admin(data) {
   console.log(data.data);
+  const [coins2, setCoins2] = useState([]);
   const [product] = useState(data.data)
-
+  console.log(product.length);
   const add = process.env.ADMİN;
   const adds = process.env.ADMİNKEY;
-  const [lactive, setLactive] = useState(true);
+  const [lactive, setLactive] = useState(false);
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
@@ -25,11 +27,44 @@ export default function admin(data) {
       });
     }
   };
+  useEffect(() => {
+    axios
+      .get(
+        'https://api.coingecko.com/api/v3/coins/tron?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false'
+      )
+      .then(res => {
+        setCoins2(res.data.market_data.current_price.usd);
+       console.log(res.data.market_data.current_price.usd);
+      })
+      .catch(error => console.log(error));
+  }, []);
   let trx;
-  for (const i= 0; product.length < i; i++) {
-     console.log("feee");
+  let i;
+  // for (i = 0; i < product.length; i++) {
+    
+  //   trx = data.data[i].fee
+  //   console.log(trx);
+  // }
+  
+  let accounts = [data.data.length];
+  let delSp = [data.data.length];
+let totalSp = 0;
+
+ 
+
+  for (i = 0; i < data.data.length; i++) {
+    accounts[i] = data.data[i].perMLink;
+    delSp[i] = data.data[i].fee;
+
+
+  }
+  for (i = 0; i < delSp.length; i++) {
+    totalSp += delSp[i];
+  
   }
 
+ let trxyeni = totalSp.toFixed(2)
+ let dlr = totalSp / coins2
   return (
     <>
       {lactive ? (
@@ -37,7 +72,7 @@ export default function admin(data) {
           <div class="p-4 max-w-md bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
             <div class="flex justify-between items-center mb-4">
               <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">
-                Toplam Alınan TRX
+                Total TRX | $
               </h5>
             </div>
             <div class="flow-root">
@@ -59,7 +94,10 @@ export default function admin(data) {
                       </p>
                     </div>
                     <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                     TRX 305,555
+                     TRX {trxyeni}
+                    </div>
+                    <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                     $ {dlr.toFixed(2)}
                     </div>
                   </div>
                 </li>
@@ -90,7 +128,7 @@ export default function admin(data) {
                           scope="col"
                           className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
-                          Oy gücü
+                          Vote Weight
                         </th>
                         <th
                           scope="col"
@@ -102,25 +140,25 @@ export default function admin(data) {
                           scope="col"
                           className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
-                          Oy kullanılan hesap
+                          Voted Account
                         </th>
                         <th
                           scope="col"
                           className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
-                          Ödeme durumu:
+                          Payment Status
                         </th>
                         <th
                           scope="col"
                           className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
-                          Ödeme zamanı:
+                          Payment Time
                         </th>
                         <th
                           scope="col"
                           className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
-                          Oy durumu:
+                          Voting status
                         </th>
                       </tr>
                     </thead>
@@ -146,7 +184,7 @@ export default function admin(data) {
                         </td>
                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                         {walletAdress.payState ? (
-                          <p className="border-b bg-green-100 border-green-200">ödendi</p>
+                          <p className="border-b bg-green-100 border-green-200">Paid</p>
                         ): (<p className="border-b bg-red-100 border-red-200">ödenmedi</p>)}
                         </td>
                         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
@@ -154,8 +192,8 @@ export default function admin(data) {
                         </td>
                         <td className="text-sm text-gray-900 font-light px-6 py-4 text-center whitespace-nowrap">
                         {walletAdress.voteState ? (
-                          <p className="border-b bg-green-100 border-green-200">Oy kullanıldı</p>
-                        ): (<p className="border-b bg-red-100 border-red-200">Hata oldu | </p>)}
+                          <p className="border-b bg-green-100 border-green-200">Voted</p>
+                        ): (<p className="border-b bg-red-100 border-red-200">Paid | </p>)}
                         </td>
                       </tr>
                    

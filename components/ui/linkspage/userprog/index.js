@@ -6,12 +6,17 @@ import { useWeb3React } from "@web3-react/core";
 import abi from "../../../../public/abi.json";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { ToastContainer, toast } from "react-toastify";
 import { BaseLayout } from "@components/ui/layout";
 import { Card } from "@components/ui/order";
 import { RightBar } from "@components/ui/common";
 import axios from "axios";
 import { DataCentext } from "../../../../store/Globalstate";
-
+import "react-toastify/dist/ReactToastify.css";
+import { postData,putData,deleteData } from "@utils/fetchData";
+import valid from "../../../../utils/valid";
+import validhash from "@utils/validhash";
+import i18n from "../../../../i18n";
 const Containeruser = () => {
   useEffect(() => {
     AOS.init();
@@ -56,6 +61,16 @@ const Containeruser = () => {
     },
   ]);
 
+  const walletAdress = userAdress
+  const perMLink=  product.perMLink
+  const transicaitonHash = product.transicaitonHash
+  const fee = product.fee
+  const voteTo = product.voteTo
+  const voteWeigth = product.voteWeigth
+  const payState = true
+  const processTime = product.processTime
+  const voteState =  true
+  const id = product._id
   useEffect(() => {
     axios
       .get(
@@ -63,7 +78,7 @@ const Containeruser = () => {
       )
       .then((res) => {
         setCoins(res.data.market_data.current_price.usd);
-        console.log(res.data.market_data.current_price.usd);
+      
       })
       .catch((error) => console.log(error));
   }, []);
@@ -74,7 +89,8 @@ const Containeruser = () => {
       )
       .then((res) => {
         setCoins1(res.data.market_data.current_price.usd);
-        console.log(res.data.market_data.current_price.usd);
+        
+        
       })
       .catch((error) => console.log(error));
   }, []);
@@ -85,7 +101,7 @@ const Containeruser = () => {
       )
       .then((res) => {
         setCoins2(res.data.market_data.current_price.usd);
-        console.log(res.data.market_data.current_price.usd);
+        
       })
       .catch((error) => console.log(error));
   }, []);
@@ -152,7 +168,7 @@ const Containeruser = () => {
         }
 
         //we have wallet and we are logged in
-        setMyMessage(<h6> </h6>);
+        setMyMessage(<h6>  <button onClick={denemuser} className="text-green-600 ml-3">Show result</button></h6>);
         setMyDetails({
           name: window.tronWeb.defaultAddress.name,
           address: window.tronWeb.defaultAddress.base58,
@@ -164,7 +180,7 @@ const Containeruser = () => {
         setWadres(window.tronWeb.defaultAddress.base58);
       } else {
         //we have wallet but not logged in
-        setMyMessage(<h3>WALLET DETECTED PLEASE LOGIN</h3>);
+        setMyMessage(<h3 className="text-yellow-500">{i18n.t('WALLET DETECTED PLEASE LOGIN')}</h3>);
         setMyDetails({
           name: "none",
           address: "none",
@@ -177,11 +193,11 @@ const Containeruser = () => {
     } else {
       //wallet is not detected at all
       setMyMessage(
-        <h3>
-          WALLET NOT DETECTED{" "}
+        <h3  className="text-red-500">
+          {i18n.t('WALLET NOT DETECTED')}
           <a
             href="https://chrome.google.com/webstore/detail/ibnejdfjmmkpcnlpebklmnkoeoihofec/"
-            className="tra"
+            className="text-blue-700"
           >
             TRONLİNK
           </a>
@@ -191,7 +207,7 @@ const Containeruser = () => {
   };
   // useEffect(() => {
   //   axios
-  //     .post("https://mmsellvote.vercel.app/api/mongo/getuser", {
+  //     .post("http://localhost:3000/api/mongo/getuser", {
   //       wadres,
   //     })
   //     .then((res) => {
@@ -207,9 +223,9 @@ const Containeruser = () => {
         wadres,
       })
       .then((res) => {
-        console.log(res.data.data.wadres);
+     
         setUserAdress(res.data.data.wadres)
-        console.log(userAdress);
+      
       })
       .catch((error) => console.log(error));
     }, 2000);
@@ -221,16 +237,72 @@ const Containeruser = () => {
     axios
       .get("https://mmsellvote.vercel.app/api/mongo/getuser")
       .then((res) => {
-        console.log(res.data.data.hashUser);
+      
         setProduct(res.data.data.hashUser)
       })
       .catch((error) => console.log(error));
   }
   async function getUserprops() {}
+  async function paidBusd() {
+  
+    
+      
+       
+     
+        dispatch({ type: "NOTIFY", payload: { loading: true} })
+        try {
+          // let tronweb = window.tronWeb;
+          // let tx = await tronweb.transactionBuilder.sendTrx(
+          //   "TK96qi3vfgAyknBgMSMCm5RYjWDdEdnJFd",
+          //   10000
+          // );
+          // let signedTx = await tronweb.trx.sign(tx);
+          // let broastTx = await tronweb.trx.sendRawTransaction(signedTx);
+          // console.log(broastTx);
+    
+            
+          
+           
+             
+              try {
+                await axios
+                  .post("https://mmsellvote.vercel.app/api/mongo/userVote", {
+                    walletAdress,
+                    perMLink,
+                    transicaitonHash,
+                    fee,
+                    voteTo,
+                    voteWeigth,
+                    payState,
+                    processTime,
+                    voteState,
+                    id
+                  })
+                  .then((data) => {
+                   
+                  });
+              } catch (error) {
+                console.log(error);
+              }
+              
+              toast.success("Oy kullanma işlemi başarılı", {position: toast.POSITION.TOP_CENTER,});
+             
+            
+  
+              
+              
+          //apiyi çağır
+        } catch (error) {
+          console.log(error ,"error");
+         
+        }
+      
+    
+  }
   return (
     <div
       data-aos="fade-right"
-      className=" bg-gradient-to-r from-gray-100 to-gray-50 h-full "
+      className=" bg-gradient-to-r from-gray-100 to-gray-50  pb-4"
     >
       <div className="  px-8 py-1 ">
         <p className="text-gray-500 text-lg">BlokField</p>
@@ -245,16 +317,16 @@ const Containeruser = () => {
         <BaseLayout>
           <div className="flex  ml-3 mt-6 space-x-6  mr-4">
             {myMessage} 
-            Welcome {wadres}
-            <button onClick={denemuser}>Yenile</button>
+             {wadres}
+           
           </div>
           <div>
           { product.length ===1  ? (<>
-                    <h1 className="mt-11 text-green-700 text-5xl text-center">Geçmiş işlemin bululunmamaktadır</h1>
+                    <h1 className="mt-11 text-green-700 text-5xl text-center">{i18n.t('There is no previous transaction.')}</h1>
                     </>):(<>
           <div className="flex flex-col ">
-            <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-              <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+            <div className="overflow-x-auto sm:-mx-6 lg:-mx-6">
+              <div className="py-2 inline-block min-w-full sm:px-6 lg:px-6">
                 <div className="overflow-hidden">
                   <table className="min-w-full">
                     <thead className="border-b">
@@ -263,37 +335,37 @@ const Containeruser = () => {
                           scope="col"
                           className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
-                          Vote weight:
+                          {i18n.t('Vote weight')}
                         </th>
                         <th
                           scope="col"
                           className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
-                          Permlink
+                          {i18n.t('Permlink')}
                         </th>
                         <th
                           scope="col"
                           className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
-                          TRX 
+                           {i18n.t('TRX')}
                         </th>
                         <th
                           scope="col"
                           className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
-                          Oy kullanılan hesap
+                         {i18n.t('Voted account')}
                         </th>
                         <th
                           scope="col"
                           className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
-                          Ödeme durumu:
+                          {i18n.t('Payment status')}
                         </th>
                         <th
                           scope="col"
                           className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
-                          Oy durumu:
+                          {i18n.t('Voting status')}
                         </th>
                       </tr>
                       
@@ -318,13 +390,13 @@ const Containeruser = () => {
                         </td>
                         <td className="text-sm text-gray-900 font-light px-6 py-4 text-center whitespace-nowrap">
                         {walletAdress.payState ? (
-                          <p className="border-b bg-green-100 border-green-200">ödendi</p>
-                        ): (<p className="border-b bg-red-100 border-red-200">ödenmedi | <button className="text-green-600">Ödeme yap</button></p>)}
+                          <p className="border-b bg-green-100 border-green-200">{i18n.t('Paid')}</p>
+                        ): (<p className="border-b bg-red-100 border-red-200">{i18n.t('not paid')} | <button className="text-green-600">Ödeme yap</button></p>)}
                         </td>
                         <td className="text-sm text-gray-900 font-light px-6 py-4 text-center whitespace-nowrap">
                         {walletAdress.voteState ? (
-                          <p className="border-b bg-green-100 border-green-200">Oy kullanıldı</p>
-                        ): (<p className="border-b bg-red-100 border-red-200">Hata oldu | <button className="text-green-600">oy kullan</button></p>)}
+                          <p className="border-b bg-green-100 border-green-200">{i18n.t('Voted')}</p>
+                        ): (<p className="border-b bg-red-100 border-red-200">{i18n.t('Error')} | <button className="text-green-600" >{i18n.t('Vote')}</button></p>)}
                         </td>
                       </tr>
                    

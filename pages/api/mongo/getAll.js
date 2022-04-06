@@ -26,5 +26,5 @@ const getProduct = async (req, res) => {
         hashUser
       }
     })
-    console.log(hashUser,"adres");
+    
 }

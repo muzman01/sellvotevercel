@@ -11,12 +11,12 @@ const Notify = () =>{
         <>
             {notify.loading && <Loading />}
             {notify.error && <Toast
-                msg={{msg:notify.err, title:"Eksik veri yada tekrarlayan işlem"}}
+                msg={{msg:notify.err, title:"Missing data or repetitive operation!"}}
                 handleShow={() => dispatch({type: 'NOTIFY',payload:{}})}
                 bgColor="red"
             />}
             {notify.success && <Toast
-                msg={{msg:notify.success, title:"İşlem oluşturuldu lütfen cüzdandan ödemeyi onayla"}}
+                msg={{msg:notify.success, title:"Transaction created, please confirm payment from wallet!"}}
                 handleShow={() => dispatch({type: 'NOTIFY',payload:{}})}
                 bgColor="green"
             />}
