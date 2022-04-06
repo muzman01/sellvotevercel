@@ -50,6 +50,7 @@ const Containeruser = () => {
   const [pay, setPay] = useState();
   const [weigty, setWeigth] = useState();
   const { state, dispatch } = useContext(DataCentext);
+  const [clicked, setClicked] = useState(false)
   const [user, setUser] = useState([
     {
       walletad: "none",
@@ -169,7 +170,7 @@ const Containeruser = () => {
         }
 
         //we have wallet and we are logged in
-        setMyMessage(<h6>  <button onClick={denemuser} className="text-green-600 ml-3">Show result</button> </h6>);
+        setMyMessage(<h6>  <button onClick={denemuser} disabled={clicked} className="text-green-600 ml-3">Show result</button> </h6>);
         setMyDetails({
           name: window.tronWeb.defaultAddress.name,
           address: window.tronWeb.defaultAddress.base58,
@@ -231,7 +232,8 @@ const Containeruser = () => {
       .then((res) => {
       
         setProduct(res.data.data.hashUser)
-        console.log(res.data.data.hashUser);
+        setClicked(true)
+        
       })
       .catch((error) => console.log(error));
   }
