@@ -96,8 +96,9 @@ const Sidebar = () => {
                     onClick={() => onChangeLanguage("tr")}
                   >
                     <Image src="/assets/trbr.jpg" width={25} height={25} />{" "}
-                  </div>
+                  
                   <span>Türkçe</span>
+                  </div>
                 </>
               ) : (
                 <>
@@ -108,8 +109,9 @@ const Sidebar = () => {
                   >
                     {" "}
                     <Image src="/assets/en.png" width={25} height={25} />{" "}
+                  
+                  <span className="absolute ml-3">English</span>{" "}
                   </div>
-                  <span>English</span>{" "}
                 </>
               )}
             </div>
