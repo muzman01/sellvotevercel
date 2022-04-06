@@ -231,6 +231,7 @@ const Containeruser = () => {
       .then((res) => {
       
         setProduct(res.data.data.hashUser)
+        setMyMessage(" ")
       })
       .catch((error) => console.log(error));
   }
