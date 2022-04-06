@@ -32,14 +32,24 @@ const createCategory = async (req, res) => {
 }
 
 const getCategories = async (req, res) => {
+  const myArray = []
     const hashUser = await Awaitdata.find({walletAdress:adress});
-    const kulVeri =  hashUser.filter(x => adress === x.walletAdress)
-    console.log(kulVeri);
-   return
+    const kulVeri =  hashUser.map(function(x) {
+      if(adress === x.walletAdress) {
+        myArray.push(x)
+      }
+      return myArray
+    })
+    
+
+  
+
+   
+   
    res.status(200).json({
      status:"iyi",
      data:{
-      hashUser:kulVeri
+      hashUser:myArray
      }
    })
    console.log(kulVeri,"adres");
