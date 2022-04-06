@@ -109,7 +109,7 @@ export default async function handler(req, res) {
         function (err, result) {
           console.log(err, result);
           if (result) {
-            allsaveuser(walletAdress, perml, payfee, dbto, weight);
+            saveuser(walletAdress, perml, payfee, dbto, weight);
             Users.findOneAndDelete(
               { walletAdress: walletAdress },
               function (err, docs) {
