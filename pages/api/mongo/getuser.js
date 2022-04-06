@@ -34,7 +34,8 @@ const createCategory = async (req, res) => {
 const getCategories = async (req, res) => {
     const hashUser = await Awaitdata.find({walletAdress:adress});
     const kulVeri =  hashUser.filter(x => adress === x.walletAdress)
-    
+    console.log(kulVeri);
+   return
    res.status(200).json({
      status:"iyi",
      data:{
