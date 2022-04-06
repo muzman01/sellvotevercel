@@ -168,7 +168,7 @@ const Containeruser = () => {
         }
 
         //we have wallet and we are logged in
-        setMyMessage(<h6> </h6>);
+        setMyMessage(<h6>  <button onClick={denemuser} className="text-green-600 ml-3">Show result</button> </h6>);
         setMyDetails({
           name: window.tronWeb.defaultAddress.name,
           address: window.tronWeb.defaultAddress.base58,
@@ -318,10 +318,10 @@ const Containeruser = () => {
           <div className="flex  ml-3 mt-6 space-x-6  mr-4">
             {myMessage} 
              {wadres}
-             <button onClick={denemuser} className="text-green-600 ml-3">Show result</button>
+           
           </div>
           <div>
-          { product.length ===1  ? (<>
+          { product.walletAdress ===" "  ? (<>
                     <h1 className="mt-11 text-green-700 text-5xl text-center">{i18n.t('There is no previous transaction.')}</h1>
                     </>):(<>
           <div className="flex flex-col ">
