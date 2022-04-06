@@ -307,105 +307,104 @@ const Containeruser = () => {
       </div>
       <div className="flex  ml-3 mt-6 space-x-6  mr-4">
         <BaseLayout>
-          <div className="flex  ml-3 mt-6 space-x-6  mr-4">
-           {userAdress === " " ? (<p> </p>):(
-           <><div>
-                {myMessage}
-                {wadres}
-
-              </div><div>
-                  {product.walletAdress === " " ? (<>
+          
+           {userAdress === " " ? (<p> </p>):(<>{myMessage} {userAdress}
+            <div>
+          { product.walletAdress ===" "  ? (<>
                     <h1 className="mt-11 text-green-700 text-5xl text-center">{i18n.t('There is no previous transaction.')}</h1>
-                  </>) : (<>
-                    <div className="flex flex-col ">
-                      <div className="overflow-x-auto sm:-mx-6 lg:-mx-6">
-                        <div className="py-2 inline-block min-w-full sm:px-6 lg:px-6">
-                          <div className="overflow-hidden">
-                            <table className="min-w-full">
-                              <thead className="border-b">
-                                <tr>
-                                  <th
-                                    scope="col"
-                                    className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                                  >
-                                    {i18n.t('Vote weight')}
-                                  </th>
-                                  <th
-                                    scope="col"
-                                    className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                                  >
-                                    {i18n.t('Permlink')}
-                                  </th>
-                                  <th
-                                    scope="col"
-                                    className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                                  >
-                                    {i18n.t('TRX')}
-                                  </th>
-                                  <th
-                                    scope="col"
-                                    className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                                  >
-                                    {i18n.t('Voted account')}
-                                  </th>
-                                  <th
-                                    scope="col"
-                                    className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                                  >
-                                    {i18n.t('Payment status')}
-                                  </th>
-                                  <th
-                                    scope="col"
-                                    className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                                  >
-                                    {i18n.t('Voting status')}
-                                  </th>
-                                </tr>
+                    </>):(<>
+          <div className="flex flex-col ">
+            <div className="overflow-x-auto sm:-mx-6 lg:-mx-6">
+              <div className="py-2 inline-block min-w-full sm:px-6 lg:px-6">
+                <div className="overflow-hidden">
+                  <table className="min-w-full">
+                    <thead className="border-b">
+                      <tr>
+                        <th
+                          scope="col"
+                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                        >
+                          {i18n.t('Vote weight')}
+                        </th>
+                        <th
+                          scope="col"
+                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                        >
+                          {i18n.t('Permlink')}
+                        </th>
+                        <th
+                          scope="col"
+                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                        >
+                           {i18n.t('TRX')}
+                        </th>
+                        <th
+                          scope="col"
+                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                        >
+                         {i18n.t('Voted account')}
+                        </th>
+                        <th
+                          scope="col"
+                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                        >
+                          {i18n.t('Payment status')}
+                        </th>
+                        <th
+                          scope="col"
+                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                        >
+                          {i18n.t('Voting status')}
+                        </th>
+                      </tr>
+                      
 
-
-                              </thead>
-
-                              {product.map((walletAdress) => (
-                                <tbody key={walletAdress._id}>
-
-                                  <tr className="border-b" key={walletAdress._id}>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                      {walletAdress.voteWeigth} %
-                                    </td>
-                                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                      {walletAdress.perMLink}
-                                    </td>
-                                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                      {walletAdress.fee}
-                                    </td>
-                                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                      {walletAdress.voteTo}
-                                    </td>
-                                    <td className="text-sm text-gray-900 font-light px-6 py-4 text-center whitespace-nowrap">
-                                      {walletAdress.payState ? (
-                                        <p className="border-b bg-green-100 border-green-200">{i18n.t('Paid')}</p>
-                                      ) : (<p className="border-b bg-red-100 border-red-200">{i18n.t('not paid')} | <button className="text-green-600">Ödeme yap</button></p>)}
-                                    </td>
-                                    <td className="text-sm text-gray-900 font-light px-6 py-4 text-center whitespace-nowrap">
-                                      {walletAdress.voteState ? (
-                                        <p className="border-b bg-green-100 border-green-200">{i18n.t('Voted')}</p>
-                                      ) : (<p className="border-b bg-red-100 border-red-200">{i18n.t('Error')} | <button className="text-green-600">{i18n.t('Vote')}</button></p>)}
-                                    </td>
-                                  </tr>
-
-
-                                </tbody>
-                              ))}
-
-
-                            </table>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </>)}
-                </div></>)} 
+                    </thead>
+                
+                      {product.map((walletAdress) => (
+                    <tbody key={walletAdress._id}>
+                      
+                        <tr className="border-b" key={walletAdress._id}>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" >
+                          {walletAdress.voteWeigth} %
+                        </td>
+                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        {walletAdress.perMLink}
+                        </td>
+                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        {walletAdress.fee}
+                        </td>
+                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        {walletAdress.voteTo}
+                        </td>
+                        <td className="text-sm text-gray-900 font-light px-6 py-4 text-center whitespace-nowrap">
+                        {walletAdress.payState ? (
+                          <p className="border-b bg-green-100 border-green-200">{i18n.t('Paid')}</p>
+                        ): (<p className="border-b bg-red-100 border-red-200">{i18n.t('not paid')} | <button className="text-green-600">Ödeme yap</button></p>)}
+                        </td>
+                        <td className="text-sm text-gray-900 font-light px-6 py-4 text-center whitespace-nowrap">
+                        {walletAdress.voteState ? (
+                          <p className="border-b bg-green-100 border-green-200">{i18n.t('Voted')}</p>
+                        ): (<p className="border-b bg-red-100 border-red-200">{i18n.t('Error')} | <button className="text-green-600" >{i18n.t('Vote')}</button></p>)}
+                        </td>
+                      </tr>
+                   
+                     
+                    </tbody>
+                    ))}
+                   
+                    
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
+          </>)}
+    
+          </div>
+           </>)}
+          
+         
 
         </BaseLayout>
         <RightBar />
