@@ -97,7 +97,7 @@ const Sidebar = () => {
                   >
                     <Image src="/assets/trbr.jpg" width={25} height={25} />{" "}
                   
-                  <span>Türkçe</span>
+                  <span className="absolute ml-3">Türkçe</span>
                   </div>
                 </>
               ) : (

@@ -24,20 +24,7 @@ const Containeruser = () => {
     AOS.refresh();
   }, []);
 
-  const [product,setProduct] = useState([{
-    createdAt: " ",
-  fee: " ",
-  payState: " ",
-  perMLink: " ",
-  processTime: " ",
-  transicaitonHash: " ",
-  updatedAt: " ",
-  voteTo: " ",
-  voteWeigth: " ",
-  walletAdress: " ",
-  __v: 0,
-  voteState: ' ',
-  _id: " "}])
+  const [product,setProduct] = useState([])
   const [coins, setCoins] = useState([]);
   const [coins1, setCoins1] = useState([]);
   const [coins2, setCoins2] = useState([]);
@@ -170,7 +157,7 @@ const Containeruser = () => {
         }
 
         //we have wallet and we are logged in
-        setMyMessage(<h6>  <button onClick={denemuser} disabled={clicked} className="text-green-600 ml-3">Show result</button> </h6>);
+        setMyMessage(<h6>   </h6>);
         setMyDetails({
           name: window.tronWeb.defaultAddress.name,
           address: window.tronWeb.defaultAddress.base58,
@@ -311,10 +298,11 @@ const Containeruser = () => {
       <div className="flex  ml-3 mt-6 space-x-6  mr-4">
         <BaseLayout>
           
-           {userAdress === " " ? (<p> </p>):(<>{myMessage} {userAdress}
+           {userAdress === " " ? ( <>{myMessage}</> ):(<>Welcome: {userAdress}<button onClick={denemuser} disabled={clicked} className="focus:outline-none text-white bg-green-700 hover:bg-green-800 mt-2 ml-5 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Refresh</button> </>)}
             <div>
-          { product.walletAdress ===" "  ? (<>
-                    <h1 className="mt-11 text-green-700 text-5xl text-center">{i18n.t('There is no previous transaction.')}</h1>
+          { userAdress === undefined ? (<>
+            <h1 className="mt-11 text-green-700 text-5xl text-center">{i18n.t('There is no previous transaction.')}</h1> 
+
                     </>):(<>
           <div className="flex flex-col ">
             <div className="overflow-x-auto sm:-mx-6 lg:-mx-6">
@@ -405,7 +393,7 @@ const Containeruser = () => {
           </>)}
     
           </div>
-           </>)}
+          
           
          
 
