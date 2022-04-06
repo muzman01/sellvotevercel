@@ -17,6 +17,7 @@ import { postData,putData,deleteData } from "@utils/fetchData";
 import valid from "../../../../utils/valid";
 import validhash from "@utils/validhash";
 import i18n from "../../../../i18n";
+const baseUrl = process.env.BASE_URL
 const Containeruser = () => {
   useEffect(() => {
     AOS.init();
@@ -36,14 +37,14 @@ const Containeruser = () => {
   walletAdress: " ",
   __v: 0,
   voteState: ' ',
-  _id: "62483d708586691f7242d7af"}])
+  _id: " "}])
   const [coins, setCoins] = useState([]);
   const [coins1, setCoins1] = useState([]);
   const [coins2, setCoins2] = useState([]);
 
   const [box, setBox] = useState([]);
   const [wadres, setWadres] = useState();
-  const [userAdress, setUserAdress] = useState();
+  const [userAdress, setUserAdress] = useState(" ");
   const [voteto, setVoteto] = useState();
   const [time, setTime] = useState();
   const [pay, setPay] = useState();
@@ -205,21 +206,12 @@ const Containeruser = () => {
       );
     }
   };
-  // useEffect(() => {
-  //   axios
-  //     .post("http://localhost:3000/api/mongo/getuser", {
-  //       wadres,
-  //     })
-  //     .then((res) => {
-  //       console.log(res.data.data);
-  //     })
-  //     .catch((error) => console.log(error));
-  // }, []);
+
   useEffect(() => {
     const interval = setInterval(async () => {
       getWalletDetails();
       axios
-      .post("https://mmsellvote.vercel.app/api/mongo/getuser", {
+      .post(`${baseUrl}/api/mongo/getuser`, {
         wadres,
       })
       .then((res) => {
@@ -228,14 +220,14 @@ const Containeruser = () => {
       
       })
       .catch((error) => console.log(error));
-    }, 2000);
+    }, 1000);
     return () => {
       clearInterval(interval);
     };
   });
   async function denemuser() {
     axios
-      .get("https://mmsellvote.vercel.app/api/mongo/getuser")
+      .get(`${baseUrl}/api/mongo/getuser`)
       .then((res) => {
       
         setProduct(res.data.data.hashUser)
@@ -266,7 +258,7 @@ const Containeruser = () => {
              
               try {
                 await axios
-                  .post("https://mmsellvote.vercel.app/api/mongo/userVote", {
+                  .post(`${baseUrl}/api/mongo/userVote`, {
                     walletAdress,
                     perMLink,
                     transicaitonHash,
@@ -316,7 +308,7 @@ const Containeruser = () => {
       <div className="flex  ml-3 mt-6 space-x-6  mr-4">
         <BaseLayout>
           <div className="flex  ml-3 mt-6 space-x-6  mr-4">
-            {myMessage} 
+           {userAdress === " " ? (<p></p>):(<p>{myMessage} </p>)} 
              {wadres}
            
           </div>
@@ -373,7 +365,7 @@ const Containeruser = () => {
                     </thead>
                 
                       {product.map((walletAdress) => (
-                    <tbody>
+                    <tbody key={walletAdress._id}>
                       
                         <tr className="border-b" key={walletAdress._id}>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" >

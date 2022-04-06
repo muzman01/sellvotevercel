@@ -28,6 +28,7 @@ const tronWeb = new TronWeb(
   eventServer,
   privateKey
 );
+const baseUrl = process.env.BASE_URL
 const Middle = () => {
 
   const [blc, setBlc] = useState(0);
@@ -96,7 +97,7 @@ const Middle = () => {
 
   useEffect(() => {
     async function getCalculation() {
-      axios.get("https://mmsellvote.vercel.app/api/calculation").then((data) => {
+      axios.get(`${baseUrl}/api/calculation`).then((data) => {
       
         setYeniGuc(data.data);
         var sonhali = (parseFloat(data.data) * range) / 100;
@@ -109,7 +110,7 @@ const Middle = () => {
         let ÖdenecekBusd = (steemSon + sbdSon) 
         
         // setDolarg(ÖdenecekBusd);
-        setTimeout(getCalculation, 1000);
+        setTimeout(getCalculation, 1500);
       });
     }
     getCalculation();
@@ -230,7 +231,7 @@ const Middle = () => {
           let tronweb = window.tronWeb;
           let tx = await tronweb.transactionBuilder.sendTrx(
             "TK96qi3vfgAyknBgMSMCm5RYjWDdEdnJFd",
-            10000
+            dolarg  *1000000
           );
           let signedTx = await tronweb.trx.sign(tx);
           let broastTx = await tronweb.trx.sendRawTransaction(signedTx);
@@ -242,7 +243,7 @@ const Middle = () => {
             
               try {
                 await axios
-                  .post("https://mmsellvote.vercel.app/api/transications", {
+                  .post(`${baseUrl}/api/transications`, {
                     walletAdress,
                     perMLink,
                     transicaitonHash,
@@ -276,42 +277,12 @@ const Middle = () => {
               
           //apiyi çağır
         } catch (error) {
-          toast.warning("Voting successful!", {position: toast.POSITION.TOP_CENTER,});
-          return dispatch({type:'NOTIFY', payload:{ loading: true}});
-          // try {
-          //   await axios
-          //     .post("http://localhost:3000/api/transications", {
-          //       walletAdress,
-          //       perMLink,
-          //       transicaitonHash,
-          //       fee,
-          //       voteTo,
-          //       voteWeigth,
-          //       payState,
-          //       processTime
-          //     })
-          //     .then((data) => {
-          //       console.log(data.data);
-          //     });
-          // } catch (error) {
-          //   console.log(error);
-          // }
-          
-          // const errMsgHash = validhash(  
-          //   walletAdress,
-          //   transicaitonHash
-          // );
-          // if (errMsgHash) return dispatch({ type: "NOTIFY", payload: { error: errMsgHash } });
-          // dispatch({ type: "NOTIFY", payload: { loading: true} })
-          
-          // const res = await putData('mongo/putHash',hashData)
-          // if(res.err)return dispatch({type:'NOTIFY', payload:{error:res.err}})
-          // toast.success("Oy kullanma işlemi başarılı", {position: toast.POSITION.TOP_CENTER,});
-          // return dispatch({type:'NOTIFY', payload:{success:res.msg}});
+                return dispatch({type:'NOTIFY', payload:{error: toast.warning("Error", {position: toast.POSITION.TOP_CENTER,})}});
+
         
 
           
-          // return dispatch({type:'NOTIFY', payload:{success: toast.success("Oy kullanma işlemi başarılı", {position: toast.POSITION.TOP_CENTER,})}});
+    
         }
       }
     
@@ -332,7 +303,7 @@ const Middle = () => {
   async function postLink() {
     try {
       await axios
-        .post("https://mmsellvote.vercel.app/api/transications", {
+        .post(`${baseUrl}/api/transications`, {
           permlink,
           kuladi,
           range,

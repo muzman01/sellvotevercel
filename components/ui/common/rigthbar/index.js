@@ -1,6 +1,7 @@
 import React,{useEffect,useState} from 'react'
 import axios from 'axios';
 import i18n from '../../../../i18n';
+const baseUrl = process.env.BASE_URL
 const data = {
     labels: [
 
@@ -56,7 +57,7 @@ const RightBar = () => {
       }, []);
     useEffect(() => {
         async function getCalculation() {
-          axios.get("https://mmsellvote.vercel.app/api/calculation").then((data) => {
+          axios.get(`${baseUrl}/api/calculation`).then((data) => {
             
             setYeniGuc(data.data);
             setTimeout(getCalculation, 5000);

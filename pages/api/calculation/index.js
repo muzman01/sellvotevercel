@@ -9,7 +9,7 @@ let steemdlr;
 export default async function handler(req, res) {
   // check method post
   if (req.method === "GET") {
-      if (new Date().getTime()<lastCalculationTime+500){
+      if (new Date().getTime()<lastCalculationTime+1000){
           res.status(200).send(lastValue)
           return
       }

@@ -4,6 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import Image from "next/image";
 import { getData } from "@utils/fetchData";
 import axios from "axios";
+const baseUrl = process.env.BASE_URL
 export default function admin(data) {
   console.log(data.data);
   const [coins2, setCoins2] = useState([]);
@@ -256,7 +257,7 @@ let totalSp = 0;
 }
 export async function getServerSideProps() {
 
-  const res = await fetch(`https://mmsellvote.vercel.app/api/mongo/getAll`);
+  const res = await fetch(`${baseUrl}/api/mongo/getAll`);
   const events = await res.json();
   const data = events.data.hashUser
   return {
