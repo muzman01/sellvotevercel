@@ -8,7 +8,7 @@ import {RightBar} from "@components/ui/common"
 import axios from "axios";
 // import Accordion from "./Accordion";
 import Roadmap from "./Roadmap";
-
+import Qa from "./Qa";
 
 const Containerhome = () => {
     useEffect(() => {
@@ -73,7 +73,7 @@ const Containerhome = () => {
 
             <div className="flex  ml-3 mt-6 space-x-6  mr-4">
  
-             <Roadmap />
+             <Qa />
             </div>
 
             </BaseLayout>

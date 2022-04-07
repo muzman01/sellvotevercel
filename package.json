@@ -2,7 +2,6 @@
   "name": "ui1",
   "version": "0.1.0",
   "private": true,
-  
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -33,6 +32,7 @@
     "react-dom": "17.0.1",
     "react-i18next": "^11.15.3",
     "react-icons": "^4.3.1",
+    "react-simple-image-slider": "^2.4.1",
     "react-toastify": "^8.1.1",
     "request-promise": "^4.2.6",
     "steem": "^0.7.11",
