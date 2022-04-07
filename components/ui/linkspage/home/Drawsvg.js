@@ -94,7 +94,7 @@ svg.style.strokeDashoffset = length;
     if(t1) t1.kill();
   };
 }, [])
-
+//güncelleme
   return (
     <>
         <Ball ref={ballRef}/>

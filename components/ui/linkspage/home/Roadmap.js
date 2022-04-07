@@ -208,7 +208,7 @@ const Roadmap = () => {
       if (t1) t1.kill();
     };
   }, []);
-
+//güncelleme
   return (
     <Section id="roadmap">
       <Title><h1>Bot Kullanımı</h1></Title>
