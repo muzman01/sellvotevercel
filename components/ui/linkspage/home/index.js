@@ -6,7 +6,8 @@ import { BaseLayout } from "@components/ui/layout";
 import { Card } from "@components/ui/order";
 import {RightBar} from "@components/ui/common"
 import axios from "axios";
-
+// import Accordion from "./Accordion";
+import Roadmap from "./Roadmap";
 
 
 const Containerhome = () => {
@@ -17,7 +18,7 @@ const Containerhome = () => {
       const [coins, setCoins] = useState([]);
       const [coins1, setCoins1] = useState([]);
       const [coins2, setCoins2] = useState([]);
-    
+      const [activeIndex, setActiveIndex] = useState(1);
       useEffect(() => {
         axios
           .get(
@@ -67,16 +68,16 @@ const Containerhome = () => {
               
 
           </div>
-          <div className="flex  ml-3 mt-6 space-x-6  mr-4">
+          <div className="flex content-center  ml-48 mt-6 space-x-6  mr-4 ">
                     <BaseLayout>
 
             <div className="flex  ml-3 mt-6 space-x-6  mr-4">
-                Anasayfa
-            
+ 
+             <Roadmap />
             </div>
 
             </BaseLayout>
-              <RightBar />
+             
 
           </div>
       </div>

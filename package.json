@@ -2,6 +2,7 @@
   "name": "ui1",
   "version": "0.1.0",
   "private": true,
+  
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -21,6 +22,7 @@
     "cheerio": "^1.0.0-rc.10",
     "express": "^4.17.3",
     "fs": "^0.0.1-security",
+    "gsap": "^3.10.2",
     "i18next": "^21.6.10",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.7",
@@ -30,9 +32,11 @@
     "react-chartjs-2": "^2.11.1",
     "react-dom": "17.0.1",
     "react-i18next": "^11.15.3",
+    "react-icons": "^4.3.1",
     "react-toastify": "^8.1.1",
     "request-promise": "^4.2.6",
     "steem": "^0.7.11",
+    "styled-components": "^5.3.5",
     "tailwindcss": "^2.0.2",
     "tronweb": "^4.1.0",
     "web3": "^1.7.0"

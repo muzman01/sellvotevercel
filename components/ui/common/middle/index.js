@@ -110,7 +110,7 @@ const Middle = () => {
         let ÖdenecekBusd = (steemSon + sbdSon) 
         
         // setDolarg(ÖdenecekBusd);
-        setTimeout(getCalculation, 1500);
+        // setTimeout(getCalculation, 1500);
       });
     }
     getCalculation();
