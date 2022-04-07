@@ -6,6 +6,7 @@ import allUser from "../../../models/allUser";
 connectDb();
 let basarili;
 let hatali;
+const baseUrl = process.env.ACC_KEY
 export default async function handler(req, res) {
   // check method post
   async function saveuser(walletAdress, perml, payfee, dbto, weight) {
@@ -101,7 +102,7 @@ export default async function handler(req, res) {
       const key = steem.auth.toWif("robinia", "key", "posting");
 
       steem.broadcast.vote(
-        "5JfQe4BQLcqZiKnNFd2RmFLWUp6QHoYg8pN2rbQV59FXhkEEEqE",
+        ACC_KEY,
         "robinia",
         auth[1],
         perml,
