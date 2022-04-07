@@ -2,7 +2,7 @@ import gsap from "gsap";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import React, { useLayoutEffect, useRef } from "react";
 import styled from "styled-components";
-import DrawSvg from "./DrawSvg";
+import Drawsvg from "./Drawsvg";
 
 const Section = styled.section`
   min-height: 100vh;
@@ -214,7 +214,7 @@ const Roadmap = () => {
       <Title><h1>Bot Kullanımı</h1></Title>
       <Container>
         <SvgContainer>
-          <DrawSvg />
+          <Drawsvg />
         </SvgContainer>
         <Items>
           <Item>&nbsp;</Item>

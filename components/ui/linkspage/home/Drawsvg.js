@@ -60,7 +60,7 @@ useLayoutEffect(() => {
   const length = svg.getTotalLength(); 
 
   
-//   start positioning of svg drawing
+//   start positioning of svg drawing   ggg
 svg.style.strokeDasharray = length;
 
 // Hide svg before scrolling start
