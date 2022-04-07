@@ -1,6 +1,7 @@
 import React,{useEffect,useState} from 'react'
 import axios from 'axios';
 import i18n from '../../../../i18n';
+import { withTranslation } from 'react-i18next';
 const baseUrl = process.env.BASE_URL
 const data = {
     labels: [
@@ -116,4 +117,4 @@ const RightBar = () => {
     )
 }
 
-export default RightBar
+export default withTranslation()(RightBar);

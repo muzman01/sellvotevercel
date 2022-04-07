@@ -122,4 +122,5 @@ const AboutContainer = () => {
   );
 };
 
-export default AboutContainer;
+export default withTranslation()(AboutContainer);
+

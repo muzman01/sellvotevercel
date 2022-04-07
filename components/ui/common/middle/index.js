@@ -17,6 +17,7 @@ import TronWeb from "tronweb"
 import valid from "../../../../utils/valid";
 import validhash from "@utils/validhash";
 import i18n from "../../../../i18n";
+import { withTranslation } from 'react-i18next';
 const HttpProvider = TronWeb.providers.HttpProvider;
 const fullNode = new HttpProvider("https://nile.trongrid.io/");
 const solidityNode = new HttpProvider("https://nile.trongrid.io/");
@@ -522,4 +523,5 @@ const Middle = () => {
   );
 };
 
-export default Middle;
+
+export default withTranslation()(Middle);

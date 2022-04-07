@@ -19,6 +19,7 @@ const tronWeb = new TronWeb(
   eventServer,
   privateKey
 );
+import { withTranslation } from 'react-i18next';
 import i18n from '../../../../i18n';
 const Header = ({ address }) => {
   const onChangeLanguage =  language =>{
@@ -127,4 +128,4 @@ export async function getStaticProps() {
   };
 }
 
-export default Header;
+export default withTranslation()(Header);
