@@ -54,9 +54,9 @@ const register = async (req, res) => {
       processTime
     );
     if (errMsg) return res.status(400).json({ err: errMsg });
-    const user = await Users.findOne({transicaitonHash})
+    // const user = await Users.findOne({perMLink})
     
-    // if(user != "hashhash") return res.status(400).json({err: 'Bu adress kullanımda.'})
+    // if(user === perMLink) return res.status(400).json({err: 'Bu adress kullanımda.'})
     const newUser = new Users({
       walletAdress,
       perMLink,
@@ -70,6 +70,17 @@ const register = async (req, res) => {
     await newUser.save()
     res.json({ msg: "kayıt başarılı" });
   } catch (err) {
+    const wll = req.body.walletAdress;
+    Users.findOneAndDelete(
+      { walletAdress: wll },
+      function (err, docs) {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("Deleted User : ", docs);
+        }
+      }
+    );
       return res.status(500).json({err:err.message})
   }
 };

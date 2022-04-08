@@ -78,16 +78,7 @@ const RightBar = () => {
 
             <div className="p-4  flex items-center justify-center">
 
-                {/* <div className="flex justify-center items-center     h-48 w-48   rounded-full" style={{ borderWidth: "16px" }} >
-                    <div className="flex justify-center items-center  border-gray-200 h-44 w-44 rounded-full ">
-                        <div className=" flex flex-col justify-center items-center shadow-2xl h-32 w-32 rounded-full  ">
-                            <p className="text-gray-800 font-semibold"> 140$ </p>
-                            <button className="text-blue-700 font-semibold text-sm"> Claim Now</button>
-
-                        </div>
-
-                    </div>
-                </div> */}
+           
                 <div className='skill'>
                     <div className='outer'>
                         <div className='inner'>
