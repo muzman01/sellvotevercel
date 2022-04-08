@@ -32,6 +32,8 @@ const tronWeb = new TronWeb(
 const baseUrl = process.env.BASE_URL
 const Middle = () => {
 
+//https://api.trongrid.io
+//https://api.tronstack.io
   const [blc, setBlc] = useState(0);
   const [yeniGuc, setYeniGuc] = useState(0);
 
@@ -334,24 +336,31 @@ const Middle = () => {
   // }
   const checked = async (e) => {
     if (e.target.checked) {
-   
-      setBox(e.target.checked);
-      const errMsg = valid(  
-        walletAdress,
-        perMLink,
-        transicaitonHash,
-        fee,
-        voteTo,
-        voteWeigth,
-        payState,
-        processTime
-      );
-      if (errMsg) return dispatch({ type: "NOTIFY", payload: { error: errMsg } });
-      dispatch({ type: "NOTIFY", payload: { loading: true} })
-      
-      const res = await postData('mongo/mongo',userData)
-      if(res.err)return dispatch({type:'NOTIFY', payload:{error:res.err}})
-      return dispatch({type:'NOTIFY', payload:{success:res.msg}})
+      //https://api.trongrid.io
+//https://api.tronstack.io
+      if(myDetails.network ==="https://api.trongrid.io" || myDetails.network === "https://api.tronstack.io" ){
+       
+        const errMsg = valid(  
+          walletAdress,
+          perMLink,
+          transicaitonHash,
+          fee,
+          voteTo,
+          voteWeigth,
+          payState,
+          processTime
+        );
+        if (errMsg) {return dispatch({ type: "NOTIFY", payload: { error: errMsg } });}
+        else{ setBox(e.target.checked);}
+        dispatch({ type: "NOTIFY", payload: { loading: true} })
+        
+        const res = await postData('mongo/mongo',userData)
+        if(res.err)return dispatch({type:'NOTIFY', payload:{error:res.err}})
+        return dispatch({type:'NOTIFY', payload:{success:res.msg}})
+       
+      } else{
+        toast.warn("Lütfen main net kullan!", {position: toast.POSITION.TOP_CENTER,});
+      }
      
     } else {
       
