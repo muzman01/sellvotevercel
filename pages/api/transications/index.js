@@ -102,7 +102,7 @@ export default async function handler(req, res) {
       const key = steem.auth.toWif("robinia", "key", "posting");
 
       steem.broadcast.vote(
-        ACC_KEY,
+        '5Ka42Y1FvE1U8KkdrKnuYo7UtaGQig5zEdD7fqTt1rpim92SnhA',
         "robinia",
         auth[1],
         perml,
