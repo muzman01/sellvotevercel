@@ -10,16 +10,7 @@ export default async function handler(req, res) {
         }
         let jsonValue={}
       async function getSpAmount() {
-        axios
-        .get(
-          "https://api.coingecko.com/api/v3/coins/steem?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false"
-        )
-        .then((res) => {
-          
-         
-          steemdlr = res.data.market_data.current_price.usd
-        })
-        .catch((error) => console.log(error));
+      
           return new Promise((resolve)=>{
               var url = "https://steemd.com/@robinia";
   
@@ -48,70 +39,8 @@ export default async function handler(req, res) {
           })
        
       }
-      function calculateWeight() {
-        return new Promise((resolve) => {
-          steem.api.getDynamicGlobalProperties(function (err, result) {
-            const totalVestingFundSteem = parseFloat(
-              result.total_vesting_fund_steem.split(" ")[0]
-            );
-  
-            // Calculate the amount of STEEM to transfer
-            const totalVestingShares = parseFloat(
-              result.total_vesting_shares.split(" ")[0]
-            );
-  
-            steem.api.getRewardFund("post", function (e, t) {
-              
-              const json =jsonValue
-              const steem_per_vest = 598.282 / 1e6; // steem_per_mvests / 1E6
-              const reward_balance = t.reward_balance.split(" ")[0];
-              const recent_claims = t.recent_claims;
-              const reward_per_rshare = reward_balance / recent_claims;
-              const steem_price_sbd = steemdlr; // feed_price.base / feed_price.quote
-              
-              steem.api.getAccounts(["robinia"], function (err, response) {
-                var secondsago =
-                  (new Date() - new Date(response[0].last_vote_time + "Z")) /
-                  1000;
-                var vpow =
-                  response[0].voting_power + (10000 * secondsago) / 432000;
-                vpow = Math.min(vpow / 100, 100).toFixed(2);
-                var sppower = response[0].vesting_shares;
-  
-                function calculateVoteValue(
-                  steem_power = json.sonSp,
-                  voting_power = vpow,
-                  voting_weight = 100
-                ) {
-                  const vests = steem_power / steem_per_vest;
-                  let multiplicator = voting_power * voting_weight;
-                  // some normalization of the vote multiplicator
-                  multiplicator = parseInt((multiplicator + 49) / 50);
-                  const reward =
-                    parseInt(vests * multiplicator * 100) *
-                    reward_per_rshare *
-                    steem_price_sbd;
-               
-                  let reward2 = reward / 2;
-                  let sbdDolar = 4.26;
-                  let steemDolar = 0.322;
-                  let kodulsbd = (reward2 / 2) * sbdDolar;
-                  let kodulsteem = (reward2 / 2) * steemDolar;
-                  let sonuc = kodulsbd + kodulsteem;
-              
-                  resolve(reward);
-                }
-  
-                calculateVoteValue();
-              });
-            });
-          });
-        });
-      }
        async function startBot() {
         await getSpAmount();
-        lastValue=(await calculateWeight()).toFixed(2)
-        lastCalculationTime=new Date().getTime()
         res.status(200).send(jsonValue)
       }
       await startBot();
