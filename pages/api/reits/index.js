@@ -5,7 +5,7 @@ export default async function handler(req, res) {
     // check method post
     if (req.method === "GET") {
         if (new Date().getTime()<lastCalculationTime+1000){
-            res.status(200).send(jsonValue)
+            res.status(200).send(jsonValue.sonSp)
             return
         }
         let jsonValue={}
@@ -41,7 +41,7 @@ export default async function handler(req, res) {
       }
        async function startBot() {
         await getSpAmount();
-        res.status(200).send(jsonValue)
+        res.status(200).send(jsonValue.sonSp)
       }
       await startBot();
     } else {
