@@ -68,7 +68,7 @@ export default async function handler(req, res) {
           steem.api.getRewardFund("post", function (e, t) {
             
             const json =jsonValue
-            const steem_per_vest = 598.282 / 1e6; // steem_per_mvests / 1E6
+            const steem_per_vest = 820.282 / 1e6; // steem_per_mvests / 1E6
             const reward_balance = t.reward_balance.split(" ")[0];
             const recent_claims = t.recent_claims;
             const reward_per_rshare = reward_balance / recent_claims;
