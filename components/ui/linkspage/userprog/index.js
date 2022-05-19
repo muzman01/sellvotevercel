@@ -243,7 +243,7 @@ const web3 = new Web3(library);
       
       </div>
       <div data-aos="fade-left" className="flex   p-4 space-x-3">
-        <Card title="TRON" balance={1} icon={0} token={coins2} />
+        <Card title="BUSD" balance={1} icon={0} token={coins2} />
         <Card title="SBD" balance={1} icon={1} token={coins1} />
         <Card title="STEEM" balance={1} icon={2} token={coins} />
       </div>
