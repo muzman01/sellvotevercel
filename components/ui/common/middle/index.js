@@ -11,32 +11,22 @@ import axios from "axios";
 import { DataCentext } from "../../../../store/Globalstate";
 import { tokens } from "../../../../public/token";
 import { injected } from "@components/connector";
-import { postData,putData,deleteData } from "@utils/fetchData";
+import { postData, putData, deleteData } from "@utils/fetchData";
 import abi from "../../../../public/abi.json";
-import TronWeb from "tronweb"
+import TronWeb from "tronweb";
 import valid from "../../../../utils/valid";
 import validhash from "@utils/validhash";
 import i18n from "../../../../i18n";
-import { withTranslation } from 'react-i18next';
-const HttpProvider = TronWeb.providers.HttpProvider;
-const fullNode = new HttpProvider("https://nile.trongrid.io/");
-const solidityNode = new HttpProvider("https://nile.trongrid.io/");
-const eventServer = new HttpProvider("https://nile.trongrid.io/");
-const privateKey = "df7667823943deb71d14cefaa9ad5e591f831cc0b67f67b15756ff95cf47a96a";
-const tronWeb = new TronWeb(
-  fullNode,
-  solidityNode,
-  eventServer,
-  privateKey
-);
-const baseUrl = process.env.BASE_URL
+import { withTranslation } from "react-i18next";
+import { useRouter } from 'next/router'
+const baseUrl = process.env.BASE_URL;
 const Middle = () => {
-
-//https://api.trongrid.io
-//https://api.tronstack.io
+  //https://api.trongrid.io
+  //https://api.tronstack.io
+  const router = useRouter()
   const [blc, setBlc] = useState(0);
   const [yeniGuc, setYeniGuc] = useState(0);
-
+  const [bscActive, setBscActive] = useState(false);
   const [coins, setCoins] = useState([]);
   const [coins1, setCoins1] = useState([]);
   const [coins2, setCoins2] = useState([]);
@@ -45,29 +35,20 @@ const Middle = () => {
   const [box, setBox] = useState();
   const [permlink, setPermlink] = useState("");
   const [kuladi, setKuladi] = useState("");
-  const {state, dispatch} = useContext(DataCentext);
-  const[transHash,setTransHash] = useState("hashhash");
+  const { state, dispatch } = useContext(DataCentext);
+  const [transHash, setTransHash] = useState("hashhash");
   const [myDetails, setMyDetails] = useState({
-    name: 'none',
-    address: 'none',
+    name: "none",
+    address: "none",
     balance: 0,
     frozenBalance: 0,
-    network: 'none',
-    link: 'false',
+    network: "none",
+    link: "false",
   });
-  const [cactive, setCactive] = useState("");
-
-  const getBalancee = async () => {
-    //if wallet installed and logged , getting TRX token balance
-    if (window.tronWeb && window.tronWeb.ready) {
-      let walletBalances = await window.tronWeb.trx.getAccount(
-        window.tronWeb.defaultAddress.base58
-      );
-      return walletBalances;
-    } else {
-      return 0;
-    }
-  };
+  const [cactive, setCactive] = useState(false);
+  const { active, account, library, connector, chainId, activate, deactivate } =
+    useWeb3React();
+  const web3 = new Web3(library);
 
   useEffect(() => {
     axios
@@ -90,7 +71,7 @@ const Middle = () => {
 
     axios
       .get(
-        'https://api.coingecko.com/api/v3/coins/tron?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false'
+        "https://api.coingecko.com/api/v3/coins/binance-usd?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false"
       )
       .then((res) => {
         setCoins2(res.data.market_data.current_price.usd);
@@ -101,7 +82,6 @@ const Middle = () => {
   useEffect(() => {
     async function getCalculation() {
       axios.get(`${baseUrl}/api/calculation`).then((data) => {
-      
         setYeniGuc(data.data);
         var sonhali = (parseFloat(data.data) * range) / 100;
         let steemİlk = sonhali / 2;
@@ -109,188 +89,201 @@ const Middle = () => {
         let steemSon = steemİlk * coins;
         let sbdSon = sbdİlk * coins1;
 
+        let ÖdenecekBusd = steemSon + sbdSon;
 
-        let ÖdenecekBusd = (steemSon + sbdSon) 
-        
-        // setDolarg(ÖdenecekBusd);
-        // setTimeout(getCalculation, 1500);
+        setDolarg(ÖdenecekBusd);
       });
     }
     getCalculation();
   }, [coins, coins1, coins2]);
 
-  const { active, account, library, connector, chainId, activate, deactivate } =
-    useWeb3React();
-  const web3 = new Web3(library);
-  
-  const userData ={
-    walletAdress:myDetails.address,
-    perMLink:permlink,
-    transicaitonHash:transHash,
-    fee:dolarg,
-    voteTo:kuladi,
-    voteWeigth:range,
-    payState: false,
-    processTime:new Date(),
-  }
-  const hashData ={
-    walletAdress:myDetails.address,
-
-    transicaitonHash:transHash,
-
-  }
-  const deleteData ={
-    walletAdress:myDetails.address,
-
-    transicaitonHash:transHash,
-
-  }
-  const walletAdress = myDetails.address
-  const perMLink=  permlink
-  const transicaitonHash = transHash
-  const fee = dolarg
-  const voteTo = kuladi
-  const voteWeigth = range
-  const payState = false
-  const processTime = new Date()
-  async function connect() {
-   
-        if (window.tronWeb) {
-          //checking if wallet injected
-          if (window.tronWeb.ready) {
-            let tronweb = window.tronWeb;
-            let tempBalance = await getBalancee();
-            let tempFrozenBalance = 0;
-    
-            if (!tempBalance.balance) {
-              tempBalance.balance = 0;
-            }
-            const tadres = tempBalance.__payload__.address;
-            let signedTx = tronweb.trx.sign(tadres);
-            signedTx.then(function(result) {
-              if(result){
-                toast.success("Login successful!", {
-                  position: toast.POSITION.TOP_CENTER,
-                });
-                setCactive(result) // "Some User token"
-              }
-              
-           })
-          
-            setMyDetails({
-              name: window.tronWeb.defaultAddress.name,
-              address: window.tronWeb.defaultAddress.base58,
-              balance: tempBalance.balance / 1000000,
-              frozenBalance: tempFrozenBalance / 1000000,
-              network: window.tronWeb.fullNode.host,
-              link: 'true',
-            });
-          } else {
-            //we have wallet but not logged in
-            
-            toast.warn("Can not connected to Tronlink!", {
-              position: toast.POSITION.TOP_CENTER,
-            });
-            
-          }
-        } else {
-          //wallet is not detected at all
-          toast.warn("Please add the tronlink!", {
-            position: toast.POSITION.TOP_CENTER,
-          });
+  useEffect(() => {
+    const connectWalletOnPageLoad = async () => {
+      if (localStorage?.getItem("isWalletConnected") === "true") {
+        try {
+          await activate(injected);
+          localStorage.setItem("isWalletConnected", true);
+          setBscActive(true);
+        } catch (ex) {
+          console.log(ex);
         }
+      }
+    };
+    connectWalletOnPageLoad();
+  }, []);
+  const userData = {
+    walletAdress: account,
+    perMLink: permlink,
+    transicaitonHash: transHash,
+    fee: dolarg,
+    voteTo: kuladi,
+    voteWeigth: range,
+    payState: false,
+    processTime: new Date(),
+  };
 
-  }
+  const hashData = {
+    walletAdress: account,
 
+    transicaitonHash: transHash,
+  };
+  const deleteData = {
+    walletAdress: account,
 
-  async function stateDegis(props){
-    if(props != transHash){
-      setTransHash(props)
-      
-    }else{
-      
+    transicaitonHash: transHash,
+  };
+  const walletAdress = account;
+  const perMLink = permlink;
+  const transicaitonHash = transHash;
+  const fee = dolarg;
+  const voteTo = kuladi;
+  const voteWeigth = range;
+  const payState = false;
+  const processTime = new Date();
+  async function connect() {
+    try {
+      await activate(injected);
+      localStorage.setItem("isWalletConnected", true);
+      localStorage.setItem("walletAdress", `${account}`);
+    } catch (ex) {
+      console.log(ex);
     }
-    
   }
- 
+
+  async function stateDegis(props) {
+    if (props != transHash) {
+      setTransHash(props);
+    } else {
+    }
+  }
+  function reload() {
+    router.reload();
+  }
+
+
   async function paidBusd() {
-  
-    if (myDetails.balance < dolarg) {
-     return toast.error("Insufficient funds!", {
+    const tokenAddress = "0xed24fc36d5ee211ea25a80239fb8c4cfd80f12ee";
+    const contract = await new web3.eth.Contract(abi, tokenAddress);
+    const tokenBalance = await contract.methods.balanceOf(account).call();
+    console.log(`BUSD balance: ${tokenBalance / 10 ** 18}`);
+    console.log(fee);
+    if (fee > Number(tokenBalance)) {
+      return toast.error("Insufficient funds!", {
         position: toast.POSITION.TOP_CENTER,
       });
-    } 
-    if(myDetails.balance > dolarg) {
+    }
+    if (fee < Number(tokenBalance)) {
       toast.success("Processing, please wait!", {
         position: toast.POSITION.TOP_CENTER,
       });
     }
-    
-      if (myDetails.balance > 0) {
-       
-      
-        dispatch({ type: "NOTIFY", payload: { loading: true} })
-        try {
-          let tronweb = window.tronWeb;
-          let tx = await tronweb.transactionBuilder.sendTrx(
-            "TK96qi3vfgAyknBgMSMCm5RYjWDdEdnJFd",
-            dolarg  *1000000
-          );
-          let signedTx = await tronweb.trx.sign(tx);
-          let broastTx = await tronweb.trx.sendRawTransaction(signedTx);
 
-    
-            
-          
-           
-            
-              try {
-                await axios
-                  .post(`${baseUrl}/api/transications`, {
-                    walletAdress,
-                    perMLink,
-                    transicaitonHash,
-                    fee,
-                    voteTo,
-                    voteWeigth,
-                    payState,
-                    processTime
-                  })
-                  .then((data) => {
-                   
+    if (fee > 0) {
+      dispatch({ type: "NOTIFY", payload: { loading: true } });
+      const tokenAddress = "0xed24fc36d5ee211ea25a80239fb8c4cfd80f12ee";
+      const contract = await new web3.eth.Contract(abi, tokenAddress);
+      const tokenBalance = await contract.methods.balanceOf(account).call();
+      console.log(`BUSD balance: ${tokenBalance / 10 ** 18}`);
+      const tokenCount = tokenBalance / 10 ** 18;
+      if (chainId === 97 && tokenCount > 0) {
+        const gasPrice = await web3.eth.getGasPrice();
+        const tokenTransferResult = await contract.methods
+          .transfer(
+            "0xBd87Afe44d68907285C32e7E82A132346c8Cb6DC",
+            web3.utils.toWei(`${fee}`, "ether")
+          )
+          .send(
+            {
+              from: account,
+              gasPrice,
+            },
+            async function (error, transactionHash) {
+              if (transactionHash) {
+                try {
+                  try {
+                    await axios
+                      .post(`${baseUrl}/api/transications`, {
+                        walletAdress,
+                        perMLink,
+                        transicaitonHash,
+                        fee,
+                        voteTo,
+                        voteWeigth,
+                        payState,
+                        processTime,
+                      })
+                      .then((data) => {
+                        data;
+                      });
+                  } catch (error) {
+                    console.log(error);
+                  }
+
+                  const errMsgHash = validhash(walletAdress, transicaitonHash);
+                  if (errMsgHash)
+                    return dispatch({
+                      type: "NOTIFY",
+                      payload: { error: errMsgHash },
+                    });
+                  dispatch({ type: "NOTIFY", payload: { loading: true } });
+
+                  toast.success("Voting successful!", {
+                    position: toast.POSITION.TOP_CENTER,
                   });
-              } catch (error) {
-                
-              }
-              
-              const errMsgHash = validhash(  
-                walletAdress,
-                transicaitonHash
-              );
-              if (errMsgHash) return dispatch({ type: "NOTIFY", payload: { error: errMsgHash } });
-              dispatch({ type: "NOTIFY", payload: { loading: true} })
-              
-              const res = await putData('mongo/putHash',hashData)
-              if(res.err)return dispatch({type:'NOTIFY', payload:{error:res.err}})
-              toast.success("Voting successful!", {position: toast.POSITION.TOP_CENTER,});
-              return dispatch({type:'NOTIFY', payload:{success:res.msg}});
-            
+                  return dispatch({
+                    type: "NOTIFY",
+                    payload: { success: "success" },
+                  });
+
+                  //apiyi çağır
+                } catch (error) {
+                  console.log(error);
+                  return dispatch({
+                    type: "NOTIFY",
+                    payload: {
+                      error: toast.warning("Error", {
+                        position: toast.POSITION.TOP_CENTER,
+                      }),
+                    },
+                  });
+                }
+              } else {
+                dispatch({
+                  type: "NOTIFY",
+                  payload: {
+                    error: toast.warning("Transaction canceled", {
+                      position: toast.POSITION.TOP_CENTER,
+                    }),
+                  },
+                });
+               
+             
+                try {
+                  await axios
+                    .post(`${baseUrl}/api/mongo/deleteHash`, {
+                      walletAdress,
+                    })
+                    .then((data) => {
+                      if(data.data){
+                        console.log("burda",walletAdress);
+                        reload()
+                      }
+                      
+                    });
+                } catch (error) {
+                  console.log(error);
+                }
   
-              
-              
-          //apiyi çağır
-        } catch (error) {
-                return dispatch({type:'NOTIFY', payload:{error: toast.warning("Error", {position: toast.POSITION.TOP_CENTER,})}});
 
-        
+     
+              }
+            }
+          );
 
-          
-    
-        }
+        console.log(tokenTransferResult.transactionHash);
       }
-    
+    }
   }
-
 
   const hesaplama = (values) => {
     setRange(values.target.value);
@@ -306,69 +299,49 @@ const Middle = () => {
   async function postLink() {
     try {
       await axios
-        .post(`${baseUrl}/api/transications`, {
-          permlink,
-          kuladi,
-          range,
+        .post(`${baseUrl}/api/mongo/deleteHash`, {
+          walletAdress,
         })
         .then((data) => {
-         
+          console.log(data.data);
         });
     } catch (error) {
-      
+      console.log(error);
     }
   }
 
-  
-  // function dbKayit() {
-  //   const errMsg = valid(
-  //     walletAdress,
-  //     perMLink,
-  //     transicaitonHash,
-  //     fee,
-  //     voteTo,
-  //     voteWeigth,
-  //     payState,
-  //     processTime
-  //   );
-  //   if (errMsg) return dispatch({ type: "NOTIFY", payload: { error: errMsg } });
-  //   dispatch({ type: "NOTIFY", payload: { success: "gönderme tamam" } });
-  // }
   const checked = async (e) => {
     if (e.target.checked) {
+      setCactive(true);
       //https://api.trongrid.io
-//https://api.tronstack.io
-      if(myDetails.network ==="https://api.trongrid.io" || myDetails.network === "https://api.tronstack.io" ){
-       
-        const errMsg = valid(  
-          walletAdress,
-          perMLink,
-          transicaitonHash,
-          fee,
-          voteTo,
-          voteWeigth,
-          payState,
-          processTime
-        );
-        if (errMsg) {return dispatch({ type: "NOTIFY", payload: { error: errMsg } });}
-        else{ setBox(e.target.checked);}
-        dispatch({ type: "NOTIFY", payload: { loading: true} })
-        
-        const res = await postData('mongo/mongo',userData)
-        if(res.err)return dispatch({type:'NOTIFY', payload:{error:res.err}})
-        return dispatch({type:'NOTIFY', payload:{success:res.msg}})
-       
-      } else{
-        toast.warn("Lütfen main net kullan!", {position: toast.POSITION.TOP_CENTER,});
+      //https://api.tronstack.io
+
+      const errMsg = valid(
+        walletAdress,
+        perMLink,
+        transicaitonHash,
+        fee,
+        voteTo,
+        voteWeigth,
+        payState,
+        processTime
+      );
+      if (errMsg) {
+        return dispatch({ type: "NOTIFY", payload: { error: errMsg } });
+      } else {
+        setBox(e.target.checked);
       }
-     
+      dispatch({ type: "NOTIFY", payload: { loading: true } });
+
+      const res = await postData("mongo/mongo", userData);
+      if (res.err)
+        return dispatch({ type: "NOTIFY", payload: { error: res.err } });
+      return dispatch({ type: "NOTIFY", payload: { success: res.msg } });
     } else {
-      
       setBox(e.target.checked);
     }
   };
   const inputValue = (e) => {
-    
     let url = e.target.value;
     const array = url.split("/");
     setPermlink(array[5]);
@@ -378,12 +351,12 @@ const Middle = () => {
   return (
     <div data-aos="flip-down">
       <div className="backgorund">
-        <h2 className="h2">{i18n.t('Upvote Post')}</h2>
+        <h2 className="h2">{i18n.t("Upvote Post")}</h2>
         <div className="pb-12">
-          <div class="block p-6 rounded-lg shadow-lg bg-white max-w-sm pt-5">
+          <div className="block p-6 rounded-lg shadow-lg bg-white max-w-sm pt-5">
             <form className="w-80">
-              <div class="form-group mb-6">
-                <span>{i18n.t('Current voting power')}</span>
+              <div className="form-group mb-6">
+                <span>{i18n.t("Current voting power")}</span>
                 <input
                   type="text"
                   className="form-control block
@@ -420,11 +393,12 @@ const Middle = () => {
     "
                   id="customRange1"
                   onChangeCapture={hesaplama}
+                  disabled={cactive}
                 />
               </div>
 
               <div className="form-group mb-6">
-                <span>{i18n.t('Amount of TRX to pay')}</span>
+                <span>{i18n.t("Amount of BUSD to pay")}</span>
 
                 <input
                   type="email"
@@ -443,14 +417,14 @@ const Middle = () => {
         m-0
         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   id="exampleInput91"
-                  placeholder={`${dolarg.toFixed(2)} TRX`}
+                  placeholder={`${dolarg.toFixed(2)} BUSD`}
                   disabled
                 />
               </div>
               <div className="form-group mb-6">
-                {cactive.length > 60 ? (
+                {active ? (
                   <>
-                    <span>{i18n.t('Post Link')}</span>
+                    <span>{i18n.t("Post Link")}</span>
                     <input
                       type="text"
                       className="form-control block
@@ -472,21 +446,27 @@ const Middle = () => {
                       onChange={inputValue}
                     />
                     <span>
-                      trx {dolarg.toFixed(2)} {i18n.t('Please confirm to get  votes')}{" "}
+                      BUSD {dolarg.toFixed(2)}{" "}
+                      {i18n.t("Please confirm to get  votes")}{" "}
                       <input
                         className="h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-2 align-top bg-no-repeat bg-center bg-contain float-right mr-2 cursor-pointer"
                         name="isGoing"
                         type="checkbox"
                         onChange={checked}
+                        disabled={cactive}
                       />
                     </span>
                   </>
                 ) : (
-                  <p>{i18n.t('You cant make transaction without connecting to your wallet!')}</p>
+                  <p>
+                    {i18n.t(
+                      "You cant make transaction without connecting to your wallet!"
+                    )}
+                  </p>
                 )}
               </div>
             </form>
-            {cactive.length > 60 ? (
+            {active ? (
               <button
                 type="submit"
                 className={
@@ -497,7 +477,7 @@ const Middle = () => {
                 onClick={paidBusd}
                 disabled={!box}
               >
-                {i18n.t('Pay')}{" "}
+                {i18n.t("Pay")}{" "}
               </button>
             ) : (
               <button
@@ -522,7 +502,7 @@ const Middle = () => {
     ease-in-out"
                 onClick={connect}
               >
-                {i18n.t('Connect wallet')}
+                {i18n.t("Connect wallet")}
               </button>
             )}
           </div>
@@ -531,6 +511,5 @@ const Middle = () => {
     </div>
   );
 };
-
 
 export default withTranslation()(Middle);

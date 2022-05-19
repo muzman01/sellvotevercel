@@ -61,11 +61,11 @@ const RightBar = () => {
           axios.get(`${baseUrl}/api/calculation`).then((data) => {
             
             setYeniGuc(data.data);
-            setTimeout(getCalculation, 5000);
+        
           });
         }
         getCalculation();
-      }, [coins, coins1, coins2]);
+      }, []);
     return (
         <div className="bg-white  w-2/6 rounded-xl border border-gray-100">
             <div className="border-b p-3 border-gray-100">

@@ -40,7 +40,7 @@ const AboutContainer = () => {
   useEffect(() => {
     axios
       .get(
-        'https://api.coingecko.com/api/v3/coins/tron?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false'
+        'https://api.coingecko.com/api/v3/coins/binance-usd?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false'
       )
       .then((res) => {
         setCoins2(res.data.market_data.current_price.usd);

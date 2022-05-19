@@ -50,16 +50,10 @@ const Containeruser = () => {
     },
   ]);
 
-  const walletAdress = userAdress
-  const perMLink=  product.perMLink
-  const transicaitonHash = product.transicaitonHash
-  const fee = product.fee
-  const voteTo = product.voteTo
-  const voteWeigth = product.voteWeigth
-  const payState = true
-  const processTime = product.processTime
-  const voteState =  true
-  const id = product._id
+
+  const { active, account, library, connector, chainId, activate, deactivate } =
+  useWeb3React();
+const web3 = new Web3(library);
   useEffect(() => {
     axios
       .get(
@@ -86,7 +80,7 @@ const Containeruser = () => {
   useEffect(() => {
     axios
       .get(
-        "https://api.coingecko.com/api/v3/coins/tron?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false"
+        "https://api.coingecko.com/api/v3/coins/binance-usd?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false"
       )
       .then((res) => {
         setCoins2(res.data.market_data.current_price.usd);
@@ -194,13 +188,26 @@ const Containeruser = () => {
       );
     }
   };
-
+  useEffect(() => {
+    const connectWalletOnPageLoad = async () => {
+      if (localStorage?.getItem("isWalletConnected") === "true") {
+        try {
+          await activate(injected);
+          localStorage.setItem("isWalletConnected", true);
+          
+        } catch (ex) {
+          console.log(ex);
+        }
+      }
+    };
+    connectWalletOnPageLoad();
+  }, []);
   useEffect(() => {
     const interval = setInterval(async () => {
-      getWalletDetails();
+      setWadres(account)
       axios
       .post(`${baseUrl}/api/mongo/getuser`, {
-        wadres,
+        account,
       })
       .then((res) => {
      
@@ -214,6 +221,7 @@ const Containeruser = () => {
     };
   });
   async function denemuser() {
+    console.log(wadres);
     axios
       .get(`${baseUrl}/api/mongo/getuser?wadres=${wadres}`)
       .then((res) => {
@@ -224,63 +232,7 @@ const Containeruser = () => {
       })
       .catch((error) => console.log(error));
   }
-  async function getUserprops() {}
-  async function paidBusd() {
-  
-    
-      
-       
-     
-        dispatch({ type: "NOTIFY", payload: { loading: true} })
-        try {
-          // let tronweb = window.tronWeb;
-          // let tx = await tronweb.transactionBuilder.sendTrx(
-          //   "TK96qi3vfgAyknBgMSMCm5RYjWDdEdnJFd",
-          //   10000
-          // );
-          // let signedTx = await tronweb.trx.sign(tx);
-          // let broastTx = await tronweb.trx.sendRawTransaction(signedTx);
-          // console.log(broastTx);
-    
-            
-          
-           
-             
-              try {
-                await axios
-                  .post(`${baseUrl}/api/mongo/userVote`, {
-                    walletAdress,
-                    perMLink,
-                    transicaitonHash,
-                    fee,
-                    voteTo,
-                    voteWeigth,
-                    payState,
-                    processTime,
-                    voteState,
-                    id
-                  })
-                  .then((data) => {
-                   
-                  });
-              } catch (error) {
-                console.log(error);
-              }
-              
-              toast.success("Oy kullanma işlemi başarılı", {position: toast.POSITION.TOP_CENTER,});
-             
-            
-  
-              
-              
-          //apiyi çağır
-        } catch (error) {
-          console.log(error ,"error");
-         
-        }
-      
-    
-  }
+
   return (
     <div
       data-aos="fade-right"

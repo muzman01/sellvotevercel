@@ -18,11 +18,11 @@ export default async (req, res) => {
 
 const createCategory = async (req, res) => {
        
-        adress = req.body.wadres;
+        adress = req.body.account;
         res.status(200).json({
           status:"naber",
           data:{
-            wadres:req.body.wadres
+            wadres:req.body.account
           }
       })
      console.log(adress,"gelena dres");

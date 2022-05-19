@@ -23,10 +23,10 @@ const Sidebar = () => {
       style={{ height: "100%" }}
     >
       <div className=" border-b py-3 mt-1 flex justify-around ">
-      <div class="mb-6 md:mb-0">
-            <a href="/" class="flex items-center">
-                <img src="/assets/bfmain.png" class="mr-3 h-8" alt="BlokField" />
-                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">BlokField</span>
+      <div className="mb-6 md:mb-0">
+            <a href="/" className="flex">
+                <img src="/assets/bfmain.png" className="mr-3 h-8" alt="BlokField" />
+                <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">BlokField</span>
             </a>
         </div>
         <p>|</p>

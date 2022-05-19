@@ -7,7 +7,7 @@ import "aos/dist/aos.css";
 import { Web3ReactProvider } from "@web3-react/core";
 import Web3 from "web3";
 import { DataProvider } from "../store/Globalstate";
-
+import { BrowserRouter } from 'react-router-dom';
 function getLibrary(provider) {
   return new Web3(provider);
 }

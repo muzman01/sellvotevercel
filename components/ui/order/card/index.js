@@ -9,7 +9,7 @@ import axios from "axios";
 import Image from 'next/image'
 const Style = "text-white text-xs"
 
-const arrayIcon = [<Image src="/assets/icons8-tron-64.png" width={25} height={25} />, <Image src="/assets/steem.png" width={25} height={25} />,  <Image src="/assets/steem.png" width={25} height={25} />, <LockIcon fontSize="small" className={Style} />]
+const arrayIcon = [<Image src="/assets/busd.png" width={25} height={25} />, <Image src="/assets/steem.png" width={25} height={25} />,  <Image src="/assets/steem.png" width={25} height={25} />, <LockIcon fontSize="small" className={Style} />]
 const Color = ["from-indigo-500 to-blue-500", "from-blue-400 to-blue-300", "from-green-500 to-green-400", "from-yellow-600 to-yellow-500"]
 
 
