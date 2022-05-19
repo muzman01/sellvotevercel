@@ -279,7 +279,7 @@ const web3 = new Web3(library);
                           scope="col"
                           className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
-                           {i18n.t('TRX')}
+                           {i18n.t('BUSD')}
                         </th>
                         <th
                           scope="col"

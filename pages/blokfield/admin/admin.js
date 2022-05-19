@@ -5,6 +5,7 @@ import Image from "next/image";
 import { getData } from "@utils/fetchData";
 import axios from "axios";
 const baseUrl = process.env.BASE_URL
+import Cookies from "js-cookie";
 export default function admin(data) {
   console.log(data.data);
   const [coins2, setCoins2] = useState([]);
@@ -13,13 +14,24 @@ export default function admin(data) {
   const add = process.env.ADMİN;
   const adds = process.env.ADMİNKEY;
   const [lactive, setLactive] = useState(false);
+  useEffect(()=>{
+    if(localStorage.getItem('email') === add || localStorage.getItem('password') === adds){
+      setLactive(true)
+    }
+  },[])
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
     let email = e.target.elements.email?.value;
     let password = e.target.elements.password?.value;
-
+    let data ={
+      email:email,
+      password:password
+    }
+   
     if (add === email || adds === password) {
+      localStorage.setItem('email', `${email}`);
+      localStorage.setItem("password", `${password}`);
       toast.success("Giriş başarılı", { position: toast.POSITION.TOP_CENTER });
       setLactive(true);
     } else {
@@ -28,10 +40,11 @@ export default function admin(data) {
       });
     }
   };
+
   useEffect(() => {
     axios
       .get(
-        'https://api.coingecko.com/api/v3/coins/tron?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false'
+        'https://api.coingecko.com/api/v3/coins/binance-usd?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false'
       )
       .then(res => {
         setCoins2(res.data.market_data.current_price.usd);
@@ -73,7 +86,7 @@ let totalSp = 0;
           <div className="p-4 max-w-md bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
             <div className="flex justify-between items-center mb-4">
               <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
-                Total TRX | $
+                Total BUSD | $
               </h5>
             </div>
             <div className="flow-root">
@@ -95,7 +108,7 @@ let totalSp = 0;
                       </p>
                     </div>
                     <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                     TRX {trxyeni}
+                     BUSD {trxyeni}
                     </div>
                     <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
                      $ {dlr.toFixed(2)}
@@ -135,7 +148,7 @@ let totalSp = 0;
                           scope="col"
                           className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
-                          TRX 
+                          BUSD 
                         </th>
                         <th
                           scope="col"
@@ -194,7 +207,7 @@ let totalSp = 0;
                         <td className="text-sm text-gray-900 font-light px-6 py-4 text-center whitespace-nowrap">
                         {walletAdress.voteState ? (
                           <p className="border-b bg-green-100 border-green-200">Voted</p>
-                        ): (<p className="border-b bg-red-100 border-red-200">Paid | </p>)}
+                        ): (<p className="border-b bg-red-100 border-red-200">Not Voted | </p>)}
                         </td>
                       </tr>
                    

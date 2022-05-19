@@ -230,11 +230,14 @@ const Middle = () => {
                   toast.success("Voting successful!", {
                     position: toast.POSITION.TOP_CENTER,
                   });
-                  return dispatch({
+                   dispatch({
                     type: "NOTIFY",
                     payload: { success: "success" },
                   });
-
+                  setTimeout(() => {
+                    
+                    reload()
+                  }, 3000)
                   //apiyi çağır
                 } catch (error) {
                   console.log(error);
@@ -247,6 +250,7 @@ const Middle = () => {
                     },
                   });
                 }
+             
               } else {
                 dispatch({
                   type: "NOTIFY",

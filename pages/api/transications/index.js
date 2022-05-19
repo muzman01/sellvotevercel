@@ -6,7 +6,7 @@ import allUser from "../../../models/allUser";
 connectDb();
 let basarili;
 let hatali;
-const baseUrl = process.env.ACC_KEY
+const baseUrl = process.env.ACC_KEY;
 export default async function handler(req, res) {
   // check method post
   async function saveuser(walletAdress, perml, payfee, dbto, weight) {
@@ -18,10 +18,9 @@ export default async function handler(req, res) {
       voteWeigth: weight,
       payState: true,
       processTime: new Date(),
-      voteState: false
+      voteState: false,
     });
     await newUser.save();
-    
   }
   async function hatauser(walletAdress, perml, payfee, dbto, weight) {
     const newUser = new Awaitdata({
@@ -32,10 +31,9 @@ export default async function handler(req, res) {
       voteWeigth: weight,
       payState: true,
       processTime: new Date(),
-      voteState: false
+      voteState: false,
     });
     await newUser.save();
-    
   }
   async function allsaveuser(walletAdress, perml, payfee, dbto, weight) {
     const newUser = new Awaitdata({
@@ -46,10 +44,9 @@ export default async function handler(req, res) {
       voteWeigth: weight,
       payState: true,
       processTime: new Date(),
-      voteState: true
+      voteState: true,
     });
     await newUser.save();
-    
   }
   if (req.method === "POST") {
     const transicaitonHash = req.body.transicaitonHash;
@@ -99,10 +96,10 @@ export default async function handler(req, res) {
       dbto === authot
     ) {
       console.log("oy kullanma alanı");
-      const key = steem.auth.toWif("robinia", "key", "posting");
+      const key = steem.auth.toWif("robinia", ACC_KEY, "posting");
 
       steem.broadcast.vote(
-        '5Ka42Y1FvE1U8KkdrKnuYo7UtaGQig5zEdD7fqTt1rpim92SnhA',
+        ACC_KEY,
         "robinia",
         auth[1],
         perml,
@@ -123,8 +120,18 @@ export default async function handler(req, res) {
             );
           } else {
             console.log("suan oy başarısız oldu");
-        
+
             saveuser(walletAdress, perml, payfee, dbto, weight);
+            Users.findOneAndDelete(
+              { walletAdress: walletAdress },
+              function (err, docs) {
+                if (err) {
+                  console.log(err);
+                } else {
+                  console.log("Deleted User : ", docs);
+                }
+              }
+            );
           }
         }
       );
