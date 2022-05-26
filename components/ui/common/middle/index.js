@@ -18,13 +18,14 @@ import valid from "../../../../utils/valid";
 import validhash from "@utils/validhash";
 import i18n from "../../../../i18n";
 import { withTranslation } from "react-i18next";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 const baseUrl = process.env.BASE_URL;
 const Middle = () => {
   //https://api.trongrid.io
   //https://api.tronstack.io
-  const router = useRouter()
+  const router = useRouter();
   const [blc, setBlc] = useState(0);
+  const [rbnPower,setRbnPower] = useState(0)
   const [yeniGuc, setYeniGuc] = useState(0);
   const [bscActive, setBscActive] = useState(false);
   const [coins, setCoins] = useState([]);
@@ -82,8 +83,9 @@ const Middle = () => {
   useEffect(() => {
     async function getCalculation() {
       axios.get(`${baseUrl}/api/calculation`).then((data) => {
-        setYeniGuc(data.data);
-        var sonhali = (parseFloat(data.data) * range) / 100;
+        setYeniGuc(data.data.lastValue);
+        setRbnPower(data.data.powerw);
+        var sonhali = (parseFloat(data.data.lastValue) * range) / 100;
         let steemİlk = sonhali / 2;
         let sbdİlk = sonhali / 2;
         let steemSon = steemİlk * coins;
@@ -141,6 +143,7 @@ const Middle = () => {
   const payState = false;
   const processTime = new Date();
   async function connect() {
+    
     try {
       await activate(injected);
       localStorage.setItem("isWalletConnected", true);
@@ -160,8 +163,8 @@ const Middle = () => {
     router.reload();
   }
 
-
   async function paidBusd() {
+   
     const tokenAddress = "0xed24fc36d5ee211ea25a80239fb8c4cfd80f12ee";
     const contract = await new web3.eth.Contract(abi, tokenAddress);
     const tokenBalance = await contract.methods.balanceOf(account).call();
@@ -230,14 +233,13 @@ const Middle = () => {
                   toast.success("Voting successful!", {
                     position: toast.POSITION.TOP_CENTER,
                   });
-                   dispatch({
+                  dispatch({
                     type: "NOTIFY",
                     payload: { success: "success" },
                   });
                   setTimeout(() => {
-                    
-                    reload()
-                  }, 3000)
+                    reload();
+                  }, 3000);
                   //apiyi çağır
                 } catch (error) {
                   console.log(error);
@@ -250,7 +252,6 @@ const Middle = () => {
                     },
                   });
                 }
-             
               } else {
                 dispatch({
                   type: "NOTIFY",
@@ -260,26 +261,21 @@ const Middle = () => {
                     }),
                   },
                 });
-               
-             
+
                 try {
                   await axios
                     .post(`${baseUrl}/api/mongo/deleteHash`, {
                       walletAdress,
                     })
                     .then((data) => {
-                      if(data.data){
-                        console.log("burda",walletAdress);
-                        reload()
+                      if (data.data) {
+                        console.log("burda", walletAdress);
+                        reload();
                       }
-                      
                     });
                 } catch (error) {
                   console.log(error);
                 }
-  
-
-     
               }
             }
           );
@@ -315,6 +311,19 @@ const Middle = () => {
   }
 
   const checked = async (e) => {
+    
+    if (chainId !== 97) {
+      console.log(chainId);
+      return toast.error("please use mainnet.", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
+    console.log(rbnPower);
+    if(Number(rbnPower) < 60) {
+      return toast.error("not enough voting power.", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
     if (e.target.checked) {
       setCactive(true);
       //https://api.trongrid.io

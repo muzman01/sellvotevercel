@@ -465,7 +465,43 @@ margin: auto;
   font-family: fahkwang;
   text-align: center;
 }
-@media screen and (max-width:500px) {
+.mld{
+  display: none;
+}
+
+@media screen and (max-width:700px) {
+  .mobildvc{
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    background: rgba(93, 91, 91, 0.768) !important;
+    background-image: url("../public/assets/bfmain.png");
+    bottom: 0 !important;
+    z-index: 99 !important;
+  }
+  .mlbd{
+    display: none !important;
+  }
+  .mld{
+    display: block;
+  }
+  .rr{
+    position: fixed;
+  top: 30%;
+  left: 70%;
+  transform: translate(-50%, -50%);
+  background: var(--bg-primary);
+  box-shadow: 0 12px 28px 0 var(--shadow-1), 0 2px 4px 0 var(--shadow-2),
+    inset 0 0 0 1px var(--shadow-inset);
+  min-height: 228px;
+  width: 500px;
+  border-radius: 5px;
+  }
+.mdyazi{
+  top: 50%;
+  left: 70%;
+}
   .qa {
       height: 100%;
       width: 100%;

@@ -68,7 +68,7 @@ const Containerhome = () => {
               
 
           </div>
-          <div className="flex content-center  ml-48 mt-6 space-x-6  mr-4 ">
+          <div className="flex content-center  ml-48 mt-6 space-x-6  mr-4  ">
                     <BaseLayout>
 
             <div className="flex  ml-3 mt-6 space-x-6  mr-4">

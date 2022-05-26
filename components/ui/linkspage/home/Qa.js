@@ -33,7 +33,7 @@ import Image from 'next/image'
           </div>
           {isqa1 ? (
             <p >
-              {i18n.t('1-) Kullanılan tarayıca TronLink yüklü olmalıdır, Eğer yüklü değilse sistem size yükleme yapmanız için uyarı ve link verecektir')}
+              {i18n.t('1-) Kullanılan tarayıca Metamask yüklü olmalıdır, Eğer yüklü değilse sistem size yükleme yapmanız için uyarı ve link verecektir')}
             </p>
 
           ) : null}
@@ -58,7 +58,7 @@ import Image from 'next/image'
           {isqa3 ? (
               <>
             <p>
-              {i18n.t('	2-) Tronlik kurulu ise ve tronlinke bağlandıysanız sisteme otomatik olarak giriş yapmış sayılacaksınız')}
+              {i18n.t('	2-) Metamask kurulu ise ve Metamaska bağlandıysanız sisteme otomatik olarak giriş yapmış sayılacaksınız')}
             </p>
       
             </>
@@ -82,9 +82,9 @@ import Image from 'next/image'
           </div>
           {isqa6 ? (
             <p>
-              {i18n.t('3-) Buy vote kısmına geldiğinizde sistem size Robinia hesabının mevcut oy gücünü gösterecektir.(görsel1) Oy satın almak için "Connect Wallet" butonuna tıklayıp Tronlink bağlantınızı onaylamanız gerekmektedir.(görsel2). ')}
+              {i18n.t('3-) Buy vote kısmına geldiğinizde sistem size Robinia hesabının mevcut oy gücünü gösterecektir. Oy satın almak için "Connect Wallet" butonuna tıklayıp Metamaska bağlanmazı gerekmektedir, zaten cüzdana bağlı iseniz direk ödeme ekranına geçebilirsini. ')}
               <div>
-            <Image src="/assets/görsel2.png" width={600} height={500} />
+            <Image src="/assets/görsel4.png" width={600} height={500} />
           </div>
             </p>
           ) : null}
@@ -107,7 +107,7 @@ import Image from 'next/image'
           </div>
           {isqa2 ? (
             <p>
-              {i18n.t('4-) Tronlink bağlantısı onaylandıktan sonra karşınıza oy alacağınız gönderinin linkini girmeniz için bir alan çıkacaktır(Lütfen Eksiksiz Giriniz)(görsel3)Daha sonra yüzde kaç oy almak istiyorsanız seçebileceğiniz bir bar çıkacaktır(görsel4)')}
+              {i18n.t('4-) Metamaska bağlandıktan sonra karşınıza oy alacağınız gönderinin linkini girmeniz için bir alan çıkacaktır(Lütfen Eksiksiz Giriniz)bDaha sonra yüzde kaç oy almak istiyorsanız seçebileceğiniz bir bar çıkacaktır(görsel4)')}
               <div>
             <Image src="/assets/görsel4.png" width={600} height={500} />
           </div>

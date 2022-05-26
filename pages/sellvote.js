@@ -5,7 +5,7 @@ import { BaseLayout } from "@components/ui/layout";
 export default function SellVote() {
   return (
     <>
-      <div>
+      <div className="mobildvc">
         <div
           className="flex w-screen h-screen"
           style={{ maxWidth: "100%", maxHeight: "100%" }}

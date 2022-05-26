@@ -86,59 +86,80 @@ export default async function handler(req, res) {
     const dbfee = hashUser.fee;
     const dbweight = hashUser.voteWeigth;
     const dbto = hashUser.voteTo;
+    steem.api.getAccounts(["robinia"], function (err, response) {
+      var secondsago =
+        (new Date() - new Date(response[0].last_vote_time + "Z")) / 1000;
+      var vpow = response[0].voting_power + (10000 * secondsago) / 432000;
+      vpow = Math.min(vpow / 100, 100).toFixed(2);
+      console.log(vpow);
+      if (vpow > 60) {
+        if (
+          bdpermlink === perml ||
+          bdwallet === walletAdress ||
+          dbhash === transicaitonHash ||
+          dbfee === payfee ||
+          dbweight === weight ||
+          dbto === authot
+        ) {
+          console.log("oy kullanma alanı");
+          const key = steem.auth.toWif("robinia", ACC_KEY, "posting");
 
-    if (
-      bdpermlink === perml ||
-      bdwallet === walletAdress ||
-      dbhash === transicaitonHash ||
-      dbfee === payfee ||
-      dbweight === weight ||
-      dbto === authot
-    ) {
-      console.log("oy kullanma alanı");
-      const key = steem.auth.toWif("robinia", ACC_KEY, "posting");
+          steem.broadcast.vote(
+            ACC_KEY,
+            "robinia",
+            auth[1],
+            perml,
+            w2,
+            function (err, result) {
+              console.log(err, result);
+              if (result) {
+                allsaveuser(walletAdress, perml, payfee, dbto, weight);
+                Users.findOneAndDelete(
+                  { walletAdress: walletAdress },
+                  function (err, docs) {
+                    if (err) {
+                      console.log(err);
+                    } else {
+                      console.log("Deleted User : ", docs);
+                    }
+                  }
+                );
+              } else {
+                console.log("suan oy başarısız oldu");
 
-      steem.broadcast.vote(
-        ACC_KEY,
-        "robinia",
-        auth[1],
-        perml,
-        w2,
-        function (err, result) {
-          console.log(err, result);
-          if (result) {
-            allsaveuser(walletAdress, perml, payfee, dbto, weight);
-            Users.findOneAndDelete(
-              { walletAdress: walletAdress },
-              function (err, docs) {
-                if (err) {
-                  console.log(err);
-                } else {
-                  console.log("Deleted User : ", docs);
-                }
+                saveuser(walletAdress, perml, payfee, dbto, weight);
+                Users.findOneAndDelete(
+                  { walletAdress: walletAdress },
+                  function (err, docs) {
+                    if (err) {
+                      console.log(err);
+                    } else {
+                      console.log("Deleted User : ", docs);
+                    }
+                  }
+                );
               }
-            );
-          } else {
-            console.log("suan oy başarısız oldu");
-
-            saveuser(walletAdress, perml, payfee, dbto, weight);
-            Users.findOneAndDelete(
-              { walletAdress: walletAdress },
-              function (err, docs) {
-                if (err) {
-                  console.log(err);
-                } else {
-                  console.log("Deleted User : ", docs);
-                }
-              }
-            );
-          }
+            }
+          );
+        } else {
+          console.log("eşit olmayan veri var");
+          hatauser(walletAdress, perml, payfee, dbto, weight);
         }
-      );
-    } else {
-      console.log("eşit olmayan veri var");
-      hatauser(walletAdress, perml, payfee, dbto, weight);
-    }
+      } else {
+        console.log("oygğcğ dğşğk");
+        saveuser(walletAdress, perml, payfee, dbto, weight);
+        Users.findOneAndDelete(
+          { walletAdress: walletAdress },
+          function (err, docs) {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log("Deleted User : ", docs);
+            }
+          }
+        );
+      }
+    });
   } else {
     res.status(301).json({
       status: "denied",
