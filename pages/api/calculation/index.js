@@ -99,7 +99,7 @@ export default async function handler(req, res) {
                 let kodulsbd = (reward2 / 2) * sbdDolar;
                 let kodulsteem = (reward2 / 2) * steemDolar;
                 let sonuc = kodulsbd + kodulsteem;
-
+                console.log(reward);
                 resolve(reward);
               }
 
@@ -159,7 +159,7 @@ export default async function handler(req, res) {
                 let kodulsbd = (reward2 / 2) * sbdDolar;
                 let kodulsteem = (reward2 / 2) * steemDolar;
                 let sonuc = kodulsbd + kodulsteem;
-
+                console.log(vpow);
                 resolve(vpow);
               }
 

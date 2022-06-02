@@ -9,11 +9,11 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { DataCentext } from "../../../../store/Globalstate";
-import { tokens } from "../../../../public/token";
+
 import { injected } from "@components/connector";
 import { postData, putData, deleteData } from "@utils/fetchData";
 import abi from "../../../../public/abi.json";
-import TronWeb from "tronweb";
+
 import valid from "../../../../utils/valid";
 import validhash from "@utils/validhash";
 import i18n from "../../../../i18n";
@@ -21,8 +21,7 @@ import { withTranslation } from "react-i18next";
 import { useRouter } from "next/router";
 const baseUrl = process.env.BASE_URL;
 const Middle = () => {
-  //https://api.trongrid.io
-  //https://api.tronstack.io
+
   const router = useRouter();
   const [blc, setBlc] = useState(0);
   const [rbnPower,setRbnPower] = useState(0)

@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import Login from "@material-ui/icons/LocalGasStation";
-import BigNumber from 'bignumber.js';
+
 import Web3 from "web3";
 import { useWeb3React } from "@web3-react/core";
-import TronWeb from "tronweb";
-import { tokens } from "../../../../public/token";
+
 import { injected } from "@components/connector";
-import axios from "axios";
-import abi from "../../../../public/abi.json";
+
 
 import { withTranslation } from "react-i18next";
 import i18n from "../../../../i18n";
