@@ -26,6 +26,7 @@ const Middle = () => {
   const [blc, setBlc] = useState(0);
   const [rbnPower,setRbnPower] = useState(0)
   const [yeniGuc, setYeniGuc] = useState(0);
+  const [loading,setLoading] = useState(false)
   const [bscActive, setBscActive] = useState(false);
   const [coins, setCoins] = useState([]);
   const [coins1, setCoins1] = useState([]);
@@ -81,19 +82,26 @@ const Middle = () => {
 
   useEffect(() => {
     async function getCalculation() {
-      axios.get(`${baseUrl}/api/calculation`).then((data) => {
-        setYeniGuc(data.data.lastValue);
-        setRbnPower(data.data.powerw);
-        var sonhali = (parseFloat(data.data.lastValue) * range) / 100;
-        let steemİlk = sonhali / 2;
-        let sbdİlk = sonhali / 2;
-        let steemSon = steemİlk * coins;
-        let sbdSon = sbdİlk * coins1;
-
-        let ÖdenecekBusd = steemSon + sbdSon;
-
-        setDolarg(ÖdenecekBusd);
-      });
+      setLoading(true)
+      try {
+        
+        axios.get(`${baseUrl}/api/calculation`).then((data) => {
+          setYeniGuc(data.data.lastValue);
+          setRbnPower(data.data.powerw);
+          setLoading(false)
+          var sonhali = (parseFloat(data.data.lastValue) * range) / 100;
+          let steemİlk = sonhali / 2;
+          let sbdİlk = sonhali / 2;
+          let steemSon = steemİlk * coins;
+          let sbdSon = sbdİlk * coins1;
+  
+          let ÖdenecekBusd = steemSon + sbdSon;
+  
+          setDolarg(ÖdenecekBusd);
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
     getCalculation();
   }, [coins, coins1, coins2]);
@@ -386,7 +394,7 @@ const Middle = () => {
         m-0
         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   id="exampleInput90"
-                  placeholder={`$ ${yeniGuc}`}
+                  placeholder={loading ? 'Loading....':`$ ${yeniGuc}`}
                   disabled
                 />
               </div>

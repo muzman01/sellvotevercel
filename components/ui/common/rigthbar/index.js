@@ -47,11 +47,18 @@ const RightBar = () => {
       })
       .catch((error) => console.log(error));
   }, []);
+  const [loading,setLoading] = useState(false)
   useEffect(() => {
     async function getCalculation() {
+      setLoading(true)
+     try {
       axios.get(`${baseUrl}/api/calculation`).then((data) => {
         setYeniGuc(data.data.powerw);
+        setLoading(false)
       });
+     } catch (error) {
+       console.log(error);
+     }
     }
     getCalculation();
   }, []);
@@ -69,7 +76,7 @@ const RightBar = () => {
         <div className="skill">
           <div className="outer">
             <div className="inner">
-              <div id="number">{yeniGuc}%</div>
+              <div id="number">{ loading ? 'Loading...':`${yeniGuc} %`}</div>
             </div>
           </div>
         </div>
