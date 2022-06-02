@@ -10,10 +10,7 @@ let steemdlr;
 export default async function handler(req, res) {
   // check method post
   if (req.method === "GET") {
-    if (new Date().getTime() < lastCalculationTime + 1000) {
-      res.status(200).json({ lastValue, powerw });
-      return;
-    }
+   
     let jsonValue = {};
     async function getSpAmount() {
       axios

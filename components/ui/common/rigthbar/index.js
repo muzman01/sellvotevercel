@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import i18n from "../../../../i18n";
 import { withTranslation } from "react-i18next";
@@ -13,55 +13,15 @@ const data = {
     },
   ],
 };
-
+import { DataContext } from "../../../../store/Globalstate";
 const RightBar = () => {
-  const [coins, setCoins] = useState([]);
-  const [coins1, setCoins1] = useState([]);
-  const [coins2, setCoins2] = useState([]);
+  const { state, dispatch } = useContext(DataContext);
   const [yeniGuc, setYeniGuc] = useState([]);
-  useEffect(() => {
-    axios
-      .get(
-        "https://api.coingecko.com/api/v3/coins/steem?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false"
-      )
-      .then((res) => {
-        setCoins(res.data.market_data.current_price.usd);
-      })
-      .catch((error) => console.log(error));
 
-    axios
-      .get(
-        "https://api.coingecko.com/api/v3/coins/steem-dollars?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false"
-      )
-      .then((res) => {
-        setCoins1(res.data.market_data.current_price.usd);
-      })
-      .catch((error) => console.log(error));
-
-    axios
-      .get(
-        "https://api.coingecko.com/api/v3/coins/binance-usd?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false"
-      )
-      .then((res) => {
-        setCoins2(res.data.market_data.current_price.usd);
-      })
-      .catch((error) => console.log(error));
-  }, []);
   const [loading,setLoading] = useState(false)
   useEffect(() => {
-    async function getCalculation() {
-      setLoading(true)
-     try {
-      axios.get(`${baseUrl}/api/calculation`).then((data) => {
-        setYeniGuc(data.data.powerw);
-        setLoading(false)
-      });
-     } catch (error) {
-       console.log(error);
-     }
-    }
-    getCalculation();
-  }, []);
+    setYeniGuc(state?.votweigthR)
+  }, [state]);
   return (
     <div className="bg-white  w-2/6 rounded-xl border border-gray-100">
       <div className="border-b p-3 border-gray-100">

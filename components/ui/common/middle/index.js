@@ -8,7 +8,7 @@ import { useWeb3React } from "@web3-react/core";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import { DataCentext } from "../../../../store/Globalstate";
+import { DataContext } from "../../../../store/Globalstate";
 
 import { injected } from "@components/connector";
 import { postData, putData, deleteData } from "@utils/fetchData";
@@ -19,128 +19,64 @@ import validhash from "@utils/validhash";
 import i18n from "../../../../i18n";
 import { withTranslation } from "react-i18next";
 import { useRouter } from "next/router";
+
 const baseUrl = process.env.BASE_URL;
 const Middle = () => {
-
+  const { state, dispatch } = useContext(DataContext);
   const router = useRouter();
-  const [blc, setBlc] = useState(0);
-  const [rbnPower,setRbnPower] = useState(0)
+  
+  const [rbnPower, setRbnPower] = useState();
   const [yeniGuc, setYeniGuc] = useState(0);
-  const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [bscActive, setBscActive] = useState(false);
-  const [coins, setCoins] = useState([]);
-  const [coins1, setCoins1] = useState([]);
-  const [coins2, setCoins2] = useState([]);
   const [range, setRange] = useState(50);
   const [dolarg, setDolarg] = useState((yeniGuc * 50) / 100);
   const [box, setBox] = useState();
+  const [bar, setBar] = useState(false);
   const [permlink, setPermlink] = useState("");
   const [kuladi, setKuladi] = useState("");
-  const { state, dispatch } = useContext(DataCentext);
+  const [coins, setCoins] = useState([]);
+  const [coins1, setCoins1] = useState([]);
+  const [coins2, setCoins2] = useState([]);
   const [transHash, setTransHash] = useState("hashhash");
-  const [myDetails, setMyDetails] = useState({
-    name: "none",
-    address: "none",
-    balance: 0,
-    frozenBalance: 0,
-    network: "none",
-    link: "false",
-  });
-  const [cactive, setCactive] = useState(false);
+  const [cactive, setCactive] = useState(true);
   const { active, account, library, connector, chainId, activate, deactivate } =
     useWeb3React();
   const web3 = new Web3(library);
-
   useEffect(() => {
     axios
       .get(
-        "https://api.coingecko.com/api/v3/coins/steem?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false"
+        'https://api.coingecko.com/api/v3/coins/steem?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false'
       )
-      .then((res) => {
+      .then(res => {
         setCoins(res.data.market_data.current_price.usd);
-      })
-      .catch((error) => console.log(error));
-
-    axios
-      .get(
-        "https://api.coingecko.com/api/v3/coins/steem-dollars?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false"
-      )
-      .then((res) => {
-        setCoins1(res.data.market_data.current_price.usd);
-      })
-      .catch((error) => console.log(error));
-
-    axios
-      .get(
-        "https://api.coingecko.com/api/v3/coins/binance-usd?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false"
-      )
-      .then((res) => {
-        setCoins2(res.data.market_data.current_price.usd);
-      })
-      .catch((error) => console.log(error));
-  }, []);
-
-  useEffect(() => {
-    async function getCalculation() {
-      setLoading(true)
-      try {
         
-        axios.get(`${baseUrl}/api/calculation`).then((data) => {
-          setYeniGuc(data.data.lastValue);
-          setRbnPower(data.data.powerw);
-          setLoading(false)
-          var sonhali = (parseFloat(data.data.lastValue) * range) / 100;
-          let steemİlk = sonhali / 2;
-          let sbdİlk = sonhali / 2;
-          let steemSon = steemİlk * coins;
-          let sbdSon = sbdİlk * coins1;
-  
-          let ÖdenecekBusd = steemSon + sbdSon;
-  
-          setDolarg(ÖdenecekBusd);
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    getCalculation();
-  }, [coins, coins1, coins2]);
-
-  useEffect(() => {
-    const connectWalletOnPageLoad = async () => {
-      if (localStorage?.getItem("isWalletConnected") === "true") {
-        try {
-          await activate(injected);
-          localStorage.setItem("isWalletConnected", true);
-          setBscActive(true);
-        } catch (ex) {
-          console.log(ex);
-        }
-      }
-    };
-    connectWalletOnPageLoad();
+      })
+      .catch(error => console.log(error));
+      axios
+      .get(
+        'https://api.coingecko.com/api/v3/coins/steem-dollars?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false'
+      )
+      .then(res => {
+        setCoins1(res.data.market_data.current_price.usd);
+     
+      })
+      .catch(error => console.log(error));
+      axios
+      .get(
+        'https://api.coingecko.com/api/v3/coins/binance-usd?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false'
+      )
+      .then(res => {
+        setCoins2(res.data.market_data.current_price.usd);
+       
+      })
+      .catch(error => console.log(error));
   }, []);
-  const userData = {
-    walletAdress: account,
-    perMLink: permlink,
-    transicaitonHash: transHash,
-    fee: dolarg,
-    voteTo: kuladi,
-    voteWeigth: range,
-    payState: false,
-    processTime: new Date(),
-  };
-
-  const hashData = {
-    walletAdress: account,
-
-    transicaitonHash: transHash,
-  };
-  const deleteData = {
-    walletAdress: account,
-
-    transicaitonHash: transHash,
-  };
+  useEffect(() => {
+    setYeniGuc(state?.votepowerR)
+    setRbnPower(state?.votweigthR)
+  }, [state]);
+  
   const walletAdress = account;
   const perMLink = permlink;
   const transicaitonHash = transHash;
@@ -150,7 +86,6 @@ const Middle = () => {
   const payState = false;
   const processTime = new Date();
   async function connect() {
-    
     try {
       await activate(injected);
       localStorage.setItem("isWalletConnected", true);
@@ -171,30 +106,33 @@ const Middle = () => {
   }
 
   async function paidBusd() {
-   
     const tokenAddress = "0xed24fc36d5ee211ea25a80239fb8c4cfd80f12ee";
     const contract = await new web3.eth.Contract(abi, tokenAddress);
     const tokenBalance = await contract.methods.balanceOf(account).call();
     console.log(`BUSD balance: ${tokenBalance / 10 ** 18}`);
-    console.log(fee);
-    if (fee > Number(tokenBalance)) {
+    console.log(dolarg);
+    if (Number(dolarg) > (tokenBalance / 10 ** 18)) {
+      setCactive(false);
+      setBox(false);
+      setBar(false);
       return toast.error("Insufficient funds!", {
         position: toast.POSITION.TOP_CENTER,
       });
     }
-    if (fee < Number(tokenBalance)) {
+    if (dolarg < Number(tokenBalance)) {
       toast.success("Processing, please wait!", {
         position: toast.POSITION.TOP_CENTER,
       });
     }
 
-    if (fee > 0) {
+    if (dolarg > 0) {
       dispatch({ type: "NOTIFY", payload: { loading: true } });
       const tokenAddress = "0xed24fc36d5ee211ea25a80239fb8c4cfd80f12ee";
       const contract = await new web3.eth.Contract(abi, tokenAddress);
       const tokenBalance = await contract.methods.balanceOf(account).call();
       console.log(`BUSD balance: ${tokenBalance / 10 ** 18}`);
       const tokenCount = tokenBalance / 10 ** 18;
+      
       if (chainId === 97 && tokenCount > 0) {
         const gasPrice = await web3.eth.getGasPrice();
         const tokenTransferResult = await contract.methods
@@ -269,20 +207,7 @@ const Middle = () => {
                   },
                 });
 
-                try {
-                  await axios
-                    .post(`${baseUrl}/api/mongo/deleteHash`, {
-                      walletAdress,
-                    })
-                    .then((data) => {
-                      if (data.data) {
-                        console.log("burda", walletAdress);
-                        reload();
-                      }
-                    });
-                } catch (error) {
-                  console.log(error);
-                }
+              
               }
             }
           );
@@ -303,22 +228,8 @@ const Middle = () => {
     let ÖdenecekBusd = (steemSon + sbdSon) / coins2;
     setDolarg(ÖdenecekBusd);
   };
-  async function postLink() {
-    try {
-      await axios
-        .post(`${baseUrl}/api/mongo/deleteHash`, {
-          walletAdress,
-        })
-        .then((data) => {
-          console.log(data.data);
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   const checked = async (e) => {
-    
     if (chainId !== 97) {
       console.log(chainId);
       return toast.error("please use mainnet.", {
@@ -326,46 +237,40 @@ const Middle = () => {
       });
     }
     console.log(rbnPower);
-    if(Number(rbnPower) < 60) {
+    if (Number(rbnPower) < 60) {
       return toast.error("not enough voting power.", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
+    if (yeniGuc === 0) {
+      return toast.error("Invalid voting power", {
         position: toast.POSITION.TOP_CENTER,
       });
     }
     if (e.target.checked) {
       setCactive(true);
-      //https://api.trongrid.io
-      //https://api.tronstack.io
-
-      const errMsg = valid(
-        walletAdress,
-        perMLink,
-        transicaitonHash,
-        fee,
-        voteTo,
-        voteWeigth,
-        payState,
-        processTime
-      );
-      if (errMsg) {
-        return dispatch({ type: "NOTIFY", payload: { error: errMsg } });
-      } else {
-        setBox(e.target.checked);
-      }
-      dispatch({ type: "NOTIFY", payload: { loading: true } });
-
-      const res = await postData("mongo/mongo", userData);
-      if (res.err)
-        return dispatch({ type: "NOTIFY", payload: { error: res.err } });
-      return dispatch({ type: "NOTIFY", payload: { success: res.msg } });
+      setBox(true);
+      setBar(true);
     } else {
-      setBox(e.target.checked);
     }
   };
   const inputValue = (e) => {
     let url = e.target.value;
-    const array = url.split("/");
-    setPermlink(array[5]);
-    setKuladi(array[4]);
+    var expression =
+      "(https?://(?:www.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9].[^s]{2,}|www.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9].[^s]{2,}|https?://(?:www.|(?!www))[a-zA-Z0-9]+.[^s]{2,}|www.[a-zA-Z0-9]+.[^s]{2,})";
+    var regex = new RegExp(expression);
+    var t = url;
+
+    if (t.match(regex)) {
+      console.log("Successful match");
+      setCactive(false);
+      const array = url.split("/");
+      setPermlink(array[5]);
+      setKuladi(array[4]);
+    } else {
+      console.log("No match");
+      setCactive(true);
+    }
   };
 
   return (
@@ -394,7 +299,7 @@ const Middle = () => {
         m-0
         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   id="exampleInput90"
-                  placeholder={loading ? 'Loading....':`$ ${yeniGuc}`}
+                  placeholder={yeniGuc === 0 ? "Loading...." : `$ ${yeniGuc}`}
                   disabled
                 />
               </div>
@@ -413,7 +318,7 @@ const Middle = () => {
     "
                   id="customRange1"
                   onChangeCapture={hesaplama}
-                  disabled={cactive}
+                  disabled={bar}
                 />
               </div>
 
@@ -462,7 +367,7 @@ const Middle = () => {
         m-0
         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                       id="exampleInput91"
-                      placeholder="Post Link"
+                      placeholder="example: https://steemit.com/test/@testaccount/testpermlink"
                       onChange={inputValue}
                     />
                     <span>
@@ -473,7 +378,7 @@ const Middle = () => {
                         name="isGoing"
                         type="checkbox"
                         onChange={checked}
-                        disabled={cactive}
+                        disabled={box}
                       />
                     </span>
                   </>

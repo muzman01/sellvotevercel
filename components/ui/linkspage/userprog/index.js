@@ -11,7 +11,7 @@ import { BaseLayout } from "@components/ui/layout";
 import { Card } from "@components/ui/order";
 import { RightBar } from "@components/ui/common";
 import axios from "axios";
-import { DataCentext } from "../../../../store/Globalstate";
+import { DataContext } from "../../../../store/Globalstate";
 import "react-toastify/dist/ReactToastify.css";
 import { postData,putData,deleteData } from "@utils/fetchData";
 import valid from "../../../../utils/valid";
@@ -36,7 +36,7 @@ const Containeruser = () => {
   const [time, setTime] = useState();
   const [pay, setPay] = useState();
   const [weigty, setWeigth] = useState();
-  const { state, dispatch } = useContext(DataCentext);
+  const { state, dispatch } = useContext(DataContext);
   const [clicked, setClicked] = useState(false)
   const [user, setUser] = useState([
     {

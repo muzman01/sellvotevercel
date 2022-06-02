@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
@@ -7,16 +7,16 @@ import { useWeb3React } from "@web3-react/core";
 
 import { injected } from "@components/connector";
 
-
+import { DataContext } from "store/Globalstate";
 import { withTranslation } from "react-i18next";
 import i18n from "../../../../i18n";
 
 const Header = ({ address }) => {
-
+  const { state, dispatch } = useContext(DataContext);
+  
   const onChangeLanguage = (language) => {
     i18n.changeLanguage(language);
   };
-
 
 
   const [enadled, setEnabled] = useState("");
@@ -52,7 +52,7 @@ const Header = ({ address }) => {
       try {
         await activate(injected);
         localStorage.setItem("isWalletConnected", true);
-        localStorage.setItem("walletAdress",`${account}`)
+        localStorage.setItem("walletAdress", `${account}`);
         setEnabled("");
       } catch (ex) {
         console.log(ex);
@@ -81,9 +81,6 @@ const Header = ({ address }) => {
     };
     connectWalletOnPageLoad();
   }, []);
-
-
-
 
   return (
     <div className="flex shadow-sm bg-gray-50  p-4 justify-between ">
@@ -117,7 +114,7 @@ const Header = ({ address }) => {
               </>
             )}
           </>
-        ) }
+        )}
         {enadled}
       </div>
     </div>
