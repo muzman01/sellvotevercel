@@ -31,7 +31,7 @@ export default function Home() {
                 <br></br>
                 <br></br>
                 <br></br>
-                <span className="mdyazi"  style={{ color:"#35d6a9", fontWeight:"600",fontSize:"30px" }}> deneme yazı </span>
+                <span className="mdyazi"  style={{ color:"#35d6a9", fontWeight:"600",fontSize:"30px" }}> mobile device is not supported. </span>
               </div>
             </div>
             <div className="mlbd">
