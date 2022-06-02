@@ -5,7 +5,7 @@ import Image from "next/image";
 import { getData } from "@utils/fetchData";
 import axios from "axios";
 const baseUrl = process.env.BASE_URL
-import Cookies from "js-cookie";
+
 export default function admin(data) {
   console.log(data.data);
   const [coins2, setCoins2] = useState([]);
