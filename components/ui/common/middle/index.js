@@ -247,8 +247,14 @@ const Middle = () => {
         position: toast.POSITION.TOP_CENTER,
       });
     }
+    if(cactive){
+      return toast.error("Missing or wrong url", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
     if (e.target.checked) {
-      setCactive(true);
+      
+      setCactive(false);
       setBox(true);
       setBar(true);
     } else {
