@@ -57,7 +57,7 @@ export default async function handler(req, res) {
           const totalVestingShares = parseFloat(
             result.total_vesting_shares.split(" ")[0]
           );
-
+          
           steem.api.getRewardFund("post", function (e, t) {
             const json = jsonValue;
             const steem_per_vest = totalVestingFundSteem / totalVestingShares; // steem_per_mvests / 1E6

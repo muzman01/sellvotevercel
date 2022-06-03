@@ -17,7 +17,7 @@ export const DataProvider = ({ children }) => {
   const { votepowerR, votweigthR, steemdlrR, sdbdlrR, busddlrR } = state;
   useEffect(() => {
     try {
-      axios.get(`https://mmsellvote.vercel.app/api/calculation`).then((data) => {
+      axios.get(`http://localhost:3000/api/calculation`).then((data) => {
         dispatch({ type: "VOTEPOWER", payload: data.data.lastValue });
         dispatch({ type: "VOTEWEİGTH", payload: data.data.powerw });
      

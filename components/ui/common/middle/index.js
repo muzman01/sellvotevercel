@@ -146,6 +146,7 @@ const Middle = () => {
               gasPrice,
             },
             async function (error, transactionHash) {
+              console.log(transactionHash);
               if (transactionHash) {
                 try {
                   try {

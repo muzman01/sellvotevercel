@@ -18,7 +18,7 @@ const Header = ({ address }) => {
     i18n.changeLanguage(language);
   };
 
-  console.log(state);
+
 
   const [enadled, setEnabled] = useState("");
   const ethEnabled = async () => {

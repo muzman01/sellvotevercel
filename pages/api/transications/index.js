@@ -9,12 +9,26 @@ let hatali;
 const baseUrl = process.env.ACC_KEY;
 export default async function handler(req, res) {
   // check method post
-  async function saveuser(walletAdress, perml, payfee, dbto, weight) {
+  async function saveuser(walletAdress, perml, payfee, auth, weight) {
     const newUser = new Awaitdata({
       walletAdress: walletAdress,
       perMLink: perml,
       fee: payfee,
-      voteTo: dbto,
+      voteTo: auth,
+      voteWeigth: weight,
+      payState: true,
+      processTime: new Date(),
+      voteState: false,
+    });
+    console.log(newUser);
+    await newUser.save();
+  }
+  async function hatauser(walletAdress, perml, payfee, auth, weight) {
+    const newUser = new Awaitdata({
+      walletAdress: walletAdress,
+      perMLink: perml,
+      fee: payfee,
+      voteTo: auth,
       voteWeigth: weight,
       payState: true,
       processTime: new Date(),
@@ -22,25 +36,12 @@ export default async function handler(req, res) {
     });
     await newUser.save();
   }
-  async function hatauser(walletAdress, perml, payfee, dbto, weight) {
+  async function allsaveuser(walletAdress, perml, payfee, auth, weight) {
     const newUser = new Awaitdata({
       walletAdress: walletAdress,
       perMLink: perml,
       fee: payfee,
-      voteTo: dbto,
-      voteWeigth: weight,
-      payState: true,
-      processTime: new Date(),
-      voteState: false,
-    });
-    await newUser.save();
-  }
-  async function allsaveuser(walletAdress, perml, payfee, dbto, weight) {
-    const newUser = new Awaitdata({
-      walletAdress: walletAdress,
-      perMLink: perml,
-      fee: payfee,
-      voteTo: dbto,
+      voteTo: auth,
       voteWeigth: weight,
       payState: true,
       processTime: new Date(),
@@ -78,29 +79,16 @@ export default async function handler(req, res) {
     console.log(perml);
     console.log(ACC_KEY);
     console.log(ACC_NAME);
-    const hashUser = await Users.findOne({ walletAdress: walletAdress });
 
-    const bdwallet = hashUser.walletAdress;
-    const dbhash = hashUser.transicaitonHash;
-    const bdpermlink = hashUser.perMLink;
-    const dbfee = hashUser.fee;
-    const dbweight = hashUser.voteWeigth;
-    const dbto = hashUser.voteTo;
     steem.api.getAccounts(["robinia"], function (err, response) {
       var secondsago =
         (new Date() - new Date(response[0].last_vote_time + "Z")) / 1000;
       var vpow = response[0].voting_power + (10000 * secondsago) / 432000;
       vpow = Math.min(vpow / 100, 100).toFixed(2);
-      console.log(vpow);
+      console.log(vpow, "buda hesaplama");
       if (vpow > 60) {
-        if (
-          bdpermlink === perml ||
-          bdwallet === walletAdress ||
-          dbhash === transicaitonHash ||
-          dbfee === payfee ||
-          dbweight === weight ||
-          dbto === authot
-        ) {
+        console.log("burda oy alanı");
+        if (w2 || auth[1] || perml) {
           console.log("oy kullanma alanı");
           const key = steem.auth.toWif("robinia", ACC_KEY, "posting");
 
@@ -113,51 +101,31 @@ export default async function handler(req, res) {
             function (err, result) {
               console.log(err, result);
               if (result) {
-                allsaveuser(walletAdress, perml, payfee, dbto, weight);
-                Users.findOneAndDelete(
-                  { walletAdress: walletAdress },
-                  function (err, docs) {
-                    if (err) {
-                      console.log(err);
-                    } else {
-                      console.log("Deleted User : ", docs);
-                    }
-                  }
-                );
+                allsaveuser(walletAdress, perml, payfee, auth[1], weight);
+                // Users.findOneAndDelete(
+                //   { walletAdress: walletAdress },
+                //   function (err, docs) {
+                //     if (err) {
+                //       console.log(err);
+                //     } else {
+                //       console.log("Deleted User : ", docs);
+                //     }
+                //   }
+                // );
               } else {
                 console.log("suan oy başarısız oldu");
 
-                saveuser(walletAdress, perml, payfee, dbto, weight);
-                Users.findOneAndDelete(
-                  { walletAdress: walletAdress },
-                  function (err, docs) {
-                    if (err) {
-                      console.log(err);
-                    } else {
-                      console.log("Deleted User : ", docs);
-                    }
-                  }
-                );
+                saveuser(walletAdress, perml, payfee, auth[1], weight);
               }
             }
           );
         } else {
           console.log("eşit olmayan veri var");
-          hatauser(walletAdress, perml, payfee, dbto, weight);
+          hatauser(walletAdress, perml, payfee, auth[1], weight);
         }
       } else {
         console.log("oygğcğ dğşğk");
-        saveuser(walletAdress, perml, payfee, dbto, weight);
-        Users.findOneAndDelete(
-          { walletAdress: walletAdress },
-          function (err, docs) {
-            if (err) {
-              console.log(err);
-            } else {
-              console.log("Deleted User : ", docs);
-            }
-          }
-        );
+        saveuser(walletAdress, perml, payfee, auth[1], weight);
       }
     });
   } else {
