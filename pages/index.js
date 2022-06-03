@@ -15,15 +15,15 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href="/assets/bfmain.png" />
       </Head>
-      <div className="mobildvc">
+      <div className=" mobildvc">
         <div
-          className="flex w-screen h-screen mobildvc"
+          className="flex w-screen h-screen "
           style={{ maxWidth: "100%" }}
         >
-          <div  className="mlbd">
-          <Sidebar />
-          </div>
          
+            <Sidebar />
+         
+
           <div className="w-screen  mobildvc">
             <div className="mld">
               <div className="rr">
@@ -31,7 +31,17 @@ export default function Home() {
                 <br></br>
                 <br></br>
                 <br></br>
-                <span className="mdyazi"  style={{ color:"#35d6a9", fontWeight:"600",fontSize:"30px" }}> mobile device is not supported. </span>
+                <span
+                  className="mdyazi"
+                  style={{
+                    color: "#35d6a9",
+                    fontWeight: "600",
+                    fontSize: "30px",
+                  }}
+                >
+                  {" "}
+                  mobile device is not supported.{" "}
+                </span>
               </div>
             </div>
             <div className="mlbd">
