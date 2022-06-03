@@ -24,7 +24,7 @@ const baseUrl = process.env.BASE_URL;
 const Middle = () => {
   const { state, dispatch } = useContext(DataContext);
   const router = useRouter();
-  
+
   const [rbnPower, setRbnPower] = useState();
   const [yeniGuc, setYeniGuc] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -46,37 +46,34 @@ const Middle = () => {
   useEffect(() => {
     axios
       .get(
-        'https://api.coingecko.com/api/v3/coins/steem?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false'
+        "https://api.coingecko.com/api/v3/coins/steem?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false"
       )
-      .then(res => {
+      .then((res) => {
         setCoins(res.data.market_data.current_price.usd);
-        
       })
-      .catch(error => console.log(error));
-      axios
+      .catch((error) => console.log(error));
+    axios
       .get(
-        'https://api.coingecko.com/api/v3/coins/steem-dollars?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false'
+        "https://api.coingecko.com/api/v3/coins/steem-dollars?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false"
       )
-      .then(res => {
+      .then((res) => {
         setCoins1(res.data.market_data.current_price.usd);
-     
       })
-      .catch(error => console.log(error));
-      axios
+      .catch((error) => console.log(error));
+    axios
       .get(
-        'https://api.coingecko.com/api/v3/coins/binance-usd?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false'
+        "https://api.coingecko.com/api/v3/coins/binance-usd?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false"
       )
-      .then(res => {
+      .then((res) => {
         setCoins2(res.data.market_data.current_price.usd);
-       
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   }, []);
   useEffect(() => {
-    setYeniGuc(state?.votepowerR)
-    setRbnPower(state?.votweigthR)
+    setYeniGuc(state?.votepowerR);
+    setRbnPower(state?.votweigthR);
   }, [state]);
-  
+
   const walletAdress = account;
   const perMLink = permlink;
   const transicaitonHash = transHash;
@@ -111,11 +108,19 @@ const Middle = () => {
     const tokenBalance = await contract.methods.balanceOf(account).call();
     console.log(`BUSD balance: ${tokenBalance / 10 ** 18}`);
     console.log(dolarg);
-    if (Number(dolarg) > (tokenBalance / 10 ** 18)) {
+    if (Number(dolarg) > tokenBalance / 10 ** 18) {
       setCactive(false);
       setBox(false);
       setBar(false);
       return toast.error("Insufficient funds!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
+    if (tokenBalance / 10 ** 18 === 0) {
+      setCactive(false);
+      setBox(false);
+      setBar(false);
+      return toast.error("you have no money", {
         position: toast.POSITION.TOP_CENTER,
       });
     }
@@ -132,7 +137,7 @@ const Middle = () => {
       const tokenBalance = await contract.methods.balanceOf(account).call();
       console.log(`BUSD balance: ${tokenBalance / 10 ** 18}`);
       const tokenCount = tokenBalance / 10 ** 18;
-      
+
       if (chainId === 97 && tokenCount > 0) {
         const gasPrice = await web3.eth.getGasPrice();
         const tokenTransferResult = await contract.methods
@@ -207,8 +212,6 @@ const Middle = () => {
                     }),
                   },
                 });
-
-              
               }
             }
           );
@@ -248,13 +251,12 @@ const Middle = () => {
         position: toast.POSITION.TOP_CENTER,
       });
     }
-    if(cactive){
+    if (cactive) {
       return toast.error("Missing or wrong url", {
         position: toast.POSITION.TOP_CENTER,
       });
     }
     if (e.target.checked) {
-      
       setCactive(false);
       setBox(true);
       setBar(true);
@@ -306,7 +308,9 @@ const Middle = () => {
         m-0
         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   id="exampleInput90"
-                  placeholder={state?.votepowerR > 0 ? `$ ${yeniGuc}` :   "Loading..."}
+                  placeholder={
+                    state?.votepowerR > 0 ? `$ ${yeniGuc}` : "Loading..."
+                  }
                   disabled
                 />
               </div>
