@@ -106,8 +106,7 @@ const Middle = () => {
     const tokenAddress = "0xed24fc36d5ee211ea25a80239fb8c4cfd80f12ee";
     const contract = await new web3.eth.Contract(abi, tokenAddress);
     const tokenBalance = await contract.methods.balanceOf(account).call();
-    console.log(`BUSD balance: ${tokenBalance / 10 ** 18}`);
-    console.log(dolarg);
+  
     if (tokenBalance / 10 ** 18 === 0) {
       setCactive(false);
       setBox(false);
@@ -136,7 +135,7 @@ const Middle = () => {
       const tokenAddress = "0xed24fc36d5ee211ea25a80239fb8c4cfd80f12ee";
       const contract = await new web3.eth.Contract(abi, tokenAddress);
       const tokenBalance = await contract.methods.balanceOf(account).call();
-      console.log(`BUSD balance: ${tokenBalance / 10 ** 18}`);
+      
       const tokenCount = tokenBalance / 10 ** 18;
 
       if (chainId === 97 && tokenCount > 0) {
@@ -152,7 +151,7 @@ const Middle = () => {
               gasPrice,
             },
             async function (error, transactionHash) {
-              console.log(transactionHash);
+            
               if (transactionHash) {
                 try {
                   try {
@@ -217,7 +216,7 @@ const Middle = () => {
             }
           );
 
-        console.log(tokenTransferResult.transactionHash);
+   
       }
     }
   }
@@ -236,12 +235,12 @@ const Middle = () => {
 
   const checked = async (e) => {
     if (chainId !== 97) {
-      console.log(chainId);
+      
       return toast.error("please use mainnet.", {
         position: toast.POSITION.TOP_CENTER,
       });
     }
-    console.log(rbnPower);
+    
     if (Number(rbnPower) < 60) {
       return toast.error("not enough voting power.", {
         position: toast.POSITION.TOP_CENTER,
@@ -272,13 +271,13 @@ const Middle = () => {
     var t = url;
 
     if (t.match(regex)) {
-      console.log("Successful match");
+
       setCactive(false);
       const array = url.split("/");
       setPermlink(array[5]);
       setKuladi(array[4]);
     } else {
-      console.log("No match");
+  
       setCactive(true);
     }
   };

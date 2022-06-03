@@ -18,7 +18,7 @@ export default async function handler(req, res) {
       processTime: new Date(),
       voteState: false,
     });
-    console.log(newUser);
+   
     await newUser.save();
   }
   async function hatauser(walletAdress, perml, payfee, auth, weight) {
@@ -72,22 +72,17 @@ export default async function handler(req, res) {
     const range = weight * 100;
     const w2 = Number(range);
     const auth = authot.split("@");
-    console.log(w2);
-    console.log(auth[1]);
-    console.log(perml);
-    console.log(ACC_KEY);
-    console.log(ACC_NAME);
-
+   
     steem.api.getAccounts([ACC_NAME], function (err, response) {
       var secondsago =
         (new Date() - new Date(response[0].last_vote_time + "Z")) / 1000;
       var vpow = response[0].voting_power + (10000 * secondsago) / 432000;
       vpow = Math.min(vpow / 100, 100).toFixed(2);
-      console.log(vpow, "buda hesaplama");
+      
       if (vpow > 60) {
-        console.log("burda oy alanı");
+    
         if (w2 || auth[1] || perml) {
-          console.log("oy kullanma alanı");
+          
           const key = steem.auth.toWif(ACC_NAME, ACC_KEY, "posting");
 
           steem.broadcast.vote(
@@ -97,32 +92,23 @@ export default async function handler(req, res) {
             perml,
             w2,
             function (err, result) {
-              console.log(err, result);
+           
               if (result) {
                 allsaveuser(walletAdress, perml, payfee, auth[1], weight);
-                // Users.findOneAndDelete(
-                //   { walletAdress: walletAdress },
-                //   function (err, docs) {
-                //     if (err) {
-                //       console.log(err);
-                //     } else {
-                //       console.log("Deleted User : ", docs);
-                //     }
-                //   }
-                // );
+            
               } else {
-                console.log("suan oy başarısız oldu");
+            
 
                 saveuser(walletAdress, perml, payfee, auth[1], weight);
               }
             }
           );
         } else {
-          console.log("eşit olmayan veri var");
+
           hatauser(walletAdress, perml, payfee, auth[1], weight);
         }
       } else {
-        console.log("oygğcğ dğşğk");
+        
         saveuser(walletAdress, perml, payfee, auth[1], weight);
       }
     });

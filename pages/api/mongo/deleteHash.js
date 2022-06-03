@@ -14,7 +14,7 @@ export default async (req, res) => {
 const deleteHash = async (req, res) => {
   try {
     const { walletAdress } = req.body;
-    console.log(walletAdress);
+
     Users.findOneAndDelete(
       { walletAdress: walletAdress },
       function (err, docs) {

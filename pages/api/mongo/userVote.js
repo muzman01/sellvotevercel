@@ -84,13 +84,8 @@ export default async function handler(req, res) {
     const range = dbweight * 100;
     const w2 = Number(range);
     const auth = dbto.split("@");
-    console.log(w2);
-    console.log(auth[1]);
-    console.log(perml);
-    console.log(ACC_KEY);
-    console.log(ACC_NAME);
-
-    console.log("oy kullanma alanı");
+    
+  
     const key = steem.auth.toWif("robinia", "key", "posting");
 
     steem.broadcast.vote(
@@ -100,11 +95,11 @@ export default async function handler(req, res) {
       bdpermlink,
       w2,
       function (err, result) {
-        console.log(err, result);
+       
         if (result) {
           saveuser(id, voteState);
         } else {
-          console.log("suan oy başarısız oldu");
+       
           saveuser(id, voteState);
         }
       }

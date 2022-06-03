@@ -23,8 +23,8 @@ const uptadateHash = async (req, res) => {
             transicaitonHash,
  
           );
-          console.log(req.body);
-          console.log(errMsg);
+          
+         
           if (errMsg) return res.status(400).json({ err: errMsg });
 
         const newCategory = await Users.findOneAndUpdate({walletAdress: walletAdress}, {transicaitonHash})

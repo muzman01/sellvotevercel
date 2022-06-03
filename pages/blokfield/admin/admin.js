@@ -1,16 +1,15 @@
 import React from "react";
 import { useState ,useEffect} from "react";
 import { ToastContainer, toast } from "react-toastify";
-import Image from "next/image";
-import { getData } from "@utils/fetchData";
+
 import axios from "axios";
 const baseUrl = process.env.BASE_URL
 
 export default function admin(data) {
-  console.log(data.data);
+
   const [coins2, setCoins2] = useState([]);
   const [product] = useState(data.data)
-  console.log(product.length);
+ 
   const add = process.env.ADMİN;
   const adds = process.env.ADMİNKEY;
   const [lactive, setLactive] = useState(false);
@@ -48,7 +47,7 @@ export default function admin(data) {
       )
       .then(res => {
         setCoins2(res.data.market_data.current_price.usd);
-       console.log(res.data.market_data.current_price.usd);
+      
       })
       .catch(error => console.log(error));
   }, []);
