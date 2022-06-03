@@ -19,6 +19,7 @@
     "axios": "^0.26.0",
     "chart.js": "^2.9.4",
     "cheerio": "^1.0.0-rc.10",
+    "coingecko-api": "^1.0.10",
     "express": "^4.17.3",
     "gsap": "^3.10.2",
     "i18next": "^21.6.10",
