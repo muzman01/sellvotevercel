@@ -11,10 +11,10 @@ import axios from "axios";
 import { DataContext } from "../../../../store/Globalstate";
 
 import { injected } from "@components/connector";
-import { postData, putData, deleteData } from "@utils/fetchData";
+
 import abi from "../../../../public/abi.json";
 
-import valid from "../../../../utils/valid";
+
 import validhash from "@utils/validhash";
 import i18n from "../../../../i18n";
 import { withTranslation } from "react-i18next";

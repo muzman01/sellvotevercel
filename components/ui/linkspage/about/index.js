@@ -3,8 +3,7 @@ import axios from "axios";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { BaseLayout } from "@components/ui/layout";
-import { Card } from "@components/ui/order";
-import { Footer, RightBar } from "@components/ui/common";
+
 import { withTranslation } from "react-i18next";
 import i18n from "../../../../i18n";
 
@@ -13,40 +12,7 @@ const AboutContainer = () => {
     AOS.init();
     AOS.refresh();
   }, []);
-  const [coins, setCoins] = useState([]);
-  const [coins1, setCoins1] = useState([]);
-  const [coins2, setCoins2] = useState([]);
 
-  useEffect(() => {
-    axios
-      .get(
-        "https://api.coingecko.com/api/v3/coins/steem?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false"
-      )
-      .then((res) => {
-        setCoins(res.data.market_data.current_price.usd);
-      })
-      .catch((error) => console.log(error));
-  }, []);
-  useEffect(() => {
-    axios
-      .get(
-        "https://api.coingecko.com/api/v3/coins/steem-dollars?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false"
-      )
-      .then((res) => {
-        setCoins1(res.data.market_data.current_price.usd);
-      })
-      .catch((error) => console.log(error));
-  }, []);
-  useEffect(() => {
-    axios
-      .get(
-        'https://api.coingecko.com/api/v3/coins/binance-usd?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false'
-      )
-      .then((res) => {
-        setCoins2(res.data.market_data.current_price.usd);
-      })
-      .catch((error) => console.log(error));
-  }, []);
   return (
     <div
       data-aos="fade-right"

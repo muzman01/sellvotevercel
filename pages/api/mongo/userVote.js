@@ -1,23 +1,24 @@
 const steem = require("steem");
 import connectDb from "@utils/connectDb";
-import Users from "../../../models/userModel";
+
 import Awaitdata from "../../../models/awaitModel";
 import allUser from "../../../models/allUser";
 connectDb();
-let basarili;
-let hatali;
+
 export default async function handler(req, res) {
   // check method post
   async function saveuser(id, voteState) {
-    const newCategory = await  Awaitdata.findOneAndUpdate({_id: id}, {voteState})
+    const newCategory = await Awaitdata.findOneAndUpdate(
+      { _id: id },
+      { voteState }
+    );
     res.json({
-        msg: "Success! Update a new category",
-        awaitmodels: {
-            ...newCategory._doc,
-            voteState:true
-        }
-    })
-    
+      msg: "Success! Update a new category",
+      awaitmodels: {
+        ...newCategory._doc,
+        voteState: true,
+      },
+    });
   }
   async function hatauser(walletAdress, perml, payfee, dbto, weight) {
     const newUser = new Awaitdata({
@@ -28,10 +29,9 @@ export default async function handler(req, res) {
       voteWeigth: weight,
       payState: true,
       processTime: new Date(),
-      voteState: false
+      voteState: false,
     });
     await newUser.save();
-    
   }
   async function allsaveuser(walletAdress, perml, payfee, dbto, weight) {
     const newUser = new allUser({
@@ -42,10 +42,9 @@ export default async function handler(req, res) {
       voteWeigth: weight,
       payState: true,
       processTime: new Date(),
-      voteState: true
+      voteState: true,
     });
     await newUser.save();
-    
   }
   if (req.method === "POST") {
     const transicaitonHash = req.body.transicaitonHash;
@@ -55,7 +54,7 @@ export default async function handler(req, res) {
     const authot = req.body.voteTo;
     const weight = req.body.voteWeigth;
     const voteState = req.body.voteState;
-    const id = req.body.id
+    const id = req.body.id;
     res.status(200).json({
       status: "success",
       data: {
@@ -67,13 +66,13 @@ export default async function handler(req, res) {
         voteWeigth: req.body.voteWeigth,
         payState: req.body.payState,
         processTime: req.body.processTime,
-        voteState:req.body.voteState,
-        id:req.body.id
+        voteState: req.body.voteState,
+        id: req.body.id,
       },
     });
-    
+
     const hashUser = await Awaitdata.findOne({ walletAdress: walletAdress });
-    
+
     const bdwallet = hashUser.walletAdress;
     const dbhash = hashUser.transicaitonHash;
     const bdpermlink = hashUser.perMLink;
@@ -90,30 +89,26 @@ export default async function handler(req, res) {
     console.log(perml);
     console.log(ACC_KEY);
     console.log(ACC_NAME);
- 
-      console.log("oy kullanma alanı");
-      const key = steem.auth.toWif("robinia", "key", "posting");
 
-      steem.broadcast.vote(
-        "",
-        "robinia",
-        auth[1],
-        bdpermlink,
-        w2,
-        function (err, result) {
-          console.log(err, result);
-          if (result) {
-            saveuser(id, voteState)
-            
-          } else {
-            console.log("suan oy başarısız oldu");
-            saveuser(id, voteState)
-            
-            
-          }
+    console.log("oy kullanma alanı");
+    const key = steem.auth.toWif("robinia", "key", "posting");
+
+    steem.broadcast.vote(
+      "",
+      "robinia",
+      auth[1],
+      bdpermlink,
+      w2,
+      function (err, result) {
+        console.log(err, result);
+        if (result) {
+          saveuser(id, voteState);
+        } else {
+          console.log("suan oy başarısız oldu");
+          saveuser(id, voteState);
         }
-      );
-  
+      }
+    );
   } else {
     res.status(301).json({
       status: "denied",

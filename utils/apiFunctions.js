@@ -55,7 +55,7 @@ function getAccountDetailPower() {
     });
   }
 
-  steem.api.getAccounts(["robinia"], function (err, result) {
+  steem.api.getAccounts([process.env.ACC_NAME], function (err, result) {
     let steemPower = getSteemPower(result[0]);
 
     getRewardFund(steemPower);

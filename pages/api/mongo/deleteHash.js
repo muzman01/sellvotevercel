@@ -1,7 +1,7 @@
 import connectDb from "../../../utils/connectDb";
 import Users from "../../../models/userModel";
 
-import validhash from "../../../utils/validhash";
+
 
 connectDb();
 export default async (req, res) => {

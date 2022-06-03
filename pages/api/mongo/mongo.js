@@ -1,20 +1,4 @@
-// const express = require("express")
-// // const mongoose = require("mongoose")
-// // const app = express();
-// // mongoose.connect('mongodb+srv://blokfieldsellvote:Gerok261.@cluster0.xqejn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority')
-// // const { Schema } = mongoose;
 
-// // const userSchema = new Schema({
-// //   walletAdress: String,
-// //   permLink: String,
-// //   transicationHash: String,
-// //   fee: Number,
-// //   voteTo: String,
-// //   voteWeight: String
-
-// // });
-
-// // mongoose.model("users", userSchema);
 import connectDb from "../../../utils/connectDb";
 import Users from "../../../models/userModel";
 import valid from "../../../utils/valid";
@@ -54,9 +38,7 @@ const register = async (req, res) => {
       processTime
     );
     if (errMsg) return res.status(400).json({ err: errMsg });
-    // const user = await Users.findOne({perMLink})
-    
-    // if(user === perMLink) return res.status(400).json({err: 'Bu adress kullanımda.'})
+   
     const newUser = new Users({
       walletAdress,
       perMLink,

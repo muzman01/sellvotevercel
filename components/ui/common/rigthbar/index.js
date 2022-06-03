@@ -1,24 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
+
 import i18n from "../../../../i18n";
 import { withTranslation } from "react-i18next";
-const baseUrl = process.env.BASE_URL;
-const data = {
-  labels: [],
-  datasets: [
-    {
-      data: [10, 100],
-      backgroundColor: [" rgba(67, 56, 202)", "rgba(229, 231, 235)"],
-      hoverBackgroundColor: ["#FF6384", "#36A2EB"],
-    },
-  ],
-};
+
 import { DataContext } from "../../../../store/Globalstate";
 const RightBar = () => {
   const { state, dispatch } = useContext(DataContext);
   const [yeniGuc, setYeniGuc] = useState([]);
 
-  const [loading,setLoading] = useState(false)
   useEffect(() => {
     setYeniGuc(state?.votweigthR)
   }, [state]);

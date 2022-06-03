@@ -4,10 +4,10 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { BaseLayout } from "@components/ui/layout";
 import { Card } from "@components/ui/order";
-import {RightBar} from "@components/ui/common"
+
 import axios from "axios";
-// import Accordion from "./Accordion";
-import Roadmap from "./Roadmap";
+
+
 import Qa from "./Qa";
 
 const Containerhome = () => {
@@ -18,7 +18,7 @@ const Containerhome = () => {
       const [coins, setCoins] = useState([]);
       const [coins1, setCoins1] = useState([]);
       const [coins2, setCoins2] = useState([]);
-      const [activeIndex, setActiveIndex] = useState(1);
+  
       useEffect(() => {
         axios
           .get(

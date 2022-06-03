@@ -1,13 +1,5 @@
 import React from "react";
-import DonutLargeIcon from "@material-ui/icons/DonutLarge";
-import ClearAllIcon from "@material-ui/icons/ClearAll";
-import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
-import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
-import SyncAltIcon from "@material-ui/icons/SyncAlt";
-import LayersIcon from "@material-ui/icons/Layers";
-import LockIcon from "@material-ui/icons/Lock";
-import EcoIcon from "@material-ui/icons/Eco";
-import Flag from "@material-ui/icons/Flag";
+
 import Link from "next/link";
 import { withTranslation } from "react-i18next";
 import i18n from "../../../../i18n";

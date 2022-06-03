@@ -7,12 +7,12 @@ import { useWeb3React } from "@web3-react/core";
 
 import { injected } from "@components/connector";
 
-import { DataContext } from "store/Globalstate";
+
 import { withTranslation } from "react-i18next";
 import i18n from "../../../../i18n";
 
 const Header = ({ address }) => {
-  const { state, dispatch } = useContext(DataContext);
+
   
   const onChangeLanguage = (language) => {
     i18n.changeLanguage(language);

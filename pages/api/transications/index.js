@@ -1,12 +1,10 @@
 const steem = require("steem");
 import connectDb from "@utils/connectDb";
-import Users from "../../../models/userModel";
+
 import Awaitdata from "../../../models/awaitModel";
-import allUser from "../../../models/allUser";
+
 connectDb();
-let basarili;
-let hatali;
-const baseUrl = process.env.ACC_KEY;
+
 export default async function handler(req, res) {
   // check method post
   async function saveuser(walletAdress, perml, payfee, auth, weight) {
@@ -69,8 +67,8 @@ export default async function handler(req, res) {
         processTime: req.body.processTime,
       },
     });
-    const ACC_NAME = "robinia";
-    const ACC_KEY = "key";
+    const ACC_NAME = process.env.ACC_NAME;
+    const ACC_KEY = process.env.ACC_KEY;
     const range = weight * 100;
     const w2 = Number(range);
     const auth = authot.split("@");
@@ -80,7 +78,7 @@ export default async function handler(req, res) {
     console.log(ACC_KEY);
     console.log(ACC_NAME);
 
-    steem.api.getAccounts(["robinia"], function (err, response) {
+    steem.api.getAccounts([ACC_NAME], function (err, response) {
       var secondsago =
         (new Date() - new Date(response[0].last_vote_time + "Z")) / 1000;
       var vpow = response[0].voting_power + (10000 * secondsago) / 432000;
@@ -90,11 +88,11 @@ export default async function handler(req, res) {
         console.log("burda oy alanı");
         if (w2 || auth[1] || perml) {
           console.log("oy kullanma alanı");
-          const key = steem.auth.toWif("robinia", ACC_KEY, "posting");
+          const key = steem.auth.toWif(ACC_NAME, ACC_KEY, "posting");
 
           steem.broadcast.vote(
             ACC_KEY,
-            "robinia",
+            ACC_NAME,
             auth[1],
             perml,
             w2,
