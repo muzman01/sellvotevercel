@@ -279,7 +279,7 @@ const Middle = () => {
       setCactive(true);
     }
   };
-
+  console.log(state?.votepowerR);
   return (
     <div data-aos="flip-down">
       <div className="backgorund">
@@ -306,7 +306,7 @@ const Middle = () => {
         m-0
         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   id="exampleInput90"
-                  placeholder={yeniGuc === 0 ? "Loading...." : `$ ${yeniGuc}`}
+                  placeholder={state?.votepowerR > 0 ? `$ ${yeniGuc}` :   "Loading..."}
                   disabled
                 />
               </div>

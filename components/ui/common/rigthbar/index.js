@@ -36,7 +36,7 @@ const RightBar = () => {
         <div className="skill">
           <div className="outer">
             <div className="inner">
-              <div id="number">{ loading ? 'Loading...':`${yeniGuc} %`}</div>
+              <div id="number">{state?.votweigthR > 0 ? ` ${yeniGuc} %` :   "Loading..."}</div>
             </div>
           </div>
         </div>
