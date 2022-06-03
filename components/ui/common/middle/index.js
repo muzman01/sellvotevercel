@@ -108,14 +108,6 @@ const Middle = () => {
     const tokenBalance = await contract.methods.balanceOf(account).call();
     console.log(`BUSD balance: ${tokenBalance / 10 ** 18}`);
     console.log(dolarg);
-    if (Number(dolarg) > tokenBalance / 10 ** 18) {
-      setCactive(false);
-      setBox(false);
-      setBar(false);
-      return toast.error("Insufficient funds!", {
-        position: toast.POSITION.TOP_CENTER,
-      });
-    }
     if (tokenBalance / 10 ** 18 === 0) {
       setCactive(false);
       setBox(false);
@@ -124,6 +116,15 @@ const Middle = () => {
         position: toast.POSITION.TOP_CENTER,
       });
     }
+    if (Number(dolarg) > tokenBalance / 10 ** 18) {
+      setCactive(false);
+      setBox(false);
+      setBar(false);
+      return toast.error("Insufficient funds!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
+
     if (dolarg < Number(tokenBalance)) {
       toast.success("Processing, please wait!", {
         position: toast.POSITION.TOP_CENTER,
