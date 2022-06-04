@@ -14,13 +14,13 @@ import { injected } from "@components/connector";
 
 import abi from "../../../../public/abi.json";
 
-
 import validhash from "@utils/validhash";
 import i18n from "../../../../i18n";
 import { withTranslation } from "react-i18next";
 import { useRouter } from "next/router";
 
 const baseUrl = process.env.BASE_URL;
+const id = process.env.CHAİN_İD_TEST;
 const Middle = () => {
   const { state, dispatch } = useContext(DataContext);
   const router = useRouter();
@@ -40,6 +40,7 @@ const Middle = () => {
   const [coins2, setCoins2] = useState([]);
   const [transHash, setTransHash] = useState("hashhash");
   const [cactive, setCactive] = useState(true);
+  const [hashDetail, setHashDetail] = useState({});
   const { active, account, library, connector, chainId, activate, deactivate } =
     useWeb3React();
   const web3 = new Web3(library);
@@ -106,7 +107,7 @@ const Middle = () => {
     const tokenAddress = "0xed24fc36d5ee211ea25a80239fb8c4cfd80f12ee";
     const contract = await new web3.eth.Contract(abi, tokenAddress);
     const tokenBalance = await contract.methods.balanceOf(account).call();
-  
+
     if (tokenBalance / 10 ** 18 === 0) {
       setCactive(false);
       setBox(false);
@@ -135,10 +136,10 @@ const Middle = () => {
       const tokenAddress = "0xed24fc36d5ee211ea25a80239fb8c4cfd80f12ee";
       const contract = await new web3.eth.Contract(abi, tokenAddress);
       const tokenBalance = await contract.methods.balanceOf(account).call();
-      
+
       const tokenCount = tokenBalance / 10 ** 18;
 
-      if (chainId === 97 && tokenCount > 0) {
+      if (chainId === id && tokenCount > 0) {
         const gasPrice = await web3.eth.getGasPrice();
         const tokenTransferResult = await contract.methods
           .transfer(
@@ -151,59 +152,7 @@ const Middle = () => {
               gasPrice,
             },
             async function (error, transactionHash) {
-            
-              if (transactionHash) {
-                try {
-                  try {
-                    await axios
-                      .post(`${baseUrl}/api/transications`, {
-                        walletAdress,
-                        perMLink,
-                        transicaitonHash,
-                        fee,
-                        voteTo,
-                        voteWeigth,
-                        payState,
-                        processTime,
-                      })
-                      .then((data) => {
-                        data;
-                      });
-                  } catch (error) {
-                    console.log(error);
-                  }
-
-                  const errMsgHash = validhash(walletAdress, transicaitonHash);
-                  if (errMsgHash)
-                    return dispatch({
-                      type: "NOTIFY",
-                      payload: { error: errMsgHash },
-                    });
-                  dispatch({ type: "NOTIFY", payload: { loading: true } });
-
-                  toast.success("Voting successful!", {
-                    position: toast.POSITION.TOP_CENTER,
-                  });
-                  dispatch({
-                    type: "NOTIFY",
-                    payload: { success: "success" },
-                  });
-                  setTimeout(() => {
-                    reload();
-                  }, 3000);
-                  //apiyi çağır
-                } catch (error) {
-                  console.log(error);
-                  return dispatch({
-                    type: "NOTIFY",
-                    payload: {
-                      error: toast.warning("Error", {
-                        position: toast.POSITION.TOP_CENTER,
-                      }),
-                    },
-                  });
-                }
-              } else {
+              if (error)
                 dispatch({
                   type: "NOTIFY",
                   payload: {
@@ -212,11 +161,85 @@ const Middle = () => {
                     }),
                   },
                 });
+            }
+          )
+          .on("receipt", async function (receipt) {
+            // receipt example
+
+            if (receipt) {
+              let controlWallet = walletAdress.toLowerCase();
+
+              if (receipt.from === controlWallet) {
+                try {
+                  const { data } = await axios.post(
+                    `${baseUrl}/api/transications`,
+                    {
+                      walletAdress,
+                      perMLink,
+                      transicaitonHash: receipt.transactionHash,
+                      fee,
+                      voteTo,
+                      voteWeigth,
+                      payState,
+                      processTime,
+                      blockNumber: receipt.blockNumber,
+                    }
+                  );
+                  console.log(data.message);
+                  if (data?.message === "Success") {
+                    toast.success("Voting successful!", {
+                      position: toast.POSITION.TOP_CENTER,
+                    });
+                    dispatch({
+                      type: "NOTIFY",
+                      payload: { success: "success" },
+                    });
+                    setTimeout(() => {
+                      reload();
+                    }, 3000);
+                  } else {
+                    console.log("burda");
+                    return dispatch({
+                      type: "NOTIFY",
+                      payload: {
+                        error: toast.warning(
+                          "There was an error while voting",
+                          {
+                            position: toast.POSITION.TOP_CENTER,
+                          }
+                        ),
+                      },
+                    });
+                  }
+                } catch (error) {
+                  console.log(error);
+                }
+              } else {
+                console.log("burdaki hata");
+                return dispatch({
+                  type: "NOTIFY",
+                  payload: {
+                    error: toast.warning("Error", {
+                      position: toast.POSITION.TOP_CENTER,
+                    }),
+                  },
+                });
               }
             }
-          );
-
-   
+          })
+          .on("transactionHash", async function (transactionHash) {
+            if (transactionHash) {
+            } else {
+              dispatch({
+                type: "NOTIFY",
+                payload: {
+                  error: toast.warning("Transaction canceled", {
+                    position: toast.POSITION.TOP_CENTER,
+                  }),
+                },
+              });
+            }
+          });
       }
     }
   }
@@ -234,13 +257,12 @@ const Middle = () => {
   };
 
   const checked = async (e) => {
-    if (chainId !== 97) {
-      
+    if (chainId !== id) {
       return toast.error("please use mainnet.", {
         position: toast.POSITION.TOP_CENTER,
       });
     }
-    
+
     if (Number(rbnPower) < 60) {
       return toast.error("not enough voting power.", {
         position: toast.POSITION.TOP_CENTER,
@@ -271,17 +293,15 @@ const Middle = () => {
     var t = url;
 
     if (t.match(regex)) {
-
       setCactive(false);
       const array = url.split("/");
       setPermlink(array[5]);
       setKuladi(array[4]);
     } else {
-  
       setCactive(true);
     }
   };
-  console.log(state?.votepowerR);
+
   return (
     <div data-aos="flip-down">
       <div className="backgorund">

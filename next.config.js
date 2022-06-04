@@ -5,7 +5,10 @@ module.exports = {
     ACC_KEY:"",
     ACC_NAME:"robinia",
     ADMİN:"111",
-    ADMİNKEY:"111"
+    ADMİNKEY:"111",
+    CHAİN_İD_MAİN:56,
+    CHAİN_İD_TEST:97,
+
   },
   
 };
