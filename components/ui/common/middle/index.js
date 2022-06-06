@@ -1,24 +1,19 @@
 import React, { useEffect, useState, useContext } from "react";
-import DashboardIcon from "@material-ui/icons/Dashboard";
-import CropLandscapeIcon from "@material-ui/icons/CropLandscape";
-import AppsIcon from "@material-ui/icons/Apps";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import Web3 from "web3";
 import { useWeb3React } from "@web3-react/core";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { DataContext } from "../../../../store/Globalstate";
-
 import { injected } from "@components/connector";
-
 import abi from "../../../../public/abi.json";
-
-import validhash from "@utils/validhash";
 import i18n from "../../../../i18n";
 import { withTranslation } from "react-i18next";
 import { useRouter } from "next/router";
-
+import {
+  errorToastMessage,
+  successToastMessage,
+  warningToastMessage,
+} from "@components/message/ToastMessage";
 const baseUrl = process.env.BASE_URL;
 const id = process.env.CHAİN_İD_TEST;
 const Middle = () => {
@@ -104,7 +99,7 @@ const Middle = () => {
   }
 
   async function paidBusd() {
-    const tokenAddress = "0xed24fc36d5ee211ea25a80239fb8c4cfd80f12ee";
+    const tokenAddress = process.env.TOKENADRESS;
     const contract = await new web3.eth.Contract(abi, tokenAddress);
     const tokenBalance = await contract.methods.balanceOf(account).call();
 
@@ -112,28 +107,22 @@ const Middle = () => {
       setCactive(false);
       setBox(false);
       setBar(false);
-      return toast.error("you have no money", {
-        position: toast.POSITION.TOP_CENTER,
-      });
+      return errorToastMessage("you have no money");
     }
     if (Number(dolarg) > tokenBalance / 10 ** 18) {
       setCactive(false);
       setBox(false);
       setBar(false);
-      return toast.error("Insufficient funds!", {
-        position: toast.POSITION.TOP_CENTER,
-      });
+      return errorToastMessage("Insufficient funds!");
     }
 
     if (dolarg < Number(tokenBalance)) {
-      toast.success("Processing, please wait!", {
-        position: toast.POSITION.TOP_CENTER,
-      });
+      successToastMessage("Processing, please wait!");
     }
 
     if (dolarg > 0) {
       dispatch({ type: "NOTIFY", payload: { loading: true } });
-      const tokenAddress = "0xed24fc36d5ee211ea25a80239fb8c4cfd80f12ee";
+      const tokenAddress = process.env.TOKENADRESS;
       const contract = await new web3.eth.Contract(abi, tokenAddress);
       const tokenBalance = await contract.methods.balanceOf(account).call();
 
@@ -142,10 +131,7 @@ const Middle = () => {
       if (chainId === id && tokenCount > 0) {
         const gasPrice = await web3.eth.getGasPrice();
         const tokenTransferResult = await contract.methods
-          .transfer(
-            "0xBd87Afe44d68907285C32e7E82A132346c8Cb6DC",
-            web3.utils.toWei(`${fee}`, "ether")
-          )
+          .transfer(process.env.MAİNWALLET, web3.utils.toWei(`${fee}`, "ether"))
           .send(
             {
               from: account,
@@ -156,19 +142,14 @@ const Middle = () => {
                 dispatch({
                   type: "NOTIFY",
                   payload: {
-                    error: toast.warning("Transaction canceled", {
-                      position: toast.POSITION.TOP_CENTER,
-                    }),
+                    error: warningToastMessage("Transaction canceled"),
                   },
                 });
             }
           )
           .on("receipt", async function (receipt) {
-            // receipt example
-
             if (receipt) {
               let controlWallet = walletAdress.toLowerCase();
-
               if (receipt.from === controlWallet) {
                 try {
                   const { data } = await axios.post(
@@ -185,11 +166,8 @@ const Middle = () => {
                       blockNumber: receipt.blockNumber,
                     }
                   );
-                  console.log(data.message);
                   if (data?.message === "Success") {
-                    toast.success("Voting successful!", {
-                      position: toast.POSITION.TOP_CENTER,
-                    });
+                    successToastMessage("Voting successful!");
                     dispatch({
                       type: "NOTIFY",
                       payload: { success: "success" },
@@ -202,11 +180,8 @@ const Middle = () => {
                     return dispatch({
                       type: "NOTIFY",
                       payload: {
-                        error: toast.warning(
-                          "There was an error while voting",
-                          {
-                            position: toast.POSITION.TOP_CENTER,
-                          }
+                        error: warningToastMessage(
+                          "There was an error while voting"
                         ),
                       },
                     });
@@ -215,13 +190,10 @@ const Middle = () => {
                   console.log(error);
                 }
               } else {
-                console.log("burdaki hata");
                 return dispatch({
                   type: "NOTIFY",
                   payload: {
-                    error: toast.warning("Error", {
-                      position: toast.POSITION.TOP_CENTER,
-                    }),
+                    error: warningToastMessage("Error!"),
                   },
                 });
               }
@@ -233,9 +205,7 @@ const Middle = () => {
               dispatch({
                 type: "NOTIFY",
                 payload: {
-                  error: toast.warning("Transaction canceled", {
-                    position: toast.POSITION.TOP_CENTER,
-                  }),
+                  error: warningToastMessage("Transaction canceled"),
                 },
               });
             }
@@ -258,25 +228,17 @@ const Middle = () => {
 
   const checked = async (e) => {
     if (chainId !== id) {
-      return toast.error("please use mainnet.", {
-        position: toast.POSITION.TOP_CENTER,
-      });
+      return errorToastMessage("please use mainnet.");
     }
 
     if (Number(rbnPower) < 60) {
-      return toast.error("not enough voting power.", {
-        position: toast.POSITION.TOP_CENTER,
-      });
+      return errorToastMessage("not enough voting power.");
     }
     if (yeniGuc === 0) {
-      return toast.error("Invalid voting power", {
-        position: toast.POSITION.TOP_CENTER,
-      });
+      return errorToastMessage("Invalid voting power");
     }
     if (cactive) {
-      return toast.error("Missing or wrong url", {
-        position: toast.POSITION.TOP_CENTER,
-      });
+      return errorToastMessage("Missing or wrong url");
     }
     if (e.target.checked) {
       setCactive(false);
