@@ -8,7 +8,7 @@ export default function User() {
       <div>
         <div className="flex w-screen h-screen" style={{ maxWidth: "100%" }}>
           <Sidebar />
-          <div className="w-screen ">
+          <div className="w-screen " >
             <Header />
             <Containeruser />
             <Footer />

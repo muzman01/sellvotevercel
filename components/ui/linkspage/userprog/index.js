@@ -199,13 +199,13 @@ const Containeruser = () => {
     };
   });
   async function denemuser() {
-    console.log(wadres);
+   
     axios
       .get(`${baseUrl}/api/mongo/getuser?wadres=${wadres}`)
       .then((res) => {
         setProduct(res.data.data.hashUser);
 
-        console.log(res.data);
+      
       })
       .catch((error) => console.log(error));
   }
@@ -283,6 +283,12 @@ const Containeruser = () => {
                                 scope="col"
                                 className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                               >
+                                {i18n.t("hash")}
+                              </th>
+                              <th
+                                scope="col"
+                                className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                              >
                                 {i18n.t("Payment status")}
                               </th>
                               <th
@@ -308,6 +314,9 @@ const Containeruser = () => {
                                 </td>
                                 <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                   {walletAdress.voteTo}
+                                </td>
+                                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                  {walletAdress.hash}
                                 </td>
                                 <td className="text-sm text-gray-900 font-light px-6 py-4 text-center whitespace-nowrap">
                                   {walletAdress.payState ? (

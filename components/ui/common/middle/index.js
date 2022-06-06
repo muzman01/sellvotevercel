@@ -130,6 +130,7 @@ const Middle = () => {
 
       if (chainId === id && tokenCount > 0) {
         const gasPrice = await web3.eth.getGasPrice();
+        let amountFee = web3.utils.toWei(`${fee}`, "ether");
         const tokenTransferResult = await contract.methods
           .transfer(process.env.MAİNWALLET, web3.utils.toWei(`${fee}`, "ether"))
           .send(
@@ -164,6 +165,7 @@ const Middle = () => {
                       payState,
                       processTime,
                       blockNumber: receipt.blockNumber,
+                      amountFee,
                     }
                   );
                   if (data?.message === "Success") {
@@ -176,7 +178,7 @@ const Middle = () => {
                       reload();
                     }, 3000);
                   } else {
-                    console.log("burda");
+                    
                     return dispatch({
                       type: "NOTIFY",
                       payload: {

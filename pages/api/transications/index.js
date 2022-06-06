@@ -21,16 +21,19 @@ export default async function handler(req, res) {
     const authot = req.body.voteTo;
     const weight = req.body.voteWeigth;
     const frontBlock = req.body.blockNumber;
-
+    const amountFee = req.body.amountFee;
     const range = weight * 100;
     const w2 = Number(range);
     const auth = authot.split("@");
 
     var receipt = await web3.eth.getTransactionReceipt(transicaitonHash);
 
+    const value = web3.eth.abi.decodeParameter("uint256", receipt.logs[0].data);
+
     if (
       receipt.from !== walletAdress.toLowerCase() ||
-      transicaitonHash !== receipt.transactionHash
+      transicaitonHash !== receipt.transactionHash ||
+      value !== amountFee
     ) {
       return res.send({
         message: "error",
@@ -67,7 +70,8 @@ export default async function handler(req, res) {
                   auth[1],
                   weight,
                   true,
-                  true
+                  true,
+                  transicaitonHash
                 );
                 res.send({
                   walletAdress: req.body.walletAdress,
@@ -81,7 +85,7 @@ export default async function handler(req, res) {
                   message: "Success",
                 });
               } else {
-                console.log("şuan burda");
+                
                 allUserFunction(
                   walletAdress,
                   perml,
@@ -89,7 +93,8 @@ export default async function handler(req, res) {
                   auth[1],
                   weight,
                   true,
-                  false
+                  false,
+                  transicaitonHash
                 );
                 res.send({
                   message: "error",
@@ -105,7 +110,8 @@ export default async function handler(req, res) {
             auth[1],
             weight,
             true,
-            false
+            false,
+            transicaitonHash
           );
           res.send({
             message: "error",
@@ -119,7 +125,8 @@ export default async function handler(req, res) {
           auth[1],
           weight,
           true,
-          false
+          false,
+          transicaitonHash
         );
         res.send({
           message: "error",

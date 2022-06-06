@@ -1,35 +1,47 @@
 import React from "react";
-import { useState ,useEffect} from "react";
+import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
 import axios from "axios";
-const baseUrl = process.env.BASE_URL
+const baseUrl = process.env.BASE_URL;
 
-export default function admin(data) {
-
+export default function admin() {
   const [coins2, setCoins2] = useState([]);
-  const [product] = useState(data.data)
- 
+  const [product, setProduct] = useState([]);
+  async function denemuser() {
+    axios
+      .get(`${baseUrl}/api/mongo/gettAll`)
+      .then((res) => {
+        setProduct(res.data.data.hashUser);
+
+        console.log(res.data.data.hashUser);
+      })
+      .catch((error) => console.log(error));
+  }
   const add = process.env.ADMİN;
   const adds = process.env.ADMİNKEY;
   const [lactive, setLactive] = useState(false);
-  useEffect(()=>{
-    if(localStorage.getItem('email') === add || localStorage.getItem('password') === adds){
-      setLactive(true)
+  useEffect(() => {
+    if (
+      localStorage.getItem("email") === add ||
+      localStorage.getItem("password") === adds
+    ) {
+      setLactive(true);
     }
-  },[])
+    denemuser();
+  }, []);
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
     let email = e.target.elements.email?.value;
     let password = e.target.elements.password?.value;
-    let data ={
-      email:email,
-      password:password
-    }
-   
+    let data = {
+      email: email,
+      password: password,
+    };
+
     if (add === email || adds === password) {
-      localStorage.setItem('email', `${email}`);
+      localStorage.setItem("email", `${email}`);
       localStorage.setItem("password", `${password}`);
       toast.success("Giriş başarılı", { position: toast.POSITION.TOP_CENTER });
       setLactive(true);
@@ -43,41 +55,34 @@ export default function admin(data) {
   useEffect(() => {
     axios
       .get(
-        'https://api.coingecko.com/api/v3/coins/binance-usd?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false'
+        "https://api.coingecko.com/api/v3/coins/binance-usd?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false"
       )
-      .then(res => {
+      .then((res) => {
         setCoins2(res.data.market_data.current_price.usd);
-      
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   }, []);
   let trx;
   let i;
-  // for (i = 0; i < product.length; i++) {
-    
-  //   trx = data.data[i].fee
-  //   console.log(trx);
-  // }
-  
-  let accounts = [data.data.length];
-  let delSp = [data.data.length];
-let totalSp = 0;
+  for (i = 0; i < product.length; i++) {
+    trx = product[i].fee;
+    console.log(trx);
+  }
 
- 
+  let accounts = [product.length];
+  let delSp = [product.length];
+  let totalSp = 0;
 
-  for (i = 0; i < data.data.length; i++) {
-    accounts[i] = data.data[i].perMLink;
-    delSp[i] = data.data[i].fee;
-
-
+  for (i = 0; i < product.length; i++) {
+    accounts[i] = product[i].perMLink;
+    delSp[i] = product[i].fee;
   }
   for (i = 0; i < delSp.length; i++) {
     totalSp += delSp[i];
-  
   }
 
- let trxyeni = totalSp.toFixed(2)
- let dlr = totalSp / coins2
+  let trxyeni = totalSp.toFixed(2);
+  let dlr = totalSp / coins2;
   return (
     <>
       {lactive ? (
@@ -107,10 +112,10 @@ let totalSp = 0;
                       </p>
                     </div>
                     <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                     BUSD {trxyeni}
+                      BUSD {trxyeni}
                     </div>
                     <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                     $ {dlr.toFixed(2)}
+                      $ {dlr.toFixed(2)}
                     </div>
                   </div>
                 </li>
@@ -147,13 +152,19 @@ let totalSp = 0;
                           scope="col"
                           className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
-                          BUSD 
+                          BUSD
                         </th>
                         <th
                           scope="col"
                           className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
                           Voted Account
+                        </th>
+                        <th
+                          scope="col"
+                          className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                        >
+                          Hash
                         </th>
                         <th
                           scope="col"
@@ -175,54 +186,63 @@ let totalSp = 0;
                         </th>
                       </tr>
                     </thead>
-                    {console.log(product)}
+                    
                     {product.map((walletAdress) => (
-                    <tbody>
-                      
+                      <tbody>
                         <tr className="border-b" key={walletAdress._id}>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" >
-                          {walletAdress.walletAdress}
-                        </td>
-                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {walletAdress.perMLink}
-                        </td>
-                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {walletAdress.voteWeigth}%
-                        </td>
-                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {walletAdress.fee}
-                        </td>
-                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {walletAdress.voteTo}
-                        </td>
-                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {walletAdress.payState ? (
-                          <p className="border-b bg-green-100 border-green-200">Paid</p>
-                        ): (<p className="border-b bg-red-100 border-red-200">ödenmedi</p>)}
-                        </td>
-                        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {walletAdress.processTime}
-                        </td>
-                        <td className="text-sm text-gray-900 font-light px-6 py-4 text-center whitespace-nowrap">
-                        {walletAdress.voteState ? (
-                          <p className="border-b bg-green-100 border-green-200">Voted</p>
-                        ): (<p className="border-b bg-red-100 border-red-200">Not Voted | </p>)}
-                        </td>
-                      </tr>
-                   
-                       {/* {product.map((walletAdress) => (
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {walletAdress.walletAdress}
-                      </td>
-                    ))} */}
-                    </tbody>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            {walletAdress.walletAdress}
+                          </td>
+                          <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                            {walletAdress.perMLink}
+                          </td>
+                          <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                            {walletAdress.voteWeigth}%
+                          </td>
+                          <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                            {walletAdress.fee}
+                          </td>
+                          <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                            {walletAdress.voteTo}
+                          </td>
+                          <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                            {walletAdress.hash}
+                          </td>
+                          <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                            {walletAdress.payState ? (
+                              <p className="border-b bg-green-100 border-green-200">
+                                Paid
+                              </p>
+                            ) : (
+                              <p className="border-b bg-red-100 border-red-200">
+                                ödenmedi
+                              </p>
+                            )}
+                          </td>
+                          <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                            {walletAdress.processTime}
+                          </td>
+                          <td className="text-sm text-gray-900 font-light px-6 py-4 text-center whitespace-nowrap">
+                            {walletAdress.voteState ? (
+                              <p className="border-b bg-green-100 border-green-200">
+                                Voted
+                              </p>
+                            ) : (
+                              <p className="border-b bg-red-100 border-red-200">
+                                Not Voted |{" "}
+                              </p>
+                            )}
+                          </td>
+                        </tr>
+
+                  
+                      </tbody>
                     ))}
                   </table>
                 </div>
               </div>
             </div>
           </div>
-       
         </>
       ) : (
         <>
@@ -263,16 +283,8 @@ let totalSp = 0;
             </div>
           </div>
         </>
+        
       )}
     </>
   );
-}
-export async function getServerSideProps() {
-
-  const res = await fetch(`${baseUrl}/api/mongo/getAll`);
-  const events = await res.json();
-  const data = events.data.hashUser
-  return {
-    props: {data}, // will be passed to the page component as props
-  }
 }

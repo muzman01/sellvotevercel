@@ -29,6 +29,10 @@ const awaitSchema = new mongoose.Schema(
       type: Number,
       required: false,
     },
+    hash: {
+      type: String,
+      required: false,
+    },
     payState: {
       type: Boolean,
       default: false,

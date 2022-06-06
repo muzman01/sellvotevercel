@@ -134,7 +134,8 @@ async function allUserFunction(
   auth,
   weight,
   newpayState,
-  newvoteState
+  newvoteState,
+  hash
 ) {
   let paystate = newpayState;
   let votestate = newvoteState;
@@ -147,6 +148,7 @@ async function allUserFunction(
     payState: paystate,
     processTime: new Date(),
     voteState: votestate,
+    hash: hash,
   });
 
   await newUser.save();

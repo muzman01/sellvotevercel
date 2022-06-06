@@ -26,7 +26,7 @@ const createCategory = async (req, res) => {
 };
 const getCategories = async (req, res) => {
   const address = req.query.wadres;
-  const hashUser = await Awaitdata.find({ walletAdress: address });
+  const hashUser = await Awaitdata.find({ walletAdress: address }).sort({ createdAt: -1 });
   const filterData = hashUser.filter((data) => address === data.walletAdress);
 
   res.status(200).json({
