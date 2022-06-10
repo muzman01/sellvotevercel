@@ -16,13 +16,8 @@ export default function Home() {
         <link rel="icon" href="/assets/bfmain.png" />
       </Head>
       <div className=" mobildvc">
-        <div
-          className="flex w-screen h-screen "
-          style={{ maxWidth: "100%" }}
-        >
-         
-            <Sidebar />
-         
+        <div className="flex w-screen h-screen " style={{ maxWidth: "100%" }}>
+          <Sidebar />
 
           <div className="w-screen  mobildvc">
             <div className="mld">

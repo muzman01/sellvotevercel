@@ -27,45 +27,8 @@ export const DataProvider = ({ children }) => {
     }
     
   }, [votepowerR, votweigthR]);
-  async function getCalculation() {}
 
-  // useEffect(() => {
-  //   axios
-  //     .get(
-  //       "https://api.coingecko.com/api/v3/coins/steem?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false"
-  //     )
-  //     .then((res) => {
-  //       dispatch({
-  //         type: "STEEMDLR",
-  //         payload: res.data.market_data.current_price.usd,
-  //       });
-  //     })
-  //     .catch((error) => console.log(error));
 
-  //   axios
-  //     .get(
-  //       "https://api.coingecko.com/api/v3/coins/steem-dollars?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false"
-  //     )
-  //     .then((res) => {
-  //       dispatch({
-  //         type: "SBDDLR",
-  //         payload: res.data.market_data.current_price.usd,
-  //       });
-  //     })
-  //     .catch((error) => console.log(error));
-
-  //   axios
-  //     .get(
-  //       "https://api.coingecko.com/api/v3/coins/binance-usd?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false"
-  //     )
-  //     .then((res) => {
-  //       dispatch({
-  //         type: "BUSDDLR",
-  //         payload: res.data.market_data.current_price.usd,
-  //       });
-  //     })
-  //     .catch((error) => console.log(error));
-  // }, []);
 
   return (
     <DataContext.Provider value={{ state, dispatch }}>

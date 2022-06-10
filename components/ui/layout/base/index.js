@@ -11,9 +11,7 @@ export default function BaseLayout({ children }) {
       >
         <Notify />
         {children}
-       
       </div>
-      
     </>
   );
 }

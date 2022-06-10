@@ -96,79 +96,8 @@ const Containeruser = () => {
       </div>
     </>
   );
-  const [myDetails, setMyDetails] = useState({
-    name: "none",
-    address: "none",
-    balance: 0,
-    frozenBalance: 0,
-    network: "none",
-    link: "false",
-  });
 
-  const getBalance = async () => {
-    //if wallet installed and logged , getting TRX token balance
-    if (window.tronWeb && window.tronWeb.ready) {
-      let walletBalances = await window.tronWeb.trx.getAccount(
-        window.tronWeb.defaultAddress.base58
-      );
-      return walletBalances;
-    } else {
-      return 0;
-    }
-  };
-  const getWalletDetails = async () => {
-    if (window.tronWeb) {
-      //checking if wallet injected
-      if (window.tronWeb.ready) {
-        let tempBalance = await getBalance();
-        let tempFrozenBalance = 0;
 
-        if (!tempBalance.balance) {
-          tempBalance.balance = 0;
-        }
-
-        //we have wallet and we are logged in
-        setMyMessage(<h6> </h6>);
-        setMyDetails({
-          name: window.tronWeb.defaultAddress.name,
-          address: window.tronWeb.defaultAddress.base58,
-          balance: tempBalance.balance / 1000000,
-          frozenBalance: tempFrozenBalance / 1000000,
-          network: window.tronWeb.fullNode.host,
-          link: "true",
-        });
-        setWadres(window.tronWeb.defaultAddress.base58);
-      } else {
-        //we have wallet but not logged in
-        setMyMessage(
-          <h3 className="text-yellow-500">
-            {i18n.t("WALLET DETECTED PLEASE LOGIN")}
-          </h3>
-        );
-        setMyDetails({
-          name: "none",
-          address: "none",
-          balance: 0,
-          frozenBalance: 0,
-          network: "none",
-          link: "false",
-        });
-      }
-    } else {
-      //wallet is not detected at all
-      setMyMessage(
-        <h3 className="text-red-500">
-          {i18n.t("WALLET NOT DETECTED")}
-          <a
-            href="https://chrome.google.com/webstore/detail/ibnejdfjmmkpcnlpebklmnkoeoihofec/"
-            className="text-blue-700"
-          >
-            TRONLİNK
-          </a>
-        </h3>
-      );
-    }
-  };
   useEffect(() => {
     const connectWalletOnPageLoad = async () => {
       if (localStorage?.getItem("isWalletConnected") === "true") {

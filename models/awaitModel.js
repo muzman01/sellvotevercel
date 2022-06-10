@@ -11,7 +11,6 @@ const awaitSchema = new mongoose.Schema(
     walletAdress: {
       type: String,
       required: true,
-    
     },
     perMLink: {
       type: String,
@@ -41,16 +40,17 @@ const awaitSchema = new mongoose.Schema(
       type: Date,
       required: false,
     },
-    voteState:{
+    voteState: {
       type: Boolean,
       default: false,
-    }
+    },
   },
   {
     timestamps: true,
   }
 );
 
-let Dataset = mongoose.models.awaitModel || mongoose.model("awaitModel", awaitSchema);
+let Dataset =
+  mongoose.models.awaitModel || mongoose.model("awaitModel", awaitSchema);
 
-export default Dataset
+export default Dataset;

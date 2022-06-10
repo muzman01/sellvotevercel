@@ -30,11 +30,11 @@ const AboutContainer = () => {
               <h1 className="text-5xl font-bold">BlokField</h1>
               <br></br>
               {i18n.t(
-                'Blokfield, a company specializing in blockchain technology, is taking the lead in continuous innovation in the fields of DeFi, Game and Reits after a long business preparation period. We provide customers with a more efficient crypto asset management service with unprecedented attempts and technologies. We are growing into a company that pursues safe and continuous service trough more communication and gradual service improvement than any other company.'
+                "Blokfield, a company specializing in blockchain technology, is taking the lead in continuous innovation in the fields of DeFi, Game and Reits after a long business preparation period. We provide customers with a more efficient crypto asset management service with unprecedented attempts and technologies. We are growing into a company that pursues safe and continuous service trough more communication and gradual service improvement than any other company."
               )}
               <br></br>
               <br></br>
-              <h1 className="text-3xl font-bold">{i18n.t('What We Do ?')}</h1>
+              <h1 className="text-3xl font-bold">{i18n.t("What We Do ?")}</h1>
               <br></br>
 
               <ul className="relative">
@@ -89,4 +89,3 @@ const AboutContainer = () => {
 };
 
 export default withTranslation()(AboutContainer);
-

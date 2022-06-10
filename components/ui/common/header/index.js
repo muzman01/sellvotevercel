@@ -7,18 +7,13 @@ import { useWeb3React } from "@web3-react/core";
 
 import { injected } from "@components/connector";
 
-
 import { withTranslation } from "react-i18next";
 import i18n from "../../../../i18n";
 
 const Header = ({ address }) => {
-
-  
   const onChangeLanguage = (language) => {
     i18n.changeLanguage(language);
   };
-
-
 
   const [enadled, setEnabled] = useState("");
   const ethEnabled = async () => {

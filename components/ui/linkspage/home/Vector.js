@@ -1,5 +1,5 @@
 import * as React from "react";
-// import DrawSVGPlugin from "gsap-trial/dist/DrawSVGPlugin";
+
 
 const Vector = ({ progress = 0, ...props }) => {
 

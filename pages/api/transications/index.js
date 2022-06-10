@@ -85,7 +85,6 @@ export default async function handler(req, res) {
                   message: "Success",
                 });
               } else {
-                
                 allUserFunction(
                   walletAdress,
                   perml,
