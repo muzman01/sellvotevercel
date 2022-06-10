@@ -1,6 +1,5 @@
-import { Header, Sidebar, RightBar, Footer } from "@components/ui/common";
+import { Header, Sidebar, Footer } from "@components/ui/common";
 import { Containeruser } from "@components/ui/linkspage";
-
 import { BaseLayout } from "@components/ui/layout";
 export default function User() {
   return (

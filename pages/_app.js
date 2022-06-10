@@ -7,7 +7,6 @@ import "aos/dist/aos.css";
 import { Web3ReactProvider } from "@web3-react/core";
 import Web3 from "web3";
 import { DataProvider } from "../store/Globalstate";
-
 import Head from "next/head";
 <Head>
   <title>BlokField sellvote</title>

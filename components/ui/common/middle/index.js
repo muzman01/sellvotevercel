@@ -22,8 +22,7 @@ const Middle = () => {
 
   const [rbnPower, setRbnPower] = useState();
   const [yeniGuc, setYeniGuc] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [bscActive, setBscActive] = useState(false);
+ 
   const [range, setRange] = useState(50);
   const [dolarg, setDolarg] = useState((yeniGuc * 50) / 100);
   const [box, setBox] = useState();
@@ -35,7 +34,6 @@ const Middle = () => {
   const [coins2, setCoins2] = useState([]);
   const [transHash, setTransHash] = useState("hashhash");
   const [cactive, setCactive] = useState(true);
-  const [hashDetail, setHashDetail] = useState({});
   const { active, account, library, connector, chainId, activate, deactivate } =
     useWeb3React();
   const web3 = new Web3(library);

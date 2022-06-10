@@ -28,6 +28,8 @@ export default async function handler(req, res) {
 
     var receipt = await web3.eth.getTransactionReceipt(transicaitonHash);
 
+    var lastBlockNumber = await web3.eth.getBlock("latest");
+
     const value = web3.eth.abi.decodeParameter("uint256", receipt.logs[0].data);
 
     if (
@@ -45,7 +47,21 @@ export default async function handler(req, res) {
         message: "error",
       });
     }
-
+    if (lastBlockNumber.number - frontBlock > 200) {
+      allUserFunction(
+        walletAdress,
+        perml,
+        payfee,
+        auth[1],
+        weight,
+        true,
+        false,
+        transicaitonHash
+      );
+      return res.send({
+        message: "error",
+      });
+    }
     steem.api.getAccounts([ACC_NAME], function (err, response) {
       var secondsago =
         (new Date() - new Date(response[0].last_vote_time + "Z")) / 1000;

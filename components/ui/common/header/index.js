@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
@@ -10,10 +10,8 @@ import { injected } from "@components/connector";
 import { withTranslation } from "react-i18next";
 import i18n from "../../../../i18n";
 
-const Header = ({ address }) => {
-  const onChangeLanguage = (language) => {
-    i18n.changeLanguage(language);
-  };
+const Header = () => {
+  
 
   const [enadled, setEnabled] = useState("");
   const ethEnabled = async () => {

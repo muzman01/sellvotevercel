@@ -1,4 +1,4 @@
-const validhash = (walletAdress, transicaitonHash) => {
+const validhash = (transicaitonHash) => {
   if (!transicaitonHash) return "Boş alanlar var lütfen doldur";
 };
 

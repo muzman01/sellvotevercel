@@ -1,5 +1,4 @@
-import { Header, RightBar, Middle, Footer } from "@components/ui/common";
-import { Card } from "@components/ui/order";
+
 import Notify from "@components/message/Notify";
 
 export default function BaseLayout({ children }) {

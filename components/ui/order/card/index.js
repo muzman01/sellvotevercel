@@ -1,12 +1,9 @@
 import React, { useEffect } from "react";
-
 import LockIcon from "@material-ui/icons/Lock";
 import AOS from "aos";
 import "aos/dist/aos.css";
-
 import Image from "next/image";
 const Style = "text-white text-xs";
-
 const arrayIcon = [
   <Image src="/assets/busd.png" width={25} height={25} />,
   <Image src="/assets/steem.png" width={25} height={25} />,

@@ -1,8 +1,8 @@
-import { Header, Sidebar, RightBar, Footer } from "@components/ui/common";
+import { Header, Sidebar, Footer } from "@components/ui/common";
 import { Containerhome } from "@components/ui/linkspage";
-import { React, useState, useEffect } from "react";
+import { React, } from "react";
 import { BaseLayout } from "@components/ui/layout";
-import Web3 from "web3";
+
 import Head from "next/head";
 import Image from "next/image";
 

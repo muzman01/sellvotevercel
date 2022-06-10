@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { BaseLayout } from "@components/ui/layout";
-
 import { withTranslation } from "react-i18next";
 import i18n from "../../../../i18n";
 

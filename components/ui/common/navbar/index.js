@@ -1,5 +1,4 @@
 import React from "react";
-
 import Link from "next/link";
 import { withTranslation } from "react-i18next";
 import i18n from "../../../../i18n";
