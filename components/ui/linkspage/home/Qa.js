@@ -15,12 +15,12 @@ import Image from 'next/image'
         
        
         {i18n.t('BlokField')} <br />
-        {i18n.t(' Bot Kullanımı')}
+        {i18n.t('bot use')}
       </h1>
       <div className="qaLine1">
         <div className={!isqa1 ? `questions` : `questionsAfter`}>
           <div className="question">
-            <p>{i18n.t('1. Adım')}</p>
+          <p>1.{i18n.t('Step')}</p>
             {!isqa1 ? (
               <p style={{ cursor: "pointer" }} onClick={() => setisqa1(true)}>
                 +
@@ -33,7 +33,7 @@ import Image from 'next/image'
           </div>
           {isqa1 ? (
             <p >
-              {i18n.t('1-) Kullanılan tarayıca Metamask yüklü olmalıdır, Eğer yüklü değilse sistem size yükleme yapmanız için uyarı ve link verecektir')}
+              1-{i18n.t('Metamask must be installed in the browser used. If it is not installed, the system will give you a warning and a link to install it.')}
             </p>
 
           ) : null}
@@ -44,7 +44,7 @@ import Image from 'next/image'
       <div className="qaLine2">
         <div className={!isqa3 ? `questions3` : `questions3After`}>
           <div className="question3">
-            <p>{i18n.t('2. Adım')}</p>
+          <p>2.{i18n.t('Step')}</p>
             {!isqa3 ? (
               <p style={{ cursor: "pointer" }} onClick={() => setisqa3(true)}>
                 +
@@ -58,7 +58,7 @@ import Image from 'next/image'
           {isqa3 ? (
               <>
             <p>
-              {i18n.t('	2-) Metamask kurulu ise ve Metamaska bağlandıysanız sisteme otomatik olarak giriş yapmış sayılacaksınız')}
+              2- {i18n.t('If Metamask is installed and you are connected to Metamask, you will be automatically logged into the system.')}
             </p>
       
             </>
@@ -69,7 +69,7 @@ import Image from 'next/image'
         <div className="qaLine2">
         <div className={!isqa6 ? `questions5` : `questions5After`}>
           <div className="question5">
-            <p>{i18n.t('3. Adım')}</p>
+          <p>3.{i18n.t('Step')}</p>
             {!isqa6 ? (
               <p style={{ cursor: "pointer" }} onClick={() => setisqa6(true)}>
                 +
@@ -82,7 +82,7 @@ import Image from 'next/image'
           </div>
           {isqa6 ? (
             <p>
-              {i18n.t('3-) Buy vote kısmına geldiğinizde sistem size Robinia hesabının mevcut oy gücünü gösterecektir. Oy satın almak için "Connect Wallet" butonuna tıklayıp Metamaska bağlanmazı gerekmektedir, zaten cüzdana bağlı iseniz direk ödeme ekranına geçebilirsini. ')}
+              3-{i18n.t('When you come to the buy vote part, the system will show you the current voting power of the Robinia account. To buy votes, you need to click the "Connect Wallet" button and connect to Metamask, if you are already connected to the wallet, you can go directly to the payment screen.')}
               <div>
             <Image src="/assets/görsel4.png" width={600} height={500} />
           </div>
@@ -94,7 +94,7 @@ import Image from 'next/image'
       <div className="qaLine2">
         <div className={!isqa2 ? `questions5` : `questions5After`}>
           <div className="question5">
-            <p>{i18n.t('4. Adım')}</p>
+          <p>4.{i18n.t('Step')}</p>
             {!isqa2 ? (
               <p style={{ cursor: "pointer" }} onClick={() => setisqa2(true)}>
                 +
@@ -107,7 +107,7 @@ import Image from 'next/image'
           </div>
           {isqa2 ? (
             <p>
-              {i18n.t('4-) Metamaska bağlandıktan sonra karşınıza oy alacağınız gönderinin linkini girmeniz için bir alan çıkacaktır(Lütfen Eksiksiz Giriniz)bDaha sonra yüzde kaç oy almak istiyorsanız seçebileceğiniz bir bar çıkacaktır(görsel4)')}
+              4-{i18n.t('After connecting to Metamask, a box will appear for you to enter the link of the post you will get votes for (Please Enter Completely).')}
               <div>
             <Image src="/assets/görsel4.png" width={600} height={500} />
           </div>
@@ -119,7 +119,7 @@ import Image from 'next/image'
       <div className="qaLine2">
         <div className={!isqa5 ? `questions5` : `questions5After`}>
           <div className="question5">
-            <p>{i18n.t('5. Adım')}</p>
+          <p>5.{i18n.t('Step')}</p>
             {!isqa5 ? (
               <p style={{ cursor: "pointer" }} onClick={() => setisqa5(true)}>
                 +
@@ -132,7 +132,7 @@ import Image from 'next/image'
           </div>
           {isqa5 ? (
             <p>
-              {i18n.t('5-) Bilgileriniz girdikten sonra eksiksiz olduğunu onaylamanız için bir buton çıkacaktır(görsel5) bu butonu onayladıktan sonra ödeme yapma butonunuz aktifleşesek')}
+             5- {i18n.t('After entering your information, a button will appear for you to confirm that it is complete (image5), if your payment button is activated after you approve this button.')}
               <div>
             <Image src="/assets/görsel5.png" width={600} height={500} />
           </div>
@@ -144,7 +144,7 @@ import Image from 'next/image'
       <div className="qaLine2">
         <div className={!isqa4 ? `questions6` : `questions6After`}>
           <div className="question6">
-            <p>{i18n.t('6. Adım')}</p>
+            <p>6.{i18n.t('Step')}</p>
             {!isqa4 ? (
               <p style={{ cursor: "pointer" }} onClick={() => setisqa4(true)}>
                 +
@@ -157,7 +157,7 @@ import Image from 'next/image'
           </div>
           {isqa4 ? (
             <p>
-              {i18n.t('	6-) Ödeme botunu aktif olduğu zaman, ödeme yap kısmına tıkladığınızda bir popup açılacak ve ödemeyi onaylamanız istenilecek(görsel6), işlemi onayladığınız taktirde oy satın almış olacak ve oyunuz kullanılmış olacak.İşlemlerinizin durumunu "Kullanıcı İşlemleri" kısmından görebilirsiniz. cüzdan numaranız sayfada yazdıktan sonra yenile butonuna bastığınız zaman kaydedilmiş, yapılmış bütün işlemlerinizi görebilirsiniz.')}
+             6- {i18n.t(' When the payment bot is active, when you click on pay, a popup will appear and you will be asked to confirm the payment (image6). If you approve the transaction, your vote will be purchased and your vote will be used. You can see the status of your transactions in the "User Transactions" section. When you press the refresh button after typing your wallet number on the page, you can see all your recorded and done transactions.')}
             </p>
           ) : null}
         </div>
