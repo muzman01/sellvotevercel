@@ -157,7 +157,7 @@ import Image from 'next/image'
           </div>
           {isqa4 ? (
             <p>
-             6- {i18n.t(' When the payment bot is active, when you click on pay, a popup will appear and you will be asked to confirm the payment (image6). If you approve the transaction, your vote will be purchased and your vote will be used. You can see the status of your transactions in the "User Transactions" section. When you press the refresh button after typing your wallet number on the page, you can see all your recorded and done transactions.')}
+             6- {i18n.t(' When the payment bot is active, when you click on pay, a popup will appear and you will be asked to confirm the payment. If you approve the transaction, your vote will be purchased and your vote will be used. You can see the status of your transactions in the "User Transactions" section. When you press the refresh button after typing your wallet number on the page, you can see all your recorded and done transactions.')}
             </p>
           ) : null}
         </div>
