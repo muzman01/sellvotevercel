@@ -84,7 +84,7 @@ import Image from 'next/image'
             <p>
               3-{i18n.t('When you come to the buy vote part, the system will show you the current voting power of the Robinia account. To buy votes, you need to click the "Connect Wallet" button and connect to Metamask, if you are already connected to the wallet, you can go directly to the payment screen.')}
               <div>
-            <Image src="/assets/görsel4.png" width={600} height={500} />
+            <Image src="/assets/bk1.png" width={600} height={500} />
           </div>
             </p>
           ) : null}
@@ -109,7 +109,7 @@ import Image from 'next/image'
             <p>
               4-{i18n.t('After connecting to Metamask, a box will appear for you to enter the link of the post you will get votes for (Please Enter Completely).')}
               <div>
-            <Image src="/assets/görsel4.png" width={600} height={500} />
+            <Image src="/assets/bk2.png" width={600} height={500} />
           </div>
             </p>
           ) : null}
@@ -134,7 +134,7 @@ import Image from 'next/image'
             <p>
              5- {i18n.t('After entering your information, a button will appear for you to confirm that it is complete, if your payment button is activated after you approve this button.')}
               <div>
-            <Image src="/assets/görsel5.png" width={600} height={500} />
+            <Image src="/assets/bk3.png" width={600} height={500} />
           </div>
             </p>
           ) : null}
