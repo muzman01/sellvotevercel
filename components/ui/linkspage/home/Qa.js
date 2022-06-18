@@ -132,7 +132,7 @@ import Image from 'next/image'
           </div>
           {isqa5 ? (
             <p>
-             5- {i18n.t('After entering your information, a button will appear for you to confirm that it is complete (image5), if your payment button is activated after you approve this button.')}
+             5- {i18n.t('After entering your information, a button will appear for you to confirm that it is complete, if your payment button is activated after you approve this button.')}
               <div>
             <Image src="/assets/görsel5.png" width={600} height={500} />
           </div>
